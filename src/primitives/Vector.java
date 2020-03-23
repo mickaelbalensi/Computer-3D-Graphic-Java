@@ -73,10 +73,13 @@ public class Vector {
     public double length() {
         return Math.sqrt(lengthSquared());
     }
+
     public Vector normalize(){
-        this.pt.x=new Coordinate(this.pt.x.get()/this.length());
-        this.pt.y=new Coordinate(this.pt.y.get()/this.length());
-        this.pt.z=new Coordinate(this.pt.z.get()/this.length());
+        double length=this.length();
+        
+        this.pt.x=new Coordinate(this.pt.x.get()/length);
+        this.pt.y=new Coordinate(this.pt.y.get()/length);
+        this.pt.z=new Coordinate(this.pt.z.get()/length);
         return this;
     }
     public Vector normalized(){
