@@ -3,7 +3,9 @@ package primitives;
 import java.util.Objects;
 
 public class Vector {
+    //region fields
     protected Point3D pt;
+    //endregion
 
     //region CTORs
 
