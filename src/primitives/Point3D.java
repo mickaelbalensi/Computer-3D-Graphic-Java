@@ -53,23 +53,23 @@ public class Point3D {
 
     public Vector subtract(Point3D pt)  {
        Vector vec = new Vector(pt.x.get()-this.x.get(),pt.y.get()-this.y.get(),pt.z.get()-this.z.get());
-       return vec;
+       return vec; // to subtract two vectors we need to subtract every coordonates of each vectors by his correspondents
     }
 
     public Point3D add(Vector vec){
         Point3D dest=new Point3D(this.x.get()+vec.pt.x.get(),this.y.get()+vec.pt.y.get(),this.z.get()+vec.pt.z.get());
-        return dest;
+        return dest;//to add two vectors we do the same than the subtract but we add
     }
 
     public double distanceSquared(Point3D pt){
         return (pt.x.get()-this.x.get())*(pt.x.get()-this.x.get()) +
                 (pt.y.get()-this.y.get())*(pt.y.get()-this.y.get())+
-                (pt.z.get()-this.z.get())*(pt.z.get()-this.z.get());
+                (pt.z.get()-this.z.get())*(pt.z.get()-this.z.get()); //we do the sum of all points that we squared
     }
 
     public double distance(Point3D pt){
         return Math.sqrt(distanceSquared(pt));
-    }
+    }// we return the square root of the distance squared
 
     @Override
     public String toString() {
