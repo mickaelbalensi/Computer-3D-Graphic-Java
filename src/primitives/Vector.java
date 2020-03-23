@@ -76,6 +76,7 @@ public class Vector {
 
     public Vector normalize(){
         double length=this.length();
+        
         this.pt.x=new Coordinate(this.pt.x.get()/length);
         this.pt.y=new Coordinate(this.pt.y.get()/length);
         this.pt.z=new Coordinate(this.pt.z.get()/length);
