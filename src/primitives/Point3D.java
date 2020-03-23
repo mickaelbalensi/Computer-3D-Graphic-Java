@@ -3,10 +3,12 @@ package primitives;
 import java.util.Objects;
 
 public class Point3D {
+    //region fields
     protected Coordinate x;
     protected Coordinate y;
     protected Coordinate z;
     public static final Point3D ZERO=new Point3D(0,0,0);
+    //endregion
 
     //region CTORs
     public Point3D(Coordinate x,Coordinate y,Coordinate z){
