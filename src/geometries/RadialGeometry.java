@@ -1,7 +1,7 @@
 package geometries;
 
 import primitives.*;
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry implements Geometry { // inherits from Geometry
     protected double _radius;
 
     //region CTORs

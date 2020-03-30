@@ -4,7 +4,7 @@ import primitives.*;
 public class Plane implements Geometry{
 
    protected Point3D _p;
-   protected Vector _normal;
+   protected Vector _normal;//we need a point and a vector to make a plane
 
    //region getters
    public Point3D getPt1() {
