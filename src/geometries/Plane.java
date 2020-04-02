@@ -11,14 +11,16 @@ public class Plane implements Geometry{
       return _p;
    }
    public Vector get_normal() {
-      return _normal;
+      Vector V =new Vector(_p);
+      Vector norm= _normal.crossProduct(V);
+      return norm;
    }
 
    //endregion
 
    //region CTORs
    public Plane (Point3D pt1,Point3D pt2,Point3D pt3){
-      /*Vector temp1=new Vector(pt1);
+      Vector temp1=new Vector(pt1);
       Vector temp2=new Vector(pt2);
       Vector temp3=new Vector(pt3);
 
@@ -28,10 +30,8 @@ public class Plane implements Geometry{
       Vector tempNormal=temp4.crossProduct(temp5);
 
       this._p=pt1;
-      this._normal=tempNormal;*/
+      this._normal=tempNormal;
 
-      this._p=pt1;
-      this._normal=null;
    }
 
    public Plane (Vector vec, Point3D pt1){
