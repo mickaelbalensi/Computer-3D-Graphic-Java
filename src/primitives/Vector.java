@@ -28,7 +28,7 @@ public class Vector {
         this.pt = pt;
     }
     public Vector(Vector vec){
-        this.pt=vec.pt;
+        this.pt=new Point3D(vec.pt);
     }
     //endregion
 

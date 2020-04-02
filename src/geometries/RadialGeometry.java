@@ -17,4 +17,6 @@ public abstract class RadialGeometry implements Geometry { // inherits from Geom
     public double get_radius() {
         return _radius;
     }
+
+
 }

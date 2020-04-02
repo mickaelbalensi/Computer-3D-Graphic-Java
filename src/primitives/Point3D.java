@@ -52,8 +52,8 @@ public class Point3D {
 */
 
     public Vector subtract(Point3D pt)  {
-       Vector vec = new Vector(pt.x.get()-this.x.get(),pt.y.get()-this.y.get(),pt.z.get()-this.z.get());
-       return vec; // to subtract two vectors we need to subtract every coordonates of each vectors by his correspondents
+       Vector vec = new Vector(this.getX().get()-pt.getX().get(),this.getY().get()-pt.getY().get(),this.getZ().get()-pt.getZ().get());
+       return vec; // to subtract two vectors we need to subtract every coordinates of each vectors by his correspondents
     }
 
     public Point3D add(Vector vec){

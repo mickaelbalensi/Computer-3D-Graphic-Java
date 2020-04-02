@@ -7,7 +7,7 @@ import primitives.Vector;
 public class Tube extends RadialGeometry {
     public Ray _axisRay;
 
-    public Tube(Ray ray, RadialGeometry radius){
+    public Tube(Ray ray, double radius){
         super(radius);
         _axisRay=ray;
     }
@@ -17,9 +17,26 @@ public class Tube extends RadialGeometry {
         _axisRay=tube._axisRay;
     }
 
+
+
     @Override
     public Vector getNormal(Point3D pt) {
-        return null;
+        double xRayVec=_axisRay.getDirection().getPt().getX().get();
+        double yRayVec=_axisRay.getDirection().getPt().getY().get();
+        double zRayVec=_axisRay.getDirection().getPt().getZ().get();
+
+        double xRayPt=_axisRay.getPt().getX().get();
+        double yRayPt=_axisRay.getPt().getY().get();
+        double zRayPt=_axisRay.getPt().getZ().get();
+
+        double xPt=pt.getX().get();
+        double yPt=pt.getY().get();
+        double zPt=pt.getZ().get();
+
+        double t= (xRayVec*(xPt-xRayPt)+yRayVec*(yPt-yRayPt)+zRayVec*(zPt-zRayPt))/(xRayVec*xRayVec+yRayVec*yRayVec+zRayVec*zRayVec);
+
+        Vector normal=new Vector(xPt -xRayPt -xRayVec *t,yPt -yRayPt -yRayVec *t,zPt -zRayPt -zRayVec *t);
+        return normal.normalize();
     }
 
     public Ray get_axisRay() {
