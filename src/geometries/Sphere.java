@@ -34,7 +34,7 @@ public class Sphere extends RadialGeometry {
     public List<Point3D> findIntersections(Ray ray) {
         List<Point3D> intersectionsPoints = null;
 
-        if (ray.getPt().equals(this._center)) {
+        if (ray.getPt().equals(this._center)) {//if the ray starts in the middle
             intersectionsPoints = new ArrayList<Point3D>();
             intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(this._radius)));
         }
@@ -43,31 +43,33 @@ public class Sphere extends RadialGeometry {
 
             double adjacent_side = ray.getDirection().dotProduct(hypothesis);
             double opposite_side = Math.sqrt(hypothesis.lengthSquared() - adjacent_side * adjacent_side);
-            double angle = Math.acos(ray.getDirection().dotProduct(hypothesis) / (ray.getDirection().length() * hypothesis.length()));
+            double angleRayHypo = Math.acos(ray.getDirection().dotProduct(hypothesis) / (ray.getDirection().length() * hypothesis.length()));
 
-            if (hypothesis.length() > this._radius) {      //if the ray starts outside the sphere
+            if (hypothesis.length() > this._radius) {  //if the ray starts outside the sphere
 
-                if (!( opposite_side > this._radius || Math.toDegrees(angle) > 90))  {// if the ray's line crosses the sphere
-
+                if (!( opposite_side >= this._radius || Math.toDegrees(angleRayHypo) >= 90 ))  {
+                    // if the ray's line don't crosses the sphere or if the ray is tangeant
                     intersectionsPoints = new ArrayList<Point3D>();
-
+/*
                     if (opposite_side == this._radius)    //if the ray's line crosses the sphere only in one Point
                         intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side)));
-
-                    else {
+*/
+                    //else
+                    {
                         double side = Math.sqrt(this._radius * this._radius - opposite_side * opposite_side);
                         intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side - side)));
                         intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side + side)));
                     }
                 }
 
-            } else if (!(hypothesis.length() == this._radius && Math.toDegrees(angle) > 90)) {//if ray's line starts at the sphere
+            } else if (!(hypothesis.length() == this._radius && Math.toDegrees(angleRayHypo) >= 90)) {//if ray's line starts at the sphere
 
                     intersectionsPoints = new ArrayList<Point3D>();
                     double side = Math.sqrt(this._radius * this._radius - opposite_side * opposite_side);
                     intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side + side)));
                 }
-            }
+        }
+
 
         return intersectionsPoints;
     }

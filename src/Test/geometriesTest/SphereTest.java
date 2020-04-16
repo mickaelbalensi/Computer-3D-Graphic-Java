@@ -40,7 +40,6 @@ class SphereTest {
         assertEquals(new Sphere(new Point3D(1, 0, 0), 1d).findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(1, 1, 0))),
                 null, "TC01:Ray's line out of sphere");
         //endregion
-
         //region TC02: Ray starts before and crosses the sphere (2 points)
 
 
@@ -83,7 +82,6 @@ class SphereTest {
         //endregion
         //endregion
         //region =============== Boundary Values Tests ==================
-
         // **** Group: Ray's line crosses the sphere (but not the center)
         //region TC11: Ray starts at sphere and goes inside (1 points)
         Point3D p11 = new Point3D(2, 1, 0);
@@ -143,41 +141,26 @@ class SphereTest {
         //endregion
         // **** Group: Ray's line is tangent to the sphere (all tests 0 points)
         //region TC19: Ray starts before the tangent point
-
-        Point3D p19= new Point3D(2, 3, 0);
         Ray r19 =new Ray(new Point3D(1,3,0), new Vector(1,0,0));
         Sphere s19= new Sphere(new Point3D(2, 2, 0), 1d);
         List<Point3D> res19= s19.findIntersections(r19);
-       // assertEquals(0, res19.size(),"TC19: Wrong number of points");
-        //assertEquals(p19, res19.get(0),"Not the same Point p19");
-        assertEquals(p19.subtract(s19._center).dotProduct(r19.getDirection()),0,"TC19: vectors aren't orthogonal");
-
+        assertTrue(res19==null,"TC19: Wrong number of points");
         //endregion
         //region TC20: Ray starts at the tangent point
-        Point3D p20= new Point3D(2, 3, 0);
-        Ray r20=new Ray(p20, new Vector(5,0,0));
-        Sphere s20= new Sphere(new Point3D(2, 2, 0), 1d);
-        List<Point3D> res20=s20.findIntersections(r20);
-
-        assertEquals(0, res20.size(),"TC20: Wrong number of points");
-        //assertEquals(p20, res20.get(0),"Not the same Point p20");
-        assertEquals(p20.subtract(s20._center).dotProduct(r20.getDirection()),0,"TC20: vectors aren't orthogonal");
+        List<Point3D> res20 = new Sphere(new Point3D(2, 2, 0), 1d)
+                .findIntersections(new Ray(new Point3D(2, 1, 0), new Vector(1,0,0)));
+        assertTrue(res20==null,"TC20: Wrong number of points");
         //endregion
         //region TC21: Ray starts after the tangent point
-
-
+        List<Point3D> res21 = new Sphere(new Point3D(2, 2, 0), 1d)
+                .findIntersections(new Ray(new Point3D(3, 3, 0), new Vector(1,0,0)));
+        assertTrue(res21==null,"TC21: Wrong number of points");
         //endregion
-
         // **** Group: Special cases
         //region TC22: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
-        Point3D p22 = new Point3D(1,2,0);
-        Ray r22 =new Ray(p22, new Vector(0,5,0));
-        Sphere s22= new Sphere(new Point3D(2, 2, 0), 1d);
-        List<Point3D> res22 = s22.findIntersections(r22);
+        List<Point3D> res22 = new Sphere(new Point3D(2, 2, 0), 1d).findIntersections(new Ray(new Point3D(0,2,0), new Vector(0,1,0)));
+        assertTrue(res22==null,"TC22: Wrong number of points");
 
-        assertEquals(res22.size(),0,"TC22: the ray's line cross the sphere");
-        assertTrue(p22.subtract(s22._center).length()>s22.get_radius(),"TC221: the point is on/in the sphere");
-        assertEquals(p22.subtract(s22._center).dotProduct(r22.getDirection()),0,"TC22: the vectors aren't orthogonal");
         //endregion
         //endregion
     }
