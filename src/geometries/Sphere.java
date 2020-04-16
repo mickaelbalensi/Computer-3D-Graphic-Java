@@ -31,53 +31,46 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<Point3D> findIntersections(Ray ray){
-        Vector hypothesis= this._center.subtract(ray.getPt());
-        double adjacent_side = ray.getDirection().dotProduct(hypothesis);
-        double opposite_side = Math.sqrt(hypothesis.lengthSquared() - adjacent_side*adjacent_side);
-
-        double angle = Math.acos(ray.getDirection().dotProduct(hypothesis)/(ray.getDirection().length()*hypothesis.length()));
+    public List<Point3D> findIntersections(Ray ray) {
         List<Point3D> intersectionsPoints = null;
 
-        //if the ray starts outside the sphere
-        if (hypothesis.length() > this._radius){
-
-            // if the ray's line don't crosses the sphere
-            if(opposite_side> this._radius || Math.toDegrees(angle)>90)
-                return null;
-            else {
-                intersectionsPoints = new ArrayList<Point3D>();
-
-                //if the ray's line crosses the sphere only in one Point
-                if (opposite_side == this._radius) {
-                    intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side)));
-                }
-                else {
-                    double side =  Math.sqrt(this._radius*this._radius - opposite_side*opposite_side);
-                    intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side-side)));
-                    intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side+side)));
-                }
-            }
+        if (ray.getPt().equals(this._center)) {
+            intersectionsPoints = new ArrayList<Point3D>();
+            intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(this._radius)));
         }
-        else {
+        else{
+            Vector hypothesis = this._center.subtract(ray.getPt());
 
-            //if ray's line starts at the sphere
-            if (hypothesis.length() == this._radius && Math.toDegrees(angle)>90){
-                return null;
+            double adjacent_side = ray.getDirection().dotProduct(hypothesis);
+            double opposite_side = Math.sqrt(hypothesis.lengthSquared() - adjacent_side * adjacent_side);
+            double angle = Math.acos(ray.getDirection().dotProduct(hypothesis) / (ray.getDirection().length() * hypothesis.length()));
+
+            if (hypothesis.length() > this._radius) {      //if the ray starts outside the sphere
+
+                if (!( opposite_side > this._radius || Math.toDegrees(angle) > 90))  {// if the ray's line crosses the sphere
+
+                    intersectionsPoints = new ArrayList<Point3D>();
+
+                    if (opposite_side == this._radius)    //if the ray's line crosses the sphere only in one Point
+                        intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side)));
+
+                    else {
+                        double side = Math.sqrt(this._radius * this._radius - opposite_side * opposite_side);
+                        intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side - side)));
+                        intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side + side)));
+                    }
+                }
+
+            } else if (!(hypothesis.length() == this._radius && Math.toDegrees(angle) > 90)) {//if ray's line starts at the sphere
+
+                    intersectionsPoints = new ArrayList<Point3D>();
+                    double side = Math.sqrt(this._radius * this._radius - opposite_side * opposite_side);
+                    intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side + side)));
+                }
             }
-            else{
-                intersectionsPoints = new ArrayList<Point3D>();
-                double side =  Math.sqrt(this._radius*this._radius - opposite_side*opposite_side);
-                Point3D temp =ray.getPt().add(ray.getDirection().scale(adjacent_side+side));
-                intersectionsPoints.add(temp);
-            }
-        }
-
-
 
         return intersectionsPoints;
-
-
     }
+
 
 }
