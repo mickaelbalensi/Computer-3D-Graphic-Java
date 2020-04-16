@@ -34,8 +34,7 @@ class SphereTest {
     @Test
     public void findIntersectionsTest(){
 
-        //region Equivalence Partitions Tests
-        // ============ Equivalence Partitions Tests ==============
+        //region ============ Equivalence Partitions Tests ==============
         //region TC01: Ray's line is outside the sphere (0 points)
 
         assertEquals(new Sphere(new Point3D(1, 0, 0), 1d).findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(1, 1, 0))),
@@ -83,7 +82,7 @@ class SphereTest {
         assertTrue(result4==null,"TC04: Wrong number of points");
         //endregion
         //endregion
-        // =============== Boundary Values Tests ==================
+        //region =============== Boundary Values Tests ==================
 
         // **** Group: Ray's line crosses the sphere (but not the center)
         //region TC11: Ray starts at sphere and goes inside (1 points)
@@ -102,13 +101,19 @@ class SphereTest {
                 .findIntersections(new Ray(new Point3D(1, 2, 0), new Vector(-2, 0.5, 0)));
         assertTrue(result12==null,"TC12: Wrong number of points");
         //endregion
-
         // **** Group: Ray's line goes through the center
-
-
-
-
         //region TC13: Ray starts before the sphere (2 points)
+        Point3D pt13a = new Point3D(2,3,0);
+        Point3D pt13b = new Point3D(2,1,0);
+
+        List<Point3D> res13 = new Sphere(new Point3D(2,2,0), 1d).findIntersections(new Ray(new Point3D(2,4,0), new Vector(0,-1,0)));
+
+        assertEquals(2,res13.size(),"TC13: Wrong number of points");
+        if (res13.get(0).getY().get()> res13.get(1).getY().get())
+            res13 = List.of(res13.get(1),res13.get(0));
+        assertEquals(List.of(pt13a,pt13b), res13, " TC13: Ray crosses sphere");
+
+
         //endregion
         //region TC14: Ray starts at sphere and goes inside (1 points)
         //endregion
