@@ -9,6 +9,9 @@ import primitives.Vector;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlaneTest {
+    /**
+     * Test method for {@link geometries.Plane#getNormal(Point3D pt)}.
+     */
     @Test
     void getNormal(){
         Point3D pt1 =new Point3D(1,2,3);

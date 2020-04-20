@@ -10,8 +10,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SphereTest {
-
-
+    /**
+     * Test method for {@link geometries.Sphere#getNormal(Point3D pt)}.
+     */
     @Test
     public void getNormalTest() {
         Point3D center =new Point3D(1,2,3);

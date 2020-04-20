@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VectorTest {
-
+    /**
+     * Test method for {@link primitives.Vector#subtract(Vector vec)}.
+     */
     @Test
     void testSubtract() {
         //==================Equivalences Tests==================
@@ -24,7 +26,9 @@ class VectorTest {
         }catch (Exception e){}
 
     }
-
+    /**
+     * Test method for {@link primitives.Vector#add(Vector)}.
+     */
     @Test
     void testAdd() {
         //==================Equivalences Tests==================
@@ -65,6 +69,9 @@ class VectorTest {
         catch (Exception e){}
     }
 
+    /**
+     * Test method for {@link primitives.Vector#scale(double)}.
+     */
     @Test
     void testScale() {
         //==================Equivalences Tests==================
@@ -87,6 +94,9 @@ class VectorTest {
 
     }
 
+    /**
+     * Test method for {@link primitives.Vector#dotProduct(Vector)}.
+     */
     @Test
     void testDotProduct() {
         //==================Equivalences Tests==================
@@ -119,7 +129,10 @@ class VectorTest {
         assertEquals(expResult6,result6,"scalarProduct of orthogonal vectors v6 and v7 = 28");
 
     }
-
+ 
+    /**
+     * Test method for {@link primitives.Vector#crossProduct(Vector)}.
+     */
     @Test
     public void testCrossProduct() {
         Vector v1 = new Vector(1, 2, 3);
@@ -143,7 +156,10 @@ class VectorTest {
             fail("crossProduct() for parallel vectors does not throw an exception");
         } catch (Exception e) {}
     }
-
+    
+    /**
+     * Test method for {@link Vector#lengthSquared()}.
+     */
     @Test
     void testLengthSquared() {
         Vector v1 = new Vector(1, 2, 3);
@@ -151,7 +167,10 @@ class VectorTest {
         double expResult= 14;
         assertEquals(expResult,result);
     }
-
+ 
+    /**
+     * Test method for {@link Vector#length()}.
+     */
     @Test
     void testLength() {
         Vector v1 = new Vector(1, 2, 3);
@@ -159,14 +178,20 @@ class VectorTest {
         double expResult= Math.sqrt(v1.lengthSquared());
         assertEquals(expResult,result);
     }
-
+    
+    /**
+     * Test method for {@link Vector#normalize()}.
+     */
     @Test
     void testNormalize() {
         Vector v1 = new Vector(1, 2, 3);
         v1.normalize();
         assertTrue(v1.length()==1);
     }
-
+    
+    /**
+     * Test method for {@link Vector#normalized()}.
+     */
     @Test
     void testNormalized() {
         Vector v1 = new Vector(1, 2, 3);
@@ -175,7 +200,10 @@ class VectorTest {
         assertTrue(v2.length()==1);
         assertTrue(v1.length()==length);
     }
-
+    
+    /**
+     * Test method for {@link primitives.Vector#equals(Object)}.
+     */
     @Test
     void testEquals() {
         Vector v1 = new Vector(1, 2, 3);

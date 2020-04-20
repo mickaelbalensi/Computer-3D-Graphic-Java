@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Point3DTest {
-
+    /**
+     * Test method for {@link primitives.Point3D#subtract(Point3D pt)}.
+     */
     @Test
     void subtract() {
         Point3D v1 = new Point3D(1.0D, 2.0D, 3.0D);
@@ -39,7 +41,9 @@ class Point3DTest {
         Vector result81 = v1.subtract(v8);
         Assert.assertTrue("subtract Error", result81.equals(expResult81));
     }
-
+    /**
+     * Test method for {@link primitives.Point3D#add(Vector vec)}.
+     */
     @Test
     void add() {
         Point3D v1 = new Point3D(1.0D, 2.0D, 3.0D);
@@ -72,7 +76,9 @@ class Point3DTest {
         Point3D result81 = v1.add(v8);
         Assert.assertTrue("add Error v1 and v8", result81.equals(expResult81));
     }
-
+    /**
+     * Test method for {@link primitives.Point3D#distanceSquared(Point3D pt)}.
+     */
     @Test
     void distanceSquared() {
         Point3D v1 = new Point3D(1.0D, 2.0D, 3.0D);

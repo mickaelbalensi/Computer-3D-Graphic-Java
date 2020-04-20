@@ -69,10 +69,6 @@ public class Sphere extends RadialGeometry {
                     intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side + side)));
                 }
         }
-
-
         return intersectionsPoints;
-    }
-
-
+    }  
 }
