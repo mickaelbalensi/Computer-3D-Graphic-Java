@@ -25,6 +25,11 @@ public class Ray {
         return direction;
     }
 
+    public Point3D getPoint(double t){
+        return new Point3D(this.direction.scale(t).add(new Vector(this.pt)).getPt());
+    }
+
+
 
     @Override
     public String toString() {

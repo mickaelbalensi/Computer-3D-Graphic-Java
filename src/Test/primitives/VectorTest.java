@@ -26,6 +26,7 @@ class VectorTest {
         }catch (Exception e){}
 
     }
+
     /**
      * Test method for {@link primitives.Vector#add(Vector)}.
      */
