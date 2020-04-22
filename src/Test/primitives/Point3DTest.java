@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Point3DTest {
 
+    private boolean True;
+    private boolean False;
+
     @Test
     void subtract() {
         Point3D v1 = new Point3D(1.0D, 2.0D, 3.0D);
@@ -38,6 +41,7 @@ class Point3DTest {
         Vector expResult81 = new Vector(4.0D, 6.0D, 8.0D);
         Vector result81 = v1.subtract(v8);
         Assert.assertTrue("subtract Error", result81.equals(expResult81));
+        
     }
 
     @Test
@@ -101,5 +105,12 @@ class Point3DTest {
         double expDistance7 = v7.distanceSquared(v1);
         double distance7 = 104.0D;
         Assert.assertEquals("subtract Error", distance7, expDistance7, 0.0D);
+    }
+    @Test
+    void rien(){
+        Assert.assertTrue(True);
+        Assert.assertTrue("error",False);
+
+
     }
 }

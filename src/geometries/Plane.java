@@ -1,10 +1,18 @@
 package geometries;
 
 import primitives.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import static primitives.Util.isZero;
+import static primitives.Util.alignZero;
+
+
 public class Plane implements Geometry{
 
    protected Point3D _p;
    protected Vector _normal;//we need a point and a vector to make a plane
+   protected double t;
 
    //region getters
    public Point3D getPt1() {
@@ -31,6 +39,7 @@ public class Plane implements Geometry{
 
       this._p=pt1;
       this._normal=tempNormal;
+      t=-(new Vector(pt1).dotProduct(_normal));
 
    }
 
@@ -38,6 +47,25 @@ public class Plane implements Geometry{
       this._p=pt1;
       this._normal=vec;
    }
+
+   @Override
+   public List<Point3D> findIntersections(Ray ray) {
+
+         if (_p.subtract(ray.getPt())==null) return null; // ray starts from point Q - no intersections
+      if (isZero(_normal.dotProduct(ray.getDirection()))) // ray is parallel to the plane - no intersections
+         return null;
+
+      double t = alignZero(_normal.dotProduct(_p.subtract(ray.getPt())) / _normal.dotProduct(ray.getDirection()));
+
+      if( t <= 0 )return  null ;
+      else
+      {
+         return List.of(ray.getFinalPoint(t));
+      }
+   }
+
+
+
 
 
 
@@ -72,19 +100,19 @@ public class Plane implements Geometry{
 
    }
 */
-   //endregion
+      //endregion
 
-   @Override
-   public  Vector getNormal(Point3D pt)  {
-      return null;
+
+
+   //because polygon
+   public Vector getNormal() {
+      return getNormal(null);
    }
 
 
+
    @Override
-   public String toString() {
-      return "Plane{" +
-              "_p=" + _p +
-              ", _normal=" + _normal +
-              '}';
+   public Vector getNormal(Point3D pt) {
+      return null;
    }
 }

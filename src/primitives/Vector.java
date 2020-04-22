@@ -1,7 +1,5 @@
 package primitives;
 
-import java.util.Objects;
-
 public class Vector {
     //region fields
     protected Point3D pt;
@@ -11,25 +9,26 @@ public class Vector {
 
     public Vector(Coordinate x,Coordinate y,Coordinate z){
         Point3D temp=new Point3D(x, y, z);
-        if(temp.equals(Point3D.ZERO))
-            throw new IllegalArgumentException("Can't be a vector zero !");
+       // if(temp.equals(Point3D.ZERO))
+        //    throw new IllegalArgumentException("Can't be a vector zero !");
         this.pt=temp;
     }
     public  Vector(double x, double y,double z){
         Point3D temp=new Point3D(x, y, z);
-        if(temp.equals(Point3D.ZERO))
-            throw new IllegalArgumentException("Can't be a vector zero !");
+        //if(temp.equals(new Point3D(0.0d,0.0d,0.0d)))
+          //  throw new IllegalArgumentException("Can't be a vector zero !");
 
         this.pt=temp;
     }
     public Vector(Point3D pt){
-        if(pt.equals(Point3D.ZERO))
-            throw new IllegalArgumentException("Can't be a vector zero !");
+        //if(pt.equals(new Point3D(0.0,0.0d,0.0d)))
+            //   throw new IllegalArgumentException("Can't be a vector zero !");
         this.pt = pt;
     }
     public Vector(Vector vec){
         this.pt=new Point3D(vec.pt);
     }
+
     //endregion
 
     //region functions
@@ -94,6 +93,7 @@ public class Vector {
         Vector vector = (Vector) o;
         return vector.pt.equals(this.pt);
     }
+
 
     @Override
     public String toString() {
