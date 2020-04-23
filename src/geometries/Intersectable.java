@@ -1,5 +1,6 @@
 package geometries;
 
+
 import primitives.*;
 
 
@@ -11,8 +12,7 @@ import java.util.List;
  */
 public interface Intersectable {
     /**
-     *
-     * @param ray ray pointing toward a Gepmtry
+     * @param ray ray pointing toward a Geometry
      * @return List<Point3D> return values
      */
     List<Point3D> findIntersections(Ray ray);

@@ -11,6 +11,9 @@ import geometries.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TubeTest {
+    /**
+     * Test method for {@link geometries.Tube#getNormal(Point3D pt)}.
+     */
     @Test
     void getNormalTest() {
         Ray ray = new Ray(new Point3D(2, -3, 7), new Vector(3, -5, -2));

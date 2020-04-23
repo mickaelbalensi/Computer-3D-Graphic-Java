@@ -100,19 +100,19 @@ public class Plane implements Geometry{
 
    }
 */
-      //endregion
+   //endregion
 
-
-
-   //because polygon
-   public Vector getNormal() {
-      return getNormal(null);
+   @Override
+   public  Vector getNormal(Point3D pt)  {
+      return null;
    }
 
 
-
    @Override
-   public Vector getNormal(Point3D pt) {
-      return null;
+   public String toString() {
+      return "Plane{" +
+              "_p=" + _p +
+              ", _normal=" + _normal +
+              '}';
    }
 }

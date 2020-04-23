@@ -5,9 +5,8 @@ import java.util.Objects;
 import static primitives.Util.isZero;
 
 public class Ray {
-
-    public Point3D pt;
-    public Vector direction;
+    protected Point3D pt;
+    protected Vector direction;
 
     public Ray(Point3D pt, Vector vec) {
         this.pt=pt;
