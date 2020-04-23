@@ -38,7 +38,7 @@ class VectorTest {
 
         Vector expResult = new Vector(4,6,8);
         Vector result = v1.add(v2);
-        assertTrue(result.equals(expResult), "v1+v2=result");
+        assertTrue(result.equals(expResult), "Test1: v1+v2=result");
 
         Vector v3 =new Vector(-3,-4,5);
         Vector expResult3 = new Vector(-2,-2,8);
