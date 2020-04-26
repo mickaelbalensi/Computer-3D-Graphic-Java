@@ -1,9 +1,11 @@
 package geometries;
 
 import primitives.*;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static primitives.Util.alignZero;
 
 public class Sphere extends RadialGeometry {
     public Point3D _center;
@@ -30,8 +32,10 @@ public class Sphere extends RadialGeometry {
                 '}';
     }
 
+
     @Override
     public List<Point3D> findIntersections(Ray ray) {
+
         List<Point3D> intersectionsPoints = null;
 
         if (ray.getPt().equals(this._center)) {//if the ray starts in the middle
@@ -48,12 +52,12 @@ public class Sphere extends RadialGeometry {
             if (hypothesis.length() > this._radius) {  //if the ray starts outside the sphere
 
                 if (!( opposite_side >= this._radius || Math.toDegrees(angleRayHypo) >= 90 ))  {
-                    // if the ray's line don't crosses the sphere or if the ray is tangeant
+                    // if the ray's line don't crosses the sphere or if the ray is tangent
                     intersectionsPoints = new ArrayList<Point3D>();
-/*
-                    if (opposite_side == this._radius)    //if the ray's line crosses the sphere only in one Point
-                        intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side)));
-*/
+
+                    //if (opposite_side == this._radius)    //if the ray's line crosses the sphere only in one Point
+                    //    intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side)));
+
                     //else
                     {
                         double side = Math.sqrt(this._radius * this._radius - opposite_side * opposite_side);

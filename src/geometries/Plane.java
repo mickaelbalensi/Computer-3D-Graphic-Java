@@ -60,7 +60,7 @@ public class Plane implements Geometry{
       if( t <= 0 )return  null ;
       else
       {
-         return List.of(ray.getFinalPoint(t));
+         return List.of(ray.getTargetPoint(t));
       }
    }
 

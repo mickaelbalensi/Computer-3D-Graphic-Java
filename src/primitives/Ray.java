@@ -26,7 +26,7 @@ public class Ray {
         return direction;
     }
 
-    public Point3D getFinalPoint(double lenght){
+    public Point3D getTargetPoint(double lenght){
         if (isZero(lenght))return pt;
         else
             return pt.add(direction.scale(lenght));
