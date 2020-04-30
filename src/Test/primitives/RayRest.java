@@ -1,4 +1,5 @@
-package Test.primitives;
+package primitives;
 
 public class RayRest {
+
 }
