@@ -30,10 +30,7 @@ public class Ray {
         if (isZero(lenght))return pt;
         else
             return pt.add(direction.scale(lenght));
-
     }
-
-
 
     @Override
     public String toString() {
