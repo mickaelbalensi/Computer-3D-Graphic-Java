@@ -11,16 +11,36 @@ public class Point3D {
     //endregion
 
     //region CTORs
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
     public Point3D(Coordinate x,Coordinate y,Coordinate z){
         this.x=x;
         this.y=y;
         this.z=z;
     }
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
     public Point3D(double x, double y,double z){
         this.x=new Coordinate(x);
         this.y=new Coordinate(y);
         this.z=new Coordinate(z);
     }
+
+    /**
+     *
+     * @param pt
+     */
+
     public Point3D(Point3D pt){
         this.x=pt.x;
         this.y=pt.y;
@@ -31,10 +51,25 @@ public class Point3D {
     //region functions
 
     //region getters
+
+    /**
+     *
+     * @return coordinate x
+     */
     public Coordinate getX() { return x; }
+
+    /**
+     *
+     * @return coordinate y
+     */
     public Coordinate getY() {
         return y;
     }
+
+    /**
+     *
+     * @return coordinate z
+     */
     public Coordinate getZ() {    return z; }
     //endregion
 
@@ -51,22 +86,46 @@ public class Point3D {
     //endregion
 */
 
+    /**
+     *
+     * @param pt
+     * @return Vector
+     *  we subtract the point by the vector
+     */
     public Vector subtract(Point3D pt)  {
        Vector vec = new Vector(this.getX().get()-pt.getX().get(),this.getY().get()-pt.getY().get(),this.getZ().get()-pt.getZ().get());
        return vec; // to subtract two vectors we need to subtract every coordinates of each vectors by his correspondents
     }
 
+    /**
+     *
+     * @param vec
+     * @return Vector
+     * we add a point to the vector
+     */
     public Point3D add(Vector vec){
         Point3D dest=new Point3D(this.x.get()+vec.pt.x.get(),this.y.get()+vec.pt.y.get(),this.z.get()+vec.pt.z.get());
         return dest;//to add two vectors we do the same than the subtract but we add
     }
 
+    /**
+     *
+     * @param pt
+     * @return double
+     * we calculate the lenght square of the vector
+     */
     public double distanceSquared(Point3D pt){
         return (pt.x.get()-this.x.get())*(pt.x.get()-this.x.get()) +
                 (pt.y.get()-this.y.get())*(pt.y.get()-this.y.get())+
                 (pt.z.get()-this.z.get())*(pt.z.get()-this.z.get()); //we do the sum of all points that we squared
     }
 
+    /**
+     *
+     * @param pt
+     * @return double
+     * the lenght of the vector
+     */
     public double distance(Point3D pt){
         return Math.sqrt(distanceSquared(pt));
     }// we return the square root of the distance squared

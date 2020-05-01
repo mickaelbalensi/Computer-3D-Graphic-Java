@@ -33,6 +33,10 @@ class PlaneTest {
             assertTrue(Util.isZero( nTest.dotProduct(tempNormal)),"Wrong triangle getNormal");
         }catch(Exception e){}
     }
+
+    /**
+     * Test method for {@link geometries.Plane#findIntersections(Point3D pt)}.
+     */
     @Test
     public void testFindIntersection2() {
         Plane p1;

@@ -9,7 +9,10 @@ import java.util.List;
 import static primitives.Util.isZero;
 
 public class Triangle extends Polygon {
-
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         String result = "";
@@ -23,6 +26,11 @@ public class Triangle extends Polygon {
         super(p1, p2, p3);
     }
 
+    /**
+     *
+     * @param ray ray pointing toward a Geometry
+     * @return Point3D if theres is an intersection between the point and the triangle
+     */
     @Override
     public List<Point3D> findIntersections(Ray ray) {
         List<Point3D> intersections = _plane.findIntersections(ray);

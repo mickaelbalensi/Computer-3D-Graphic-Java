@@ -94,6 +94,9 @@ class TriangleTest {
 
     }
 
+    /**
+     * Test method for {@link geometries.Triangle#findIntersections(Ray ray)}
+     */
     @Test
     public void testFindIntersections1() {
         //TC01 : the Ray begin at the vertex of the Triangle
