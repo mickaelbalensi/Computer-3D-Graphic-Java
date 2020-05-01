@@ -40,6 +40,7 @@ class GeometriesTest {
                 new Triangle(new Point3D(1,6,0), new Point3D(5,5,0), new Point3D(5,7,8)));
         List<Point3D> pointsIntersections5= shapes5.findIntersections(new Ray(new Point3D(-6,-4,2),new Vector(17.19,17.87,0.63)));
         assertEquals( 5,pointsIntersections5.size(),"TC05 : All shapes are truncated");
-        //endregion
+        //end region
+        //ta grande soeur
     }
 }
