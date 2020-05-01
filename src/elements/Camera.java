@@ -8,9 +8,9 @@ import primitives.*;
  */
 public class Camera {
     Point3D p0;
-    Vector vto;
-    Vector vup;
-    Vector vright;
+    Vector Vto;
+    Vector Vup;
+    Vector Vright;
 
     /**
      *
@@ -23,9 +23,9 @@ public class Camera {
         try{
             if (vto.dotProduct(vup)!=0)
                 throw new IllegalArgumentException("Vectors vto and vup have to be orthogonal");
-            this.vto=vto.normalized();
-            this.vup=vup.normalized();
-            this.vright=this.vto.crossProduct(this.vup);
+            this.Vto =vto.normalized();
+            this.Vup =vup.normalized();
+            this.Vright =this.Vto.crossProduct(this.Vup);
         }catch(IllegalArgumentException ex){
 
         }
@@ -33,19 +33,27 @@ public class Camera {
 
     /**
      * This function returns all of rays crosses the view plane
-     * @param nX numbers of pixel int the width of the screen
-     * @param nY numbers of pixel int the height of the screen
-     * @param j index of line
-     * @param i index of column
+     * @param Nx numbers of pixel int the width of the screen
+     * @param Ny numbers of pixel int the height of the screen
+     * @param j index of column
+     * @param i index of line
      * @param screenDistance distance between the view plane and the camera
      * @param screenWidth the width of the view plane
      * @param screenHeight the height of the camera
      * @return rays crosses the view plane
      */
-    public Ray constructRayThroughPixel (int nX, int nY,
+    public Ray constructRayThroughPixel (int Nx, int Ny,
                                          int j, int i, double screenDistance,
                                          double screenWidth, double screenHeight){
-        return null;
+
+        Point3D Pc= new Point3D(0,0,screenDistance);
+
+        double Rx=screenWidth/Nx;
+        double Ry=screenHeight/Ny;
+
+        Point3D Pij= Pc.add(this.Vright.scale((j-(Nx-1)/2d)*Rx).subtract(this.Vup.scale((i-(Ny-1)/2d)*Ry)));
+        Vector vec= Pij.subtract(this.p0);
+        return new Ray(this.p0, vec);
     }
 
 }
