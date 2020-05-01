@@ -39,17 +39,6 @@ public class Geometries implements Intersectable {
                 }
         }
 
-
-
-
-
-        /*for (Intersectable shape:shapes) {
-            List<Point3D> list=shape.findIntersections(ray);
-            for (Point3D point:list
-                 ) {
-                intersectionPointsList.add(point);
-            }
-        }*/
         return intersectionPointsList;
     }
 }

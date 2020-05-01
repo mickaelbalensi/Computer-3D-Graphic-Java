@@ -10,7 +10,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IntegrationTest {
-    Camera cam = new Camera(Point3D.ZERO,new Vector(0,0,-1), new Vector(0,1,0));
+    Camera cam = new Camera(Point3D.ZERO,new Vector(0,0,1), new Vector(0,-1,0));
+    Camera cam2 = new Camera(new Point3D(0,0,-0.5),new Vector(0,0,1), new Vector(0,-1,0));
+
     int Nx = 3;
     int Ny = 3;
     @Test
@@ -18,7 +20,7 @@ public class IntegrationTest {
 
         //region TC01 : The Sphere is behind the screen
 
-        Sphere sphere1 = new Sphere(new Point3D(0,0,-3),1 );
+        Sphere sphere1 = new Sphere(new Point3D(0,0,3),1 );
 
         int count1 = 0;
 
@@ -34,14 +36,13 @@ public class IntegrationTest {
 
         //region TC02 : The Sphere is in front of the screen and fill it
 
-
-        Sphere sphere2 = new Sphere(new Point3D(0,0,-2.5),2.5 );
+        Sphere sphere2 = new Sphere(new Point3D(0,0,2.5),2.5 );
 
         int count2 = 0;
 
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
+                Ray ray= cam2.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
                 List<Point3D> result= sphere2.findIntersections(ray);
                 if(result != null)
                     count2+= result.size();
@@ -52,35 +53,35 @@ public class IntegrationTest {
 
         //region TC03 : The Sphere is in front of the screen but don't fill it
 
-        Sphere sphere3 = new Sphere(new Point3D(0,0,-2),2 );
+        Sphere sphere3 = new Sphere(new Point3D(0,0,2),2 );
 
         int count3 = 0;
 
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
+                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
                 List<Point3D> result= sphere3.findIntersections(ray);
                 if(result != null)
                     count3+= result.size();
             }
 
-        assertEquals(10, count2,"TC03 : The Sphere is in front of the screen but don't fill it");
+        assertEquals(10, count3,"TC03 : The Sphere is in front of the screen but don't fill it");
         //endregion
 
         //region TC04 : The Camera is in the Sphere
-        Sphere sphere4 = new Sphere(new Point3D(0,0,-1),5 );
+        Sphere sphere4 = new Sphere(new Point3D(0,0,1),5 );
 
         int count4 = 0;
 
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
+                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
                 List<Point3D> result= sphere4.findIntersections(ray);
                 if(result != null)
                     count4+= result.size();
             }
 
-        assertEquals(9, count2,"TC04 : The Camera is in the Sphere");
+        assertEquals(9, count4,"TC04 : The Camera is in the Sphere");
         //endregion
 
         //region TC05 : The Sphere is behind the camera
@@ -91,13 +92,13 @@ public class IntegrationTest {
 
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
+                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
                 List<Point3D> result= sphere5.findIntersections(ray);
                 if(result != null)
                     count5+= result.size();
             }
 
-        assertEquals(0, count2,"TC05 : The Sphere is behind the camera");
+        assertEquals(0, count5,"TC05 : The Sphere is behind the camera");
         //endregion
     }
 
