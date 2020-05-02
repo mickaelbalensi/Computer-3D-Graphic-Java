@@ -31,7 +31,7 @@ public class Tube extends RadialGeometry {
 
     /**
      *
-     * @param pt
+     * @param pt which the point pointed by the vector
      * @return Point3D if there is an intersection between the vector and the tube
      */
     @Override

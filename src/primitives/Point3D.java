@@ -14,9 +14,9 @@ public class Point3D {
 
     /**
      *
-     * @param x
-     * @param y
-     * @param z
+     * @param x coordinate x of the point
+     * @param y coordinate y of the point
+     * @param z coordinate of the point
      */
     public Point3D(Coordinate x,Coordinate y,Coordinate z){
         this.x=x;
@@ -38,7 +38,7 @@ public class Point3D {
 
     /**
      *
-     * @param pt
+     * @param pt now the coordinates of our points are x,y  and z
      */
 
     public Point3D(Point3D pt){

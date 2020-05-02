@@ -29,7 +29,7 @@ public class Triangle extends Polygon {
     /**
      *
      * @param ray ray pointing toward a Geometry
-     * @return Point3D if theres is an intersection between the point and the triangle
+     * @return Point3D if there is an intersection between the point and the triangle
      */
     @Override
     public List<Point3D> findIntersections(Ray ray) {
