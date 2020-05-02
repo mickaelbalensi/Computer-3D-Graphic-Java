@@ -10,8 +10,8 @@ public class Ray {
 
     /**
      *
-     * @param pt
-     * @param vec
+     * @param pt the beginning point of our vector
+     * @param vec the direction of the vector going from the point
      */
     public Ray(Point3D pt, Vector vec) {
         this.pt=pt;
@@ -20,7 +20,7 @@ public class Ray {
 
     /**
      *
-     * @param r
+     * @param r now our ray leaves from the point and is directed by our vector
      */
     public  Ray(Ray r){
         this.pt=r.pt;
@@ -29,7 +29,7 @@ public class Ray {
 
     /**
      *
-     * @return Point3D
+     * @return Point3D whcih is our beggining point
      */
     public Point3D getPt() {
         return pt;
@@ -37,7 +37,7 @@ public class Ray {
 
     /**
      *
-     * @return Vector
+     * @return Vector which is our direction
      */
     public Vector getDirection() {
         return direction;
@@ -45,9 +45,8 @@ public class Ray {
 
     /**
      *
-     * @param lenght
-     * @return Point
-     * the point we reached after we added the vector(direction) to the initial point
+     * @param lenght which is the ray's lenght
+     * @return Point which is the destination point reached by our vector
      */
     public Point3D getTargetPoint(double lenght){
         if (isZero(lenght))return pt;

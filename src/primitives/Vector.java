@@ -9,9 +9,9 @@ public class Vector {
 
     /**
      *
-     * @param x
-     * @param y
-     * @param z
+     * @param x coordinate x of our vector
+     * @param y coordinate y of our vector
+     * @param z coordinate z of our vector
      */
     public Vector(Coordinate x,Coordinate y,Coordinate z){
         Point3D temp=new Point3D(x, y, z);
@@ -21,7 +21,6 @@ public class Vector {
     }
 
     /**
-     *
      * @param x
      * @param y
      * @param z
@@ -36,8 +35,7 @@ public class Vector {
     }
 
     /**
-     *
-     * @param pt
+     * @param pt  the point pointed by our vector
      */
     public Vector(Point3D pt){
         //if(pt.equals(new Point3D(0.0,0.0d,0.0d)))
@@ -46,7 +44,6 @@ public class Vector {
     }
 
     /**
-     *
      * @param vec
      */
     public Vector(Vector vec){
@@ -58,7 +55,6 @@ public class Vector {
     //region functions
 
     /**
-     *
      * @param pt
      */
     public void setPt(Point3D pt) {
@@ -66,7 +62,6 @@ public class Vector {
     }
 
     /**
-     *
      * @param vec
      * @return vector
      */
@@ -75,7 +70,6 @@ public class Vector {
     }
 
     /**
-     *
      * @param vec
      * @return Vector
      */
@@ -85,8 +79,8 @@ public class Vector {
 
     /**
      *
-     * @param scalar
-     * @return Vector
+     * @param scalar the number with which we multiply the vector
+     * @return Vector the vector multiplied by the scalar
      */
     public Vector scale(double scalar)  {
         return new Vector(this.pt.x.get()*scalar,this.pt.y.get()*scalar,this.pt.z.get()*scalar);
@@ -94,8 +88,8 @@ public class Vector {
 
     /**
      *
-     * @param vec
-     * @return double
+     * @param vec we take a vector that we are going to calculate the dot product with our vector
+     * @return double ,the dot product of two vectors
      */
     public double dotProduct(Vector vec){
         return this.pt.x.get()*vec.pt.x.get()+
@@ -105,8 +99,8 @@ public class Vector {
 
     /**
      *
-     * @param vec
-     * @return vector
+     * @param vec, we take a vector that we are going to calculate the cross product with our vector
+     * @return vector, the cross product of two vectors
      */
     public  Vector crossProduct(Vector vec) {
         return new Vector
@@ -116,8 +110,7 @@ public class Vector {
     }
 
     /**
-     *
-     * @return double
+     * @return double, the squared lenght of our vector
      */
     public double lengthSquared(){
         return (this.pt.x.get())*(this.pt.x.get())+
@@ -126,16 +119,14 @@ public class Vector {
     }
 
     /**
-     *
-     * @return double
+     * @return double, the lenght of our vector
      */
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
     /**
-     *
-     * @return Vector
+     * @return Vector which has been normalized
      */
     public Vector normalize(){
         double length=this.length();

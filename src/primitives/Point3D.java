@@ -88,7 +88,7 @@ public class Point3D {
 
     /**
      *
-     * @param pt
+     * @param pt the point with which we are going to subract our vector
      * @return Vector
      *  we subtract the point by the vector
      */
@@ -99,7 +99,7 @@ public class Point3D {
 
     /**
      *
-     * @param vec
+     * @param vec the  vector with which  we are going to add to our point
      * @return Vector
      * we add a point to the vector
      */
@@ -110,7 +110,7 @@ public class Point3D {
 
     /**
      *
-     * @param pt
+     * @param pt the point pointed by our vector from (0,0,0)
      * @return double
      * we calculate the lenght square of the vector
      */
