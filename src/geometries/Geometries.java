@@ -28,6 +28,12 @@ public class Geometries implements Intersectable {
             this.shapes.add(geometries[i]);
         }
     }
+
+    /***
+     *
+     * @param ray ray pointing toward a Geometry
+     * @return all the intersections points between our rays and our shapes
+     */
     @Override
     public List<Point3D> findIntersections(Ray ray) {
         List<Point3D> intersectionPointsList= new ArrayList<>();

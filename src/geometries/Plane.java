@@ -27,6 +27,13 @@ public class Plane implements Geometry{
    //endregion
 
    //region CTORs
+
+    /**
+     * @param pt1
+     * @param pt2
+     * @param pt3
+     * the three points who form the plane
+     */
    public Plane (Point3D pt1,Point3D pt2,Point3D pt3){
       Vector temp1=new Vector(pt1);
       Vector temp2=new Vector(pt2);
@@ -43,11 +50,22 @@ public class Plane implements Geometry{
 
    }
 
+    /**
+     *
+     * @param vec
+     * @param pt1
+     * the vector and the point who form the plane
+     */
    public Plane (Vector vec, Point3D pt1){
       this._p=pt1;
       this._normal=vec;
    }
 
+    /**
+     *
+     * @param ray ray pointing toward a Geometry
+     * @return Point3D if there is an intersection between the ray and the plane
+     */
    @Override
    public List<Point3D> findIntersections(Ray ray) {
 

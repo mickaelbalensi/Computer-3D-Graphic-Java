@@ -54,6 +54,10 @@ public class Tube extends RadialGeometry {
         return normal.normalize();
     }
 
+    /**
+     *
+     * @return ray
+     */
     public Ray get_axisRay() {
         return _axisRay;
     }

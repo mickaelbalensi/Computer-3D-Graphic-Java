@@ -10,10 +10,16 @@ import static primitives.Util.alignZero;
 public class Sphere extends RadialGeometry {
     public Point3D _center;
 
+
     public Point3D get_center() {
         return _center;
     }
 
+    /**
+     *
+     * @param pt
+     * @param radius
+     */
     public Sphere(Point3D pt, double radius){
         super(radius);
         this._center=pt;
