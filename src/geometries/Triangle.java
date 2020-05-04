@@ -26,6 +26,7 @@ public class Triangle extends Polygon {
     @Override
     public List<Point3D> findIntersections(Ray ray) {
         List<Point3D> intersections = _plane.findIntersections(ray);
+
         if (intersections == null) return null;
 
         Point3D pt = ray.getPt();
