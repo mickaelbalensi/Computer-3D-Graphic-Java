@@ -34,9 +34,7 @@ class PlaneTest {
         }catch(Exception e){}
     }
 
-    /**
-     * Test method for {@link geometries.Plane#findIntersections(Point3D pt)}.
-     */
+
     @Test
     public void testFindIntersection2() {
         Plane p1;
