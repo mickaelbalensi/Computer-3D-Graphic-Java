@@ -10,21 +10,35 @@ import static primitives.Util.alignZero;
 public class Sphere extends RadialGeometry {
     public Point3D _center;
 
+
     public Point3D get_center() {
         return _center;
     }
 
+    /**
+     *
+     * @param pt
+     * @param radius
+     */
     public Sphere(Point3D pt, double radius){
         super(radius);
         this._center=pt;
     }
 
+    /**
+     *
+     * @param pt
+     * @return Vector
+     */
     @Override
     public Vector getNormal(Point3D pt) {
         return pt.subtract(this._center).normalize();
     }
 
     @Override
+    /**
+     *
+     */
     public String toString() {
         return "Sphere{" +
                 "_center=" + _center +
@@ -32,8 +46,13 @@ public class Sphere extends RadialGeometry {
                 '}';
     }
 
-
+    /**
+     *
+     * @param ray ray pointing toward a Geometry
+     * @return Point3D If there is an intersection between the vector and the sphere
+     */
     @Override
+
     public List<Point3D> findIntersections(Ray ray) {
 
         List<Point3D> intersectionsPoints = null;

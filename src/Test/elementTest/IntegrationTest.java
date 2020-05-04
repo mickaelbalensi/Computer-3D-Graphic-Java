@@ -26,7 +26,7 @@ public class IntegrationTest {
 
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
+                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
                 List<Point3D> result= sphere1.findIntersections(ray);
                 if(result != null)
                     count1+= result.size();

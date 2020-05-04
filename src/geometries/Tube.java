@@ -9,18 +9,31 @@ import java.util.List;
 public class Tube extends RadialGeometry {
     public Ray _axisRay;
 
+    /**
+     *
+     * @param ray
+     * @param radius
+     */
     public Tube(Ray ray, double radius){
         super(radius);
         _axisRay=ray;
     }
 
+    /**
+     *
+     * @param tube
+     */
     public Tube(Tube tube){
         super(tube._radius);
         _axisRay=tube._axisRay;
     }
 
 
-
+    /**
+     *
+     * @param pt which the point pointed by the vector
+     * @return Point3D if there is an intersection between the vector and the tube
+     */
     @Override
     public Vector getNormal(Point3D pt) {
         double xRayVec=_axisRay.getDirection().getPt().getX().get();
@@ -41,6 +54,10 @@ public class Tube extends RadialGeometry {
         return normal.normalize();
     }
 
+    /**
+     *
+     * @return ray
+     */
     public Ray get_axisRay() {
         return _axisRay;
     }

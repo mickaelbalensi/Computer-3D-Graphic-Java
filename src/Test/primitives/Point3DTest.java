@@ -78,6 +78,9 @@ class Point3DTest {
         Assert.assertTrue("add Error v1 and v8", result81.equals(expResult81));
     }
 
+    /**
+     * Test method for {@link primitives.Point3D#distanceSquared(Point3D pt)}.
+     */
     @Test
     void distanceSquared() {
         Point3D v1 = new Point3D(1.0D, 2.0D, 3.0D);
