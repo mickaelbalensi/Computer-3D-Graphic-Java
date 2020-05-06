@@ -12,19 +12,19 @@ public class ImageWriterTest {
 
     @Test
     public void ImageTest() {
-        ImageWriter myImage1 = new ImageWriter("myImage1", 10, 16, 1000, 1600);
+        ImageWriter myImage2 = new ImageWriter("myImage2", 16, 10, 1600, 1000);
         {
-           for (int h=0;h<1600;h++)
+           for (int h=0;h<1000;h++)
            {
-               for (int w=0;w<1000;w++) {
+               for (int w=0;w<1600;w++) {
                    if (h % 100 != 0 && w % 100 != 0)
-                       myImage1.writePixel(w, h, java.awt.Color.BLACK);
+                       myImage2.writePixel(w, h, java.awt.Color.BLACK);
                    else
-                       myImage1.writePixel(w, h, Color.WHITE);
+                       myImage2.writePixel(w, h, Color.WHITE);
                    }
                }
             }
-            myImage1.writeToImage();
+            myImage2.writeToImage();
         }
     }
 
