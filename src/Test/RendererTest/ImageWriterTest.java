@@ -12,23 +12,22 @@ public class ImageWriterTest {
 
     @Test
     public void ImageTest() {
-        ImageWriter newImage = new ImageWriter("newImage", 10, 16, 1000, 1600);
-        int w = 0;
-        int h = 0;
+        ImageWriter newImage = new ImageWriter("newImage", 1000, 1600, 1000, 1600);
         {
-            while ((w < 1000) || (h < 1600)) {
-                if (h % 10 != 0 && w % 10 != 0)
-                    newImage.writePixel(h, w, java.awt.Color.BLACK);
-                else
-                    newImage.writePixel(h, w, Color.WHITE);
-                if (h == 1600) {h = 0;w++;}
-                h++;
+           for (int h=0;h<1600;h++)
+           {
+               for (int w=0;w<1000;w++) {
+                   if (h % 10 != 0 && w % 10 != 0)
+                       newImage.writePixel(w, h, java.awt.Color.BLACK);
+                   else
+                       newImage.writePixel(w, h, Color.WHITE);
+                   }
+               }
             }
-        }
             newImage.writeToImage();
-
+        }
     }
-}
+
 
 
 

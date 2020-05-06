@@ -11,8 +11,6 @@ public class Render {
 
     public Render(ImageWriter imageWriter, Scene scene) {
     }
-
-
     public void  renderImage(){ }
     private Color calcColor(Point3D point) {
         return _scene.ambientLight.getIntensity();
