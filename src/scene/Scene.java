@@ -20,6 +20,10 @@ public class Scene {
     Camera camera;
     double distance;
 
+    /**
+     * 
+     * @param name
+     */
     public Scene(String name){
         this.name=name;
         this.geometries=new Geometries();

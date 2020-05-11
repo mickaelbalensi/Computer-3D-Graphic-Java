@@ -28,8 +28,8 @@ public class Vector {
 
     public  Vector(double x, double y,double z){
         Point3D temp=new Point3D(x, y, z);
-        //if(temp.equals(new Point3D(0.0d,0.0d,0.0d)))
-          //  throw new IllegalArgumentException("Can't be a vector zero !");
+        if(temp.equals(new Point3D(0.0d,0.0d,0.0d)))
+            throw new IllegalArgumentException("Can't be a vector zero !");
 
         this.pt=temp;
     }
@@ -38,8 +38,8 @@ public class Vector {
      * @param pt  the point pointed by our vector
      */
     public Vector(Point3D pt){
-        //if(pt.equals(new Point3D(0.0,0.0d,0.0d)))
-            //   throw new IllegalArgumentException("Can't be a vector zero !");
+        if(pt.equals(new Point3D(0.0,0.0d,0.0d)))
+           throw new IllegalArgumentException("Can't be a vector zero !");
         this.pt = pt;
     }
 
