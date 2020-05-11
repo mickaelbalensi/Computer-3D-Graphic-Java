@@ -54,6 +54,7 @@ public class Camera {
         Point3D Pij= Pc.add(this.Vright.scale((j-(Nx-1)/2d)*Rx).subtract(this.Vup.scale((i-(Ny-1)/2d)*Ry)));
         Vector vec= Pij.subtract(this.p0);
         return new Ray(this.p0, vec);
+        koss
     }
 
 }
