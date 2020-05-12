@@ -13,9 +13,10 @@ import java.util.List;
  * and many shapes for the image
  */
 public class Scene {
+
     String name;
     Color background;
-    AmbientLight ambientLight;
+    public AmbientLight ambientLight;
     Geometries geometries;
     Camera camera;
     double distance;
@@ -133,7 +134,7 @@ public class Scene {
      * add many geometries in the the gourp of geometries of the picture
      * @param geometries type Intersectable
      */
-    void addGeometries(Intersectable ... geometries){
+    public void addGeometries(Intersectable... geometries){
         for(int i=0;i<geometries.length;i++)
             this.geometries.add(geometries[i]);
     }
