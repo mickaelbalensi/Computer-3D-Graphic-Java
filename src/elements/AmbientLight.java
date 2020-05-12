@@ -14,7 +14,7 @@ public class AmbientLight {
 
     }
 
-    public Color GetIntensity(){
+    public Color getIntensity(){
         return this.intensity;
     }
 }
