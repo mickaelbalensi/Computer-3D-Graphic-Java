@@ -7,17 +7,25 @@ import java.util.List;
 import static primitives.Util.isZero;
 import static primitives.Util.alignZero;
 
-
-public class Plane implements Geometry{
+/**
+ * the geometries.Plane class is a shape plane extends geometries.Geometry
+ */
+public class Plane extends Geometry{
 
    protected Point3D _p;
    protected Vector _normal;//we need a point and a vector to make a plane
    protected double t;
 
    //region getters
+
+   /**
+    * getter of one Point in plane
+    * @return Point3D
+    */
    public Point3D getPt1() {
       return _p;
    }
+
    public Vector get_normal() {
       Vector V =new Vector(_p);
       Vector norm= _normal.crossProduct(V);

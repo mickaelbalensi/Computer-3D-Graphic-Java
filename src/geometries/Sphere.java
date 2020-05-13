@@ -2,23 +2,19 @@ package geometries;
 
 import primitives.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static primitives.Util.alignZero;
-
+/**
+ *  the geometries.Sphere class represents geometry sphere
+ *  this class extends geometries.RadialGeometry for his radius
+ */
 public class Sphere extends RadialGeometry {
     public Point3D _center;
 
-
-    public Point3D get_center() {
-        return _center;
-    }
-
     /**
-     *
-     * @param pt
-     * @param radius
+     * the geometries.Sphere constructor receiving the middle Point of the sphere and his radius
+     * @param pt the center Point3D
+     * @param radius by type double
      */
     public Sphere(Point3D pt, double radius){
         super(radius);
@@ -26,19 +22,18 @@ public class Sphere extends RadialGeometry {
     }
 
     /**
-     *
-     * @param pt
-     * @return Vector
+     * the getter of the center of the Sphere
+     * @return center by type Point3D
      */
+    public Point3D get_center() {
+        return _center;
+    }
     @Override
     public Vector getNormal(Point3D pt) {
         return pt.subtract(this._center).normalize();
     }
 
     @Override
-    /**
-     *
-     */
     public String toString() {
         return "Sphere{" +
                 "_center=" + _center +
@@ -46,13 +41,7 @@ public class Sphere extends RadialGeometry {
                 '}';
     }
 
-    /**
-     *
-     * @param ray ray pointing toward a Geometry
-     * @return Point3D If there is an intersection between the vector and the sphere
-     */
     @Override
-
     public List<Point3D> findIntersections(Ray ray) {
 
         List<Point3D> intersectionsPoints = null;
