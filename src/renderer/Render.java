@@ -1,5 +1,7 @@
 package renderer;
 
+import elements.Camera;
+import geometries.Intersectable;
 import scene.Scene;
 import primitives.*;
 
@@ -10,7 +12,7 @@ import java.util.List;
  * Can render images based on a scene
  */
 public class Render {
- private ImageWriter image;
+ private ImageWriter _imageWriter;
  private Scene _scene;
 
     /**
@@ -19,10 +21,34 @@ public class Render {
      * @param scene (Scene) Contains geometries and lighting info
      */
     public Render(ImageWriter imageWriter, Scene scene) {
-        this.image = imageWriter;
+        this._imageWriter = imageWriter;
         this._scene = scene;
     }
-    public void  renderImage(){ }
+    public void  renderImage(){
+        Camera camera = _scene.getCamera();
+        Intersectable geometries = _scene.getGeometries();
+        java.awt.Color background = _scene.getBackground().getColor();
+        int nX = _imageWriter.getNx();
+        int nY=_imageWriter. getNy();
+        double width=_imageWriter.getWidth();
+        double height=_imageWriter.getHeight();
+        for (int h=0;h<height*100;h++)
+        {
+            for (int w=0;w<width*100;w++) {
+                Ray ray = camera.constructRayThroughPixel(nX, nY, w, h, 100, width, height);
+                List<Point3D> intersectionPoints = geometries.findIntersections(ray);
+                if (intersectionPoints == null)
+                    _imageWriter.writePixel(w, h, background);
+                else
+                    {
+                    Point3D closestPoint = getClosestPoint(intersectionPoints);
+                _imageWriter.writePixel(w, h, calcColor(closestPoint).getColor());
+                }
+            }
+        }
+    }
+
+
     /**
      * A function returning the color at a point
      */
@@ -33,7 +59,10 @@ public class Render {
     /**
      * Returns the closest point to the camera from a list
      */
-    public void getClosestPoint(List<Point3D> points){}
+    public Point3D getClosestPoint(List<Point3D> points)
+    {
+        return null;
+    }
 
     /**
      * Displays a grid with fixed squares size
