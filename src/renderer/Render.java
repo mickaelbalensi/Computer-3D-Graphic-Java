@@ -24,6 +24,10 @@ public class Render {
         this._imageWriter = imageWriter;
         this._scene = scene;
     }
+
+    /**
+     * This function create an image of shapes according to the ambient light
+     */
     public void renderImage(){
         Camera camera = _scene.getCamera();
         Intersectable geometries = _scene.getGeometries();
@@ -48,6 +52,7 @@ public class Render {
             }
         }
     }
+
     /**
      * A function returning the color at a point
      */
@@ -86,6 +91,11 @@ public class Render {
         }
     }
 
+    /**
+     * Function writeToImage produces unoptimized jpeg file of
+     * the image according to pixel color matrix in the directory
+     * of the project
+     */
     public void writeToImage() {
         _imageWriter.writeToImage();
     }
