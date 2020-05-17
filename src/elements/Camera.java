@@ -13,7 +13,6 @@ public class Camera {
     Vector Vright;
 
     /**
-     *
      * @param p0 is the center Point3D of the Camera
      * @param vto is a Vector, represents the axe Z of the landmark
      * @param vup is a Vector, represents the axe Y of the landmark

@@ -32,10 +32,11 @@ public class Render {
         int nY=_imageWriter. getNy();
         double width=_imageWriter.getWidth();
         double height=_imageWriter.getHeight();
+        double distance =_scene.getDistance();
         for (int h=0;h<height*100;h++)
         {
             for (int w=0;w<width*100;w++) {
-                Ray ray = camera.constructRayThroughPixel(nX, nY, w, h, 100, width, height);
+                Ray ray = camera.constructRayThroughPixel(nX, nY, w, h, distance, width, height);
                 List<Point3D> intersectionPoints = geometries.findIntersections(ray);
                 if (intersectionPoints == null)
                     _imageWriter.writePixel(w, h, background);
