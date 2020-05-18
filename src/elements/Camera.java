@@ -13,7 +13,6 @@ public class Camera {
     Vector Vright;
 
     /**
-     *
      * @param p0 is the center Point3D of the Camera
      * @param vto is a Vector, represents the axe Z of the landmark
      * @param vup is a Vector, represents the axe Y of the landmark
@@ -54,7 +53,10 @@ public class Camera {
         Point3D Pij= Pc.add(this.Vright.scale((j-(Nx-1)/2d)*Rx).subtract(this.Vup.scale((i-(Ny-1)/2d)*Ry)));
         Vector vec= Pij.subtract(this.p0);
         return new Ray(this.p0, vec);
-        koss
+
     }
 
+    public Point3D getP0() {
+        return p0;
+    }
 }
