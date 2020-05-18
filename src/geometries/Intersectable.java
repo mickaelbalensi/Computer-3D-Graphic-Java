@@ -12,6 +12,14 @@ import java.util.List;
  */
 public interface Intersectable {
     /**
+     * the GeoPoint
+     */
+    public static class GeoPoint {
+        public Geometry geometry;
+        public Point3D point;
+    }
+
+    /**
      * @param ray ray pointing toward a Geometry
      * @return List<Point3D> return values
      */
