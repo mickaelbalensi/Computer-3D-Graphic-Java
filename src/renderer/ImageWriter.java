@@ -15,7 +15,8 @@ import javax.imageio.stream.*;
  * of View Plane - pixel matrix size and resolution 
  * @author Dan
  */
-public class ImageWriter {
+public class
+ImageWriter {
 	private double _imageWidth, _imageHeight;
 	private int _nX, _nY;
 

@@ -1,5 +1,6 @@
 package geometries;
 
+import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -10,21 +11,21 @@ public class Tube extends RadialGeometry {
     public Ray _axisRay;
 
     /**
-     *
-     * @param ray
-     * @param radius
+     * Constructor who takes double, Ray, Color and Material
+     * @param radius (double)
+     * @param ray (Ray)
+     * @param color (Color)
      */
-    public Tube(Ray ray, double radius){
-        super(radius);
+    public Tube(Ray ray, double radius, Color color){
+        super(radius,color);
         _axisRay=ray;
     }
 
     /**
-     *
      * @param tube
      */
-    public Tube(Tube tube){
-        super(tube._radius);
+    public Tube(Tube tube,Color color){
+        super(tube._radius,color);
         _axisRay=tube._axisRay;
     }
 
@@ -72,7 +73,7 @@ public class Tube extends RadialGeometry {
 
 
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         return null;
     }
 }

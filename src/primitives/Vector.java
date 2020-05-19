@@ -1,4 +1,5 @@
 package primitives;
+import geometries.Intersectable;
 
 public class Vector {
     //region fields

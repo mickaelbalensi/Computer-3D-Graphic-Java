@@ -1,5 +1,8 @@
 package geometries;
 
+import primitives.Color;
+
+import java.awt.*;
 import java.util.List;
 import primitives.*;
 import static primitives.Util.*;
@@ -10,7 +13,7 @@ import static primitives.Util.*;
  * 
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
     /**
      * List of polygon's vertices
      */
@@ -19,6 +22,7 @@ public class Polygon implements Geometry {
      * Associated plane in which the polygon lays
      */
     protected Plane _plane;
+    protected Color _color;
 
     /**
      * geometries.Polygon constructor based on vertices list. The list must be ordered by edge
@@ -36,14 +40,15 @@ public class Polygon implements Geometry {
      *                                  <li>The polygon is concave (not convex></li>
      *                                  </ul>
      */
-    public Polygon(Point3D... vertices) {
+    public Polygon(Color color, Point3D... vertices) {
+        this._color=color;
         if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         _vertices = List.of(vertices);
         // Generate the plane according to the first three vertices and associate the
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
-        _plane = new Plane(vertices[0], vertices[1], vertices[2]);
+        _plane = new Plane(vertices[0], vertices[1], vertices[2],_color);
         if (vertices.length == 3) return; // no need for more tests for a Triangle
 
         Vector n = _plane.getNormal(vertices[0]);
@@ -75,6 +80,7 @@ public class Polygon implements Geometry {
         }
     }
 
+
     /**
      *
      * @param point
@@ -91,8 +97,8 @@ public class Polygon implements Geometry {
      * @return Point3D if there is an intersection between the vector and the polygon
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
-        List<Point3D> intersections = _plane.findIntersections(ray);
+    public List<GeoPoint> findIntersections(Ray ray) {
+        List<GeoPoint> intersections = _plane.findIntersections(ray);
         if (intersections == null) return null;
 
         Point3D p0 = ray.getPt();

@@ -1,6 +1,6 @@
 package primitives;
 
-import java.util.Objects;
+import geometries.Intersectable;
 
 public class Point3D {
     //region fields
