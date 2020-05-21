@@ -22,12 +22,14 @@ public class Polygon extends Geometry {
      * Associated plane in which the polygon lays
      */
     protected Plane _plane;
-    protected Color _color;
 
+    //region CTORs
     /**
      * geometries.Polygon constructor based on vertices list. The list must be ordered by edge
      * path. The polygon must be convex.
-     * 
+     *
+     * @param color the color of the polygon
+     * @param material it's material
      * @param vertices list of vertices according to their order by edge path
      * @throws IllegalArgumentException in any case of illegal combination of vertices:
      *                                  <ul>
@@ -40,15 +42,14 @@ public class Polygon extends Geometry {
      *                                  <li>The polygon is concave (not convex></li>
      *                                  </ul>
      */
-    public Polygon(Color color, Point3D... vertices) {
-        this._color=color;
+    public Polygon(Color color, Material material, Point3D... vertices) {
         if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         _vertices = List.of(vertices);
         // Generate the plane according to the first three vertices and associate the
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
-        _plane = new Plane(vertices[0], vertices[1], vertices[2],_color);
+        _plane = new Plane(vertices[0], vertices[1], vertices[2],color,material);
         if (vertices.length == 3) return; // no need for more tests for a Triangle
 
         Vector n = _plane.getNormal(vertices[0]);
@@ -80,22 +81,29 @@ public class Polygon extends Geometry {
         }
     }
 
+    /**
+     * Same Constructor without material
+     * @param color
+     * @param vertices
+     */
+    public Polygon(Color color, Point3D... vertices) {
+        this(color,new Material(0,0,0), vertices);
+    }
 
     /**
-     *
-     * @param point
-     * @return Point3D
+     * Same Constructor without color and material
+     * @param vertices
      */
+    public Polygon( Point3D... vertices) {
+        this(Color.BLACK, vertices);
+    }
+    //endregion
+
     @Override
     public Vector getNormal(Point3D point) {
         return _plane.getNormal(point);
     }
 
-    /**
-     *
-     * @param ray ray pointing toward a Geometry
-     * @return Point3D if there is an intersection between the vector and the polygon
-     */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
         List<GeoPoint> intersections = _plane.findIntersections(ray);

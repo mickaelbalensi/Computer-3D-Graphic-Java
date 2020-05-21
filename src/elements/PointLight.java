@@ -2,7 +2,7 @@ package elements;
 
 import primitives.*;
 
-public class pointLight extends Light implements LightSource {
+public class PointLight extends Light implements LightSource {
     protected Point3D _position;
     double _kC,_kL,_kQ;
 
@@ -14,7 +14,7 @@ public class pointLight extends Light implements LightSource {
      * @param kL
      * @param kQ
      */
-    public pointLight(Color intensity, Point3D position, double kC, double kL, double kQ){
+    public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ){
         super(intensity);
         _position=position;
         _kC=kC;
@@ -24,12 +24,14 @@ public class pointLight extends Light implements LightSource {
 
     @Override
     public Color getIntensity(Point3D p) {
+        double dSquared=p.distanceSquared(_position);
         double d=p.distance(_position);
-        return new Color(_intensity).scale(1/_kC+_kL*d+_kQ*d*d);
+
+        return _intensity.reduce(_kC+_kL*d+_kQ*dSquared);
     }
 
     @Override
     public Vector getL(Point3D p) {
-        return null;
+        return p.subtract(_position).normalize();
     }
 }

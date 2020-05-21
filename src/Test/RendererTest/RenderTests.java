@@ -43,7 +43,7 @@ public class RenderTests {
         render.printGrid(50, java.awt.Color.YELLOW);
         render.writeToImage();
     }
-        /*
+
     @Test
     public void basicRenderMultiColorTest() {
         Scene scene = new Scene("Test scene");
@@ -70,6 +70,6 @@ public class RenderTests {
         render.renderImage();
         render.printGrid(50, java.awt.Color.WHITE);
         render.writeToImage();
-    }*/
+    }
 
 }

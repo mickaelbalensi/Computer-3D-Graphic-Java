@@ -1,6 +1,6 @@
 package renderer;
 
-import elements.Camera;
+import elements.*;
 import geometries.Intersectable;
 import geometries.Intersectable.GeoPoint;
 import scene.Scene;
@@ -13,8 +13,8 @@ import java.util.List;
  * Can render images based on a scene
  */
 public class Render {
- private ImageWriter _imageWriter;
- private Scene _scene;
+     private ImageWriter _imageWriter;
+     private Scene _scene;
 
     /**
      * Only constructor
@@ -60,8 +60,24 @@ public class Render {
      * @return the color
      */
     private Color calcColor(GeoPoint intersection) {
-        Color color = _scene.ambientLight.getIntensity();
+        Color color = _scene._ambientLight.getIntensity();
         color = color.add(intersection.geometry.getEmission());
+
+        Vector v = intersection.point.subtract(_scene.getCamera().getP0()).normalize();
+        Vector n = intersection.geometry.getNormal(intersection.point);
+        Material material =intersection.geometry.getMaterial();
+        int nShininess = material.getShininess();
+        double kd = material.getKd();
+        double ks = material.getKs();
+        for (LightSource lightSource : _scene.getLights()) {
+            Vector l = lightSource.getL(intersection.point);
+            if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
+                Color lightIntensity = lightSource.getIntensity(intersection.point);
+                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+            }
+        }
+
         return color;
     }
 

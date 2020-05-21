@@ -20,7 +20,7 @@ public abstract class Light {
      * the getter of intensity
      * @return the intensity of the light
      */
-    public Color get_intensity(){
+    public Color getIntensity(){
         return _intensity;
     }
 

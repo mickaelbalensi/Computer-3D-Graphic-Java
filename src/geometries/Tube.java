@@ -1,10 +1,8 @@
 package geometries;
 
-import primitives.Color;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
+import javax.imageio.ImageTranscoder;
 import java.util.List;
 
 /**
@@ -18,19 +16,42 @@ public class Tube extends RadialGeometry {
      * @param radius (double)
      * @param ray (Ray)
      * @param color (Color)
+     * @param material (Material)
+     */
+    public Tube(Ray ray, double radius, Color color, Material material){
+        super(radius,color,material);
+        setAxisRay(ray);
+    }
+
+    /**
+     * Constructor who takes double, Ray, Color
+     * @param radius (double)
+     * @param ray (Ray)
+     * @param color (Color)
      */
     public Tube(Ray ray, double radius, Color color){
         super(radius,color);
-        _axisRay=ray;
+        setAxisRay(ray);
     }
+
+    /**
+     * Ctor without color
+     * @param ray
+     * @param radius
+     */
+    public Tube(Ray ray, double radius){
+        super(radius);
+        setAxisRay(ray);
+    }
+
 
     /**
      * the geometries.Tube copy-constructor receiving tube
      * @param tube by type Tube
      */
-    public Tube(Tube tube,Color color){
-        super(tube._radius,color);
-        _axisRay=tube._axisRay;
+    public Tube(Tube tube){
+        super(tube._radius,tube._emission,tube._material);
+        setAxisRay(tube._axisRay);
     }
 
     @Override
@@ -73,5 +94,9 @@ public class Tube extends RadialGeometry {
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
         return null;
+    }
+
+    public void setAxisRay(Ray _axisRay) {
+        this._axisRay = _axisRay;
     }
 }

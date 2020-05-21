@@ -11,6 +11,19 @@ import java.util.List;
 public class Sphere extends RadialGeometry {
     public Point3D _center;
 
+    //region CTORs
+    /**
+     * Constructor for a sphere receiving :
+     * @param pt it's center (Point3D)
+     * @param radius it's radius (double)
+     * @param color it's color (Color)
+     * @param material it's material
+     */
+    public Sphere(Point3D pt, double radius,Color color, Material material){
+        super(radius,color,material);
+        setCenter(pt);
+    }
+
     /**
      * Constructor who takes Point3D doubles and  Color
      * @param pt (Point3D)
@@ -19,23 +32,24 @@ public class Sphere extends RadialGeometry {
      */
     public Sphere(Point3D pt, double radius,Color color){
         super(radius,color);
-        this._center=pt;
+        setCenter(pt);
     }
     /**
      * the geometries.Sphere constructor receiving the middle Point of the sphere and his radius
      * @param pt the center Point3D
      * @param radius by type double     
      */    
-    public Sphere (Point3D pt,double radius ){
+    public Sphere (Point3D pt,double radius){
         super(radius);
-        this._center=pt;
+        setCenter(pt);
     }
+    //endregion
 
     /**
      * the getter of the center of the Sphere
      * @return center by type Point3D
      */
-    public Point3D get_center() {
+    public Point3D getCenter() {
         return _center;
     }
     @Override
@@ -92,5 +106,9 @@ public class Sphere extends RadialGeometry {
                 }
         }
         return intersectionsPoints;
+    }
+
+    public void setCenter(Point3D _center) {
+        this._center = _center;
     }
 }
