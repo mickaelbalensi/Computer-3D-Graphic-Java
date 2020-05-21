@@ -55,14 +55,14 @@ public class RenderTests {
         scene.addGeometries(new Sphere( new Point3D(0, 0, 100),50));
 
         scene.addGeometries(
-                new Triangle(new Color(java.awt.Color.BLUE),
-                        new Point3D(100, 0, 100), new Point3D(0, 100, 100), new Point3D(100, 100, 100)),      // lower right
-                new Triangle(
-                        new Point3D(100, 0, 100), new Point3D(0, -100, 100), new Point3D(100, -100, 100)),    // upper right
-                new Triangle(new Color(java.awt.Color.RED),
-                        new Point3D(-100, 0, 100), new Point3D(0, 100, 100), new Point3D(-100, 100, 100)),    // lower left
-                new Triangle(new Color(java.awt.Color.GREEN),
-                        new Point3D(-100, 0, 100), new Point3D(0, -100, 100), new Point3D(-100, -100, 100))); // upper left
+                new Triangle(new Point3D(100, 0, 100), new Point3D(0, 100, 100),
+                        new Point3D(100, 100, 100),new Color(java.awt.Color.BLUE)),      // lower right
+                new Triangle(new Point3D(100, 0, 100), new Point3D(0, -100, 100),
+                        new Point3D(100, -100, 100)),    // upper right
+                new Triangle(new Point3D(-100, 0, 100), new Point3D(0, 100, 100),
+                        new Point3D(-100, 100, 100),new Color(java.awt.Color.RED)),    // lower left
+                new Triangle(new Point3D(-100, 0, 100), new Point3D(0, -100, 100),
+                        new Point3D(-100, -100, 100),new Color(java.awt.Color.GREEN))); // upper left
 
         ImageWriter imageWriter = new ImageWriter("color render test", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);

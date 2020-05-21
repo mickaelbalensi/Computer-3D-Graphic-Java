@@ -19,7 +19,7 @@ class TriangleTest {
         Point3D pt2 = new Point3D(4, 5, 6);
         Point3D pt3 = new Point3D(7, 8, 9);
         try{
-            Plane plane = new Plane(pt1, pt2, pt3,new Color(256,0,0));
+            Plane plane = new Plane(pt1, pt2, pt3);
             Vector temp1 = new Vector(pt1);
             Vector temp2 = new Vector(pt2);
             Vector temp3 = new Vector(pt3);
@@ -41,8 +41,7 @@ class TriangleTest {
         //TC01 : the Ray begin at the vertex of the Triangle
         Triangle t1 = new Triangle(new Point3D(1.0d, 0.0d, 0.0d),
                 new Point3D(0.0d, 1.0d, 0.0d),
-                new Point3D(0.0d, 0.0d, 1.0d),
-                new Color(256,0,0));
+                new Point3D(0.0d, 0.0d, 1.0d));
         Ray r1 = new Ray(new Point3D(1.0d, 0.0d, 0.0d), new Vector(2.0d, 0.0d, 0.0d));
 
         Intersectable.GeoPoint p1 = (Intersectable.GeoPoint) t1.findIntersections(r1);
@@ -53,7 +52,7 @@ class TriangleTest {
         Ray r2 = new Ray(new Point3D(0.0d, 0.0d, 0.0d), new Vector(2.0d, 0.0d, 0.0d));
 
         Point3D p2 = (Point3D) t1.findIntersections(r2);
- //       assertEquals(new Point3D(1.0d, 0.0d, 0.0d), p2,"wrong Test 2");
+        //       assertEquals(new Point3D(1.0d, 0.0d, 0.0d), p2,"wrong Test 2");
 
         System.out.println("Test 3 : the Ray begin at the edge of the Triangle");
         Ray r3 = new Ray(new Point3D(0.5d, 0.0d, 0.5d), new Vector(0.5d, 0.0d, 0.5d));
@@ -85,9 +84,7 @@ class TriangleTest {
 
         Triangle t2 = new Triangle(new Point3D(3.0d, 0.0d, 0.0d),
                 new Point3D(0.0d, 3.0d, 0.0d),
-                new Point3D(0.0d, 0.0d, 3.0d),
-                new Color(256,0,0))
-                ;
+                new Point3D(0.0d, 0.0d, 3.0d));
 
         System.out.println("Test 9 : the Ray begin between the extension of the edge of the Triangle");
         Ray r9 = new Ray(new Point3D(1.0d, 1.0d, 1.0d), new Vector(-1.0d, -1.0d, -1.0d));
