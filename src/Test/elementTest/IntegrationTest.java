@@ -122,7 +122,7 @@ public class IntegrationTest {
         //endregion
 
         //region TC02 : The Plane is parallel to the screen
-        Plane plane2 = new Plane(new Point3D(1.5,-1.5,1),new Point3D(-1.5,-1.5,1),new Point3D(0,2,2),new Color(256,0,0));
+        Plane plane2 = new Plane(new Point3D(1.5,-1.5,1),new Point3D(-1.5,-1.5,1),new Point3D(0,2,2));
 
         int count2 = 0;
 
@@ -157,7 +157,7 @@ public class IntegrationTest {
     @Test
     void constructRayThroughPixelWithTriangle(){
         //region TC01 : The little triangle is behind the screen
-        Triangle triangle1 = new Triangle(new Point3D(0,-1,2),new Point3D(1,1,2),new Point3D(-1,1,2),new Color(256,0,0));
+        Triangle triangle1 = new Triangle(new Point3D(0,-1,2),new Point3D(1,1,2),new Point3D(-1,1,2));
 
         int count1 = 0;
 
@@ -173,7 +173,7 @@ public class IntegrationTest {
         //endregion
 
         //region TC02 : The big triangle is behind the screen
-        Triangle triangle2 = new Triangle(new Point3D(0,-20,2),new Point3D(1,1,2),new Point3D(-1,1,2),new Color(256,0,0));
+        Triangle triangle2 = new Triangle(new Point3D(0,-20,2),new Point3D(1,1,2),new Point3D(-1,1,2);
 
         int count2 = 0;
 

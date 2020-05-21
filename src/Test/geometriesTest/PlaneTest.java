@@ -19,7 +19,7 @@ class PlaneTest {
         Point3D pt3=new Point3D(7,8,9);
 
         try{
-            Plane plane=new Plane(pt1,pt2,pt3,new Color(256,0,0));
+            Plane plane=new Plane(pt1,pt2,pt3);
             Vector temp1=new Vector(pt1);
             Vector temp2=new Vector(pt2);
             Vector temp3=new Vector(pt3);
@@ -43,8 +43,7 @@ class PlaneTest {
         r1 = new Ray(new Point3D(3.0d, 3.0d, 3.0d), new Vector(-1.0d, 0.0d, -1.0d));
         p1 = new Plane(new Point3D(5.0d, 4.0d, 0.0d),
                 new Point3D(7.0d, 8.0d, 0.0d),
-                new Point3D(5.0d, 6.0d, 0.0d),
-                new Color(256,0,0));
+                new Point3D(5.0d, 6.0d, 0.0d));
         a1.add(new Point3D(0.0d, 3.0d, 0.0d));
         assertEquals(p1.findIntersections(r1), a1);
 
@@ -59,8 +58,7 @@ class PlaneTest {
         r1 = new Ray(new Point3D(0.0d, 0.0d, 0.0d), new Vector(0.0d, 0.0d, 1.0d));
         p1 = new Plane(new Point3D(0.0d, 0.0, 1.0d),
                 new Point3D(1.0d, 0.0d, 1.0d),
-                new Point3D(0.0d, 1.0d, 1.0d),
-                new Color(256,0,0));
+                new Point3D(0.0d, 1.0d, 1.0d));
         a1.clear();
         a1.add(new Point3D(0.0d, 0.0d, 1.0d));
         assertEquals(p1.findIntersections(r1), a1);
@@ -106,8 +104,7 @@ class PlaneTest {
         r1 = new Ray(new Point3D(3.0d, 3.0d, 3.0d), new Vector(-1.0d, 0.0d, -1.0d));
         p1 = new Plane(new Point3D(5.0d, 4.0d, 0.0d),
                 new Point3D(7.0d, 8.0d, 0.0d),
-                new Point3D(5.0d, 6.0d, 0.0d),
-                new Color(256,0,0));
+                new Point3D(5.0d, 6.0d, 0.0d));
         a1.add(new Point3D(0.0d, 3.0d, 0.0d));
         assertEquals(p1.findIntersections(r1), a1);
 
@@ -123,8 +120,7 @@ class PlaneTest {
         r1 = new Ray(new Point3D(0.0d, 0.0d, 0.0d), new Vector(0.0d, 0.0d, 1.0d));
         p1 = new Plane(new Point3D(0.0d, 0.0, 1.0d),
                 new Point3D(1.0d, 0.0d, 1.0d),
-                new Point3D(0.0d, 1.0d, 1.0d),
-                new Color(256,0,0));
+                new Point3D(0.0d, 1.0d, 1.0d));
         a1.clear();
         a1.add(new Point3D(0.0d, 0.0d, 1.0d));
         assertEquals(p1.findIntersections(r1), a1);

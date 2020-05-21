@@ -11,7 +11,7 @@ import scene.Scene;
 
 /**
  * Test rendering abasic image
- * 
+ *
  * @author Dan
  */
 public class RenderTests {
@@ -31,10 +31,10 @@ public class RenderTests {
         scene.addGeometries(new Sphere(new Point3D(0, 0, 100), 50,new Color(256,0,0)));
 
         scene.addGeometries(
-                new Triangle(new Point3D(100, 0, 100), new Point3D(0, 100, 100), new Point3D(100, 100, 100),new Color(256,0,0)),
-                new Triangle(new Point3D(100, 0, 100), new Point3D(0, -100, 100), new Point3D(100, -100, 100),new Color(256,0,0)),
-                new Triangle(new Point3D(-100, 0, 100), new Point3D(0, 100, 100), new Point3D(-100, 100, 100),new Color(256,0,0)),
-                new Triangle(new Point3D(-100, 0, 100), new Point3D(0, -100, 100), new Point3D(-100, -100, 100),new Color(256,0,0)));
+                new Triangle(new Point3D(100, 0, 100), new Point3D(0, 100, 100), new Point3D(100, 100, 100)),
+                new Triangle(new Point3D(100, 0, 100), new Point3D(0, -100, 100), new Point3D(100, -100, 100)),
+                new Triangle(new Point3D(-100, 0, 100), new Point3D(0, 100, 100), new Point3D(-100, 100, 100)),
+                new Triangle(new Point3D(-100, 0, 100), new Point3D(0, -100, 100), new Point3D(-100, -100, 100)));
 
         ImageWriter imageWriter = new ImageWriter("base render test3", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);
