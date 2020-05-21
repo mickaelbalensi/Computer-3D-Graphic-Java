@@ -7,9 +7,8 @@ public abstract class RadialGeometry extends Geometry { // inherits from Geometr
     //region CTORs
 
     /**
-     * Constructor who takes double and Color
-     * @param _radius (double)
-     * @param color (Color)
+     * the geometries.RadialGeometry constructor receiving the radius of the geometry
+     * @param _radius of type double
      */
     public RadialGeometry(double _radius,Color color){
         super(color);
@@ -19,8 +18,8 @@ public abstract class RadialGeometry extends Geometry { // inherits from Geometr
         this._radius=_radius;
     }
     /**
-     *
-     * @param geo
+     * the geometries.RadialGeometry copy-constructor receiving the radius of the geometry
+     * @param geo by type RadialGeometry
      */
     public RadialGeometry(RadialGeometry geo){
         this._radius=geo._radius;
@@ -28,7 +27,7 @@ public abstract class RadialGeometry extends Geometry { // inherits from Geometr
     //endregion
 
     /**
-     *
+     * the getter of the radius of the geometry
      * @return radius
      */
     public double get_radius() {

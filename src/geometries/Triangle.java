@@ -12,6 +12,7 @@ import java.util.Objects;
 
 import static primitives.Util.isZero;
 
+// <<<<<<<< itshak
 public class Triangle extends Plane {
     private Point3D p1;
     private Point3D p2;
@@ -38,11 +39,21 @@ public class Triangle extends Plane {
         return Objects.hash(p1, p2, p3);
     }
 
+//=======
+/**
+ * the geometries.Triangle class represents the geometry Triangle
+ *//*
+public class Triangle extends Polygon {
+
+
+//>>>>>>> master
+
+
     /**
-     *
-     * @param p1
-     * @param p2
-     * @param p3
+     * geometries.Triangle constructor receiving 3 points to form the Triangle
+     * @param p1 the first Point3D
+     * @param p2 the second Point3D
+     * @param p3 the third Point3D
      * the three points who form the triangle
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3, Color color) {
@@ -51,6 +62,7 @@ public class Triangle extends Plane {
         this.p2=p2;
         this.p3=p3;
     }
+
     /**
      *
      * @param ray ray pointing toward a Geometry
@@ -77,6 +89,15 @@ public class Triangle extends Plane {
         if  ((t1 > 0 && t2 > 0 && t3 > 0) || (t1 < 0 && t2 < 0 && t3 < 0)) return  intersections;
         else return null;
 
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+        for (Point3D p : _vertices) {
+            result += p.toString();
+        }
+        return result;
     }
 }
 
