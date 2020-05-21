@@ -27,7 +27,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Point3D> result= sphere1.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= sphere1.findIntersections(ray);
                 if(result != null)
                     count1+= result.size();
             }
@@ -43,7 +43,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam2.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Point3D> result= sphere2.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= sphere2.findIntersections(ray);
                 if(result != null)
                     count2+= result.size();
             }
@@ -60,7 +60,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam2.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Point3D> result= sphere3.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= sphere3.findIntersections(ray);
                 if(result != null)
                     count3+= result.size();
             }
@@ -76,7 +76,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Point3D> result= sphere4.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= sphere4.findIntersections(ray);
                 if(result != null)
                     count4+= result.size();
             }
@@ -93,7 +93,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Point3D> result= sphere5.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= sphere5.findIntersections(ray);
                 if(result != null)
                     count5+= result.size();
             }
@@ -113,7 +113,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
-                List<Point3D> result= plane1.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= plane1.findIntersections(ray);
                 if(result != null)
                     count1+= result.size();
             }
@@ -122,14 +122,14 @@ public class IntegrationTest {
         //endregion
 
         //region TC02 : The Plane is parallel to the screen
-        Plane plane2 = new Plane(new Point3D(1.5,-1.5,1),new Point3D(-1.5,-1.5,1),new Point3D(0,2,2));
+        Plane plane2 = new Plane(new Point3D(1.5,-1.5,1),new Point3D(-1.5,-1.5,1),new Point3D(0,2,2),new Color(256,0,0));
 
         int count2 = 0;
 
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Point3D> result= plane2.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= plane2.findIntersections(ray);
                 if(result != null)
                     count2+= result.size();
             }
@@ -145,7 +145,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
-                List<Point3D> result= plane3.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= plane3.findIntersections(ray);
                 if(result != null)
                     count3+= result.size();
             }
@@ -157,14 +157,14 @@ public class IntegrationTest {
     @Test
     void constructRayThroughPixelWithTriangle(){
         //region TC01 : The little triangle is behind the screen
-        Triangle triangle1 = new Triangle(new Point3D(0,-1,2),new Point3D(1,1,2),new Point3D(-1,1,2));
+        Triangle triangle1 = new Triangle(new Point3D(0,-1,2),new Point3D(1,1,2),new Point3D(-1,1,2),new Color(256,0,0));
 
         int count1 = 0;
 
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
-                List<Point3D> result= triangle1.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= triangle1.findIntersections(ray);
                 if(result != null)
                     count1+= result.size();
             }
@@ -173,14 +173,14 @@ public class IntegrationTest {
         //endregion
 
         //region TC02 : The big triangle is behind the screen
-        Triangle triangle2 = new Triangle(new Point3D(0,-20,2),new Point3D(1,1,2),new Point3D(-1,1,2));
+        Triangle triangle2 = new Triangle(new Point3D(0,-20,2),new Point3D(1,1,2),new Point3D(-1,1,2),new Color(256,0,0));
 
         int count2 = 0;
 
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Point3D> result= triangle2.findIntersections(ray);
+                List<Intersectable.GeoPoint> result= triangle2.findIntersections(ray);
                 if(result != null)
                     count2+= result.size();
             }

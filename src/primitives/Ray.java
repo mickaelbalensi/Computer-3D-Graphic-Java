@@ -1,8 +1,9 @@
 package primitives;
 
-import java.io.DataInput;
-import java.util.Objects;
+import geometries.Intersectable;
+
 import static primitives.Util.isZero;
+import geometries.Intersectable;
 
 public class Ray {
     protected Point3D pt;
@@ -15,7 +16,7 @@ public class Ray {
      */
     public Ray(Point3D pt, Vector vec) {
         this.pt=pt;
-        direction=vec.normalize();
+        this.direction=vec.normalize();
     }
 
     /**
@@ -29,7 +30,7 @@ public class Ray {
 
     /**
      *
-     * @return Point3D whcih is our beggining point
+     * @return Point3D which is our beginning point
      */
     public Point3D getPt() {
         return pt;
@@ -43,16 +44,6 @@ public class Ray {
         return direction;
     }
 
-    /**
-     *
-     * @param lenght which is the ray's lenght
-     * @return Point which is the destination point reached by our vector
-     */
-    public Point3D getTargetPoint(double lenght){
-        if (isZero(lenght))return pt;
-        else
-            return pt.add(direction.scale(lenght));
-    }
 
     @Override
     public String toString() {

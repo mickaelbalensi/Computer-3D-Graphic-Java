@@ -7,6 +7,7 @@ import java.util.List;
 import static primitives.Util.isZero;
 import static primitives.Util.alignZero;
 
+
 /**
  * the geometries.Plane class is a shape plane extends geometries.Geometry
  */
@@ -40,9 +41,9 @@ public class Plane extends Geometry{
      * @param pt1
      * @param pt2
      * @param pt3
-     * the three points who form the plane
      */
-   public Plane (Point3D pt1,Point3D pt2,Point3D pt3){
+   public Plane (Point3D pt1, Point3D pt2, Point3D pt3, Color color){
+       super (color);
       Vector temp1=new Vector(pt1);
       Vector temp2=new Vector(pt2);
       Vector temp3=new Vector(pt3);
@@ -75,8 +76,9 @@ public class Plane extends Geometry{
      * @return Point3D if there is an intersection between the ray and the plane
      */
    @Override
-   public List<Point3D> findIntersections(Ray ray) {
+   public List<GeoPoint> findIntersections(Ray ray) {
 
+       ArrayList<GeoPoint> intersections =new ArrayList<>();
          if (_p.subtract(ray.getPt())==null) return null; // ray starts from point Q - no intersections
       if (isZero(_normal.dotProduct(ray.getDirection()))) // ray is parallel to the plane - no intersections
          return null;
@@ -86,7 +88,9 @@ public class Plane extends Geometry{
       if( t <= 0 )return  null ;
       else
       {
-         return List.of(ray.getTargetPoint(t));
+          GeoPoint intersection = new GeoPoint(this,ray.getPt().add(ray.getDirection().scale(t)));
+         intersections.add(intersection);
+         return intersections;
       }
    }
 

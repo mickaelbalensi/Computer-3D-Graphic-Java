@@ -12,11 +12,21 @@ public class Sphere extends RadialGeometry {
     public Point3D _center;
 
     /**
+     * Constructor who takes Point3D doubles and  Color
+     * @param pt (Point3D)
+     * @param radius (double)
+     * @param color (Color)
+     */
+    public Sphere(Point3D pt, double radius,Color color){
+        super(radius,color);
+        this._center=pt;
+    }
+    /**
      * the geometries.Sphere constructor receiving the middle Point of the sphere and his radius
      * @param pt the center Point3D
-     * @param radius by type double
-     */
-    public Sphere(Point3D pt, double radius){
+     * @param radius by type double     
+     */    
+    public Sphere (Point3D pt,double radius ){
         super(radius);
         this._center=pt;
     }
@@ -42,13 +52,13 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
 
-        List<Point3D> intersectionsPoints = null;
+        List<GeoPoint> intersectionsPoints = null;
 
         if (ray.getPt().equals(this._center)) {//if the ray starts in the middle
-            intersectionsPoints = new ArrayList<Point3D>();
-            intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(this._radius)));
+            intersectionsPoints = new ArrayList<GeoPoint>();
+            intersectionsPoints.add(new GeoPoint(this,ray.getPt().add(ray.getDirection().scale(this._radius))));
         }
         else{
             Vector hypothesis = this._center.subtract(ray.getPt());
@@ -61,7 +71,7 @@ public class Sphere extends RadialGeometry {
 
                 if (!( opposite_side >= this._radius || Math.toDegrees(angleRayHypo) >= 90 ))  {
                     // if the ray's line don't crosses the sphere or if the ray is tangent
-                    intersectionsPoints = new ArrayList<Point3D>();
+                    intersectionsPoints = new ArrayList<GeoPoint>();
 
                     //if (opposite_side == this._radius)    //if the ray's line crosses the sphere only in one Point
                     //    intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side)));
@@ -69,16 +79,16 @@ public class Sphere extends RadialGeometry {
                     //else
                     {
                         double side = Math.sqrt(this._radius * this._radius - opposite_side * opposite_side);
-                        intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side - side)));
-                        intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side + side)));
+                        intersectionsPoints.add(new GeoPoint(this,ray.getPt().add(ray.getDirection().scale(adjacent_side - side))));
+                        intersectionsPoints.add(new GeoPoint(this,ray.getPt().add(ray.getDirection().scale(adjacent_side + side))));
                     }
                 }
 
             } else if (!(hypothesis.length() == this._radius && Math.toDegrees(angleRayHypo) >= 90)) {//if ray's line starts at the sphere
 
-                    intersectionsPoints = new ArrayList<Point3D>();
+                    intersectionsPoints = new ArrayList<GeoPoint>();
                     double side = Math.sqrt(this._radius * this._radius - opposite_side * opposite_side);
-                    intersectionsPoints.add(ray.getPt().add(ray.getDirection().scale(adjacent_side + side)));
+                    intersectionsPoints.add(new GeoPoint(this,ray.getPt().add(ray.getDirection().scale(adjacent_side + side))));
                 }
         }
         return intersectionsPoints;

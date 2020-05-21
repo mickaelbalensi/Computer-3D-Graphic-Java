@@ -1,5 +1,6 @@
 package geometries;
 
+
 import primitives.*;
 
 /**
@@ -37,5 +38,6 @@ public abstract class Geometry implements Intersectable {
      * @return the normal vector
      */
     public abstract Vector getNormal(Point3D pt);
+
 
 }

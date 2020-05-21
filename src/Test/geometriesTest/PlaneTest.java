@@ -2,10 +2,7 @@ package geometriesTest;
 
 import geometries.Plane;
 import org.junit.jupiter.api.Test;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.ArrayList;
 
@@ -22,7 +19,7 @@ class PlaneTest {
         Point3D pt3=new Point3D(7,8,9);
 
         try{
-            Plane plane=new Plane(pt1,pt2,pt3);
+            Plane plane=new Plane(pt1,pt2,pt3,new Color(256,0,0));
             Vector temp1=new Vector(pt1);
             Vector temp2=new Vector(pt2);
             Vector temp3=new Vector(pt3);
@@ -46,7 +43,8 @@ class PlaneTest {
         r1 = new Ray(new Point3D(3.0d, 3.0d, 3.0d), new Vector(-1.0d, 0.0d, -1.0d));
         p1 = new Plane(new Point3D(5.0d, 4.0d, 0.0d),
                 new Point3D(7.0d, 8.0d, 0.0d),
-                new Point3D(5.0d, 6.0d, 0.0d));
+                new Point3D(5.0d, 6.0d, 0.0d),
+                new Color(256,0,0));
         a1.add(new Point3D(0.0d, 3.0d, 0.0d));
         assertEquals(p1.findIntersections(r1), a1);
 
@@ -61,7 +59,8 @@ class PlaneTest {
         r1 = new Ray(new Point3D(0.0d, 0.0d, 0.0d), new Vector(0.0d, 0.0d, 1.0d));
         p1 = new Plane(new Point3D(0.0d, 0.0, 1.0d),
                 new Point3D(1.0d, 0.0d, 1.0d),
-                new Point3D(0.0d, 1.0d, 1.0d));
+                new Point3D(0.0d, 1.0d, 1.0d),
+                new Color(256,0,0));
         a1.clear();
         a1.add(new Point3D(0.0d, 0.0d, 1.0d));
         assertEquals(p1.findIntersections(r1), a1);
@@ -107,13 +106,15 @@ class PlaneTest {
         r1 = new Ray(new Point3D(3.0d, 3.0d, 3.0d), new Vector(-1.0d, 0.0d, -1.0d));
         p1 = new Plane(new Point3D(5.0d, 4.0d, 0.0d),
                 new Point3D(7.0d, 8.0d, 0.0d),
-                new Point3D(5.0d, 6.0d, 0.0d));
+                new Point3D(5.0d, 6.0d, 0.0d),
+                new Color(256,0,0));
         a1.add(new Point3D(0.0d, 3.0d, 0.0d));
         assertEquals(p1.findIntersections(r1), a1);
 
         // Test 2
         System.out.println("Test 2 : Ray doesn't intersect the plane");
-        Plane plane2= new Plane(new Point3D(0,0,0),new Point3D(1,0,0),new Point3D(0,1,0));
+        Plane plane2= new Plane(new Point3D(0,0,0),new Point3D(1,0,0),new Point3D(0,1,0),
+                new Color(256,0,0));
         assertNull(plane2.findIntersections(new Ray(new Point3D(0,0,1),new Vector(1,1,4))),"wrong Test2");
 
 
@@ -122,7 +123,8 @@ class PlaneTest {
         r1 = new Ray(new Point3D(0.0d, 0.0d, 0.0d), new Vector(0.0d, 0.0d, 1.0d));
         p1 = new Plane(new Point3D(0.0d, 0.0, 1.0d),
                 new Point3D(1.0d, 0.0d, 1.0d),
-                new Point3D(0.0d, 1.0d, 1.0d));
+                new Point3D(0.0d, 1.0d, 1.0d),
+                new Color(256,0,0));
         a1.clear();
         a1.add(new Point3D(0.0d, 0.0d, 1.0d));
         assertEquals(p1.findIntersections(r1), a1);
