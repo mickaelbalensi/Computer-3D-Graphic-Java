@@ -5,8 +5,9 @@ import geometries.Intersectable;
 import geometries.Intersectable.GeoPoint;
 import scene.Scene;
 import primitives.*;
-
 import java.util.List;
+
+import static java.lang.Math.*;
 
 /**
  * A class representing a renderer
@@ -79,6 +80,18 @@ public class Render {
         }
 
         return color;
+    }
+
+    private boolean sign(double val) {
+        return (val > 0d);
+    }
+    private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
+        Vector r= l.subtract(n.scale(l.dotProduct(n)*2));
+        return lightIntensity.scale(ks*pow(max(0,-v.dotProduct(r)),nShininess));
+    }
+
+    private Color calcDiffusive(double kd, Vector l, Vector n, Color lightIntensity) {
+        return lightIntensity.scale(kd*abs(n.dotProduct(l)));
     }
 
     /**

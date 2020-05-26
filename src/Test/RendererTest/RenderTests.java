@@ -9,6 +9,7 @@ import renderer.ImageWriter;
 import renderer.Render;
 import scene.Scene;
 
+
 /**
  * Test rendering abasic image
  * 
@@ -71,5 +72,6 @@ public class RenderTests {
         render.printGrid(50, java.awt.Color.WHITE);
         render.writeToImage();
     }
+
 
 }
