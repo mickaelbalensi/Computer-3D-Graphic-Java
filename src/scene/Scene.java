@@ -4,7 +4,7 @@ import elements.*;
 import geometries.*;
 import primitives.*;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,21 +13,22 @@ import java.util.List;
  * and many shapes for the image
  */
 public class Scene {
-
-    String name;
-    Color background;
-    public AmbientLight ambientLight;
-    Geometries geometries;
-    Camera camera;
-    double distance;
+    String _name;
+    Color _background;
+    public AmbientLight _ambientLight;
+    Geometries _geometries;
+    Camera _camera;
+    double _distance;
+    List<LightSource> _lights;
 
     /**
-     * 
-     * @param name
+     * Scene.Constructor receiving name of the scene
+     * @param _name
      */
-    public Scene(String name){
-        this.name=name;
-        this.geometries=new Geometries();
+    public Scene(String _name){
+        this._name = _name;
+        this._geometries =new Geometries();
+        this._lights= new LinkedList<LightSource>();
     }
 
     //region getters/setters
@@ -37,7 +38,7 @@ public class Scene {
      * @return the name
      */
     public String getName(){
-        return name;
+        return _name;
     }
 
     /**
@@ -45,7 +46,7 @@ public class Scene {
      * @return the color of the background
      */
     public Color getBackground(){
-        return background;
+        return _background;
     }
 
     /**
@@ -53,7 +54,7 @@ public class Scene {
      * @return the ambientLight
      */
     public AmbientLight getAmbientLight() {
-        return ambientLight;
+        return _ambientLight;
     }
 
     /**
@@ -61,7 +62,7 @@ public class Scene {
      * @return the list of geometries in the picture
      */
     public Geometries getGeometries() {
-        return geometries;
+        return _geometries;
     }
 
     /**
@@ -69,7 +70,7 @@ public class Scene {
      * @return the camera
      */
     public Camera getCamera() {
-        return camera;
+        return _camera;
     }
 
     /**
@@ -77,66 +78,86 @@ public class Scene {
      * @return the distance between the camera and the screen
      */
     public double getDistance() {
-        return distance;
+        return _distance;
     }
 
     /**
-     * set the name of the scene
-     * @param name type string
+     * get all light of the scene
+     * @return list of lights
      */
-    public void setName(String name) {
-        this.name = name;
+    public List<LightSource> getLights() {
+        return _lights;
+    }
+    /**
+     * set the name of the scene
+     * @param _name type string
+     */
+    public void setName(String _name) {
+        this._name = _name;
     }
 
     /**
      * set the color of the background of the screen
-     * @param background type Color
+     * @param _background type Color
      */
-    public void setBackground(Color background) {
-        this.background = background;
+    public void setBackground(Color _background) {
+        this._background = _background;
     }
 
     /**
      * set the light of the scene
-     * @param ambientLight type AmbientLight
+     * @param _ambientLight type AmbientLight
      */
-    public void setAmbientLight(AmbientLight ambientLight) {
-        this.ambientLight = ambientLight;
+    public void setAmbientLight(AmbientLight _ambientLight) {
+        this._ambientLight = _ambientLight;
     }
 
     /**
      * set the List of shapes to represent the picture
-     * @param geometries type Geometries
+     * @param _geometries type Geometries
      */
-    public void setGeometries(Geometries geometries) {
-        this.geometries = geometries;
+    public void setGeometries(Geometries _geometries) {
+        this._geometries = _geometries;
     }
 
     /**
      * set the camera of the scene
-     * @param camera type Camera
+     * @param _camera type Camera
      */
-    public void setCamera(Camera camera) {
-        this.camera = camera;
+    public void setCamera(Camera _camera) {
+        this._camera = _camera;
     }
 
     /**
      * set the distance between the camera and he screen of the picture
-     * @param distance type double
+     * @param _distance type double
      */
-    public void setDistance(double distance) {
-        this.distance = distance;
+    public void setDistance(double _distance) {
+        this._distance = _distance;
     }
+
+
+
+
 
     //endregion
 
     /**
-     * add many geometries in the the gourp of geometries of the picture
+     * add many geometries in the the group of geometries of the picture
      * @param geometries type Intersectable
      */
     public void addGeometries(Intersectable... geometries){
         for(int i=0;i<geometries.length;i++)
-            this.geometries.add(geometries[i]);
+            this._geometries.add(geometries[i]);
+    }
+
+    /**
+     * add many lights in the group of lights of the scene
+     * @param lights
+     */
+    public void addLights(LightSource... lights) {
+        for(int i=0;i<lights.length;i++)
+            this._lights.add(lights[i]);
     }
 
 }

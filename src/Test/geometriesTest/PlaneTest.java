@@ -2,7 +2,10 @@ package geometriesTest;
 
 import geometries.Plane;
 import org.junit.jupiter.api.Test;
-import primitives.*;
+import primitives.Point3D;
+import primitives.Ray;
+import primitives.Util;
+import primitives.Vector;
 
 import java.util.ArrayList;
 
@@ -81,7 +84,7 @@ class PlaneTest {
         assertNull(p1.findIntersections(r1));
 
         // Test 7
-       // System.out.println("Test 7 : included vector");
+        // System.out.println("Test 7 : included vector");
         //r1 = new Ray(new Point3D(0.0d, 0.0d, 1.0d), new Vector(1.0d, 0.0d, 1.0d));
         //assertEquals(p1.findIntersections(r1), a1);
 
@@ -110,8 +113,7 @@ class PlaneTest {
 
         // Test 2
         System.out.println("Test 2 : Ray doesn't intersect the plane");
-        Plane plane2= new Plane(new Point3D(0,0,0),new Point3D(1,0,0),new Point3D(0,1,0),
-                new Color(256,0,0));
+        Plane plane2= new Plane(new Point3D(0,0,0),new Point3D(1,0,0),new Point3D(0,1,0));
         assertNull(plane2.findIntersections(new Ray(new Point3D(0,0,1),new Vector(1,1,4))),"wrong Test2");
 
 
@@ -153,10 +155,5 @@ class PlaneTest {
         a1.clear();
         a1.add(new Point3D(1.0d, 1.0d, 1.0d));
         //assertEquals(p1.findIntersections(r1), a1);
-        }
+    }
 }
-
-
-
-
-

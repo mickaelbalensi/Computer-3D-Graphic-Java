@@ -1,12 +1,13 @@
 package geometries;
 
-import primitives.Color;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
+import javax.imageio.ImageTranscoder;
 import java.util.List;
 
+/**
+ * the geometries.Tube class represents the geometry Tube
+ */
 public class Tube extends RadialGeometry {
     public Ray _axisRay;
 
@@ -15,26 +16,44 @@ public class Tube extends RadialGeometry {
      * @param radius (double)
      * @param ray (Ray)
      * @param color (Color)
+     * @param material (Material)
+     */
+    public Tube(Ray ray, double radius, Color color, Material material){
+        super(radius,color,material);
+        setAxisRay(ray);
+    }
+
+    /**
+     * Constructor who takes double, Ray, Color
+     * @param radius (double)
+     * @param ray (Ray)
+     * @param color (Color)
      */
     public Tube(Ray ray, double radius, Color color){
         super(radius,color);
-        _axisRay=ray;
+        setAxisRay(ray);
     }
 
     /**
-     * @param tube
+     * Ctor without color
+     * @param ray
+     * @param radius
      */
-    public Tube(Tube tube,Color color){
-        super(tube._radius,color);
-        _axisRay=tube._axisRay;
+    public Tube(Ray ray, double radius){
+        super(radius);
+        setAxisRay(ray);
     }
 
 
     /**
-     *
-     * @param pt which the point pointed by the vector
-     * @return Point3D if there is an intersection between the vector and the tube
+     * the geometries.Tube copy-constructor receiving tube
+     * @param tube by type Tube
      */
+    public Tube(Tube tube){
+        super(tube._radius,tube._emission,tube._material);
+        setAxisRay(tube._axisRay);
+    }
+
     @Override
     public Vector getNormal(Point3D pt) {
         double xRayVec=_axisRay.getDirection().getPt().getX().get();
@@ -56,8 +75,8 @@ public class Tube extends RadialGeometry {
     }
 
     /**
-     *
-     * @return ray
+     * the getter of ray of the Tube
+     * @return ray by type Ray
      */
     public Ray get_axisRay() {
         return _axisRay;
@@ -75,5 +94,9 @@ public class Tube extends RadialGeometry {
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
         return null;
+    }
+
+    public void setAxisRay(Ray _axisRay) {
+        this._axisRay = _axisRay;
     }
 }

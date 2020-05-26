@@ -52,7 +52,7 @@ class TriangleTest {
         Ray r2 = new Ray(new Point3D(0.0d, 0.0d, 0.0d), new Vector(2.0d, 0.0d, 0.0d));
 
         Point3D p2 = (Point3D) t1.findIntersections(r2);
- //       assertEquals(new Point3D(1.0d, 0.0d, 0.0d), p2,"wrong Test 2");
+        //       assertEquals(new Point3D(1.0d, 0.0d, 0.0d), p2,"wrong Test 2");
 
         System.out.println("Test 3 : the Ray begin at the edge of the Triangle");
         Ray r3 = new Ray(new Point3D(0.5d, 0.0d, 0.5d), new Vector(0.5d, 0.0d, 0.5d));

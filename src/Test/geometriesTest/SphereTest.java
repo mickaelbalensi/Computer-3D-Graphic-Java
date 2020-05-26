@@ -94,7 +94,7 @@ class SphereTest {
 
         assertEquals(p11, result11.get(0),"TC11: Not the same Point p11");
 
-        assertEquals(r11.getPt().subtract(s11._center).length(),s11.get_radius(),"TC11: the Point is not on the circle");
+        assertEquals(r11.getPt().subtract(s11._center).length(),s11.getRadius(),"TC11: the Point is not on the circle");
         //endregion
         //region TC12: Ray starts at sphere and goes outside (0 points)
         List<GeoPoint> result12 = new Sphere(new Point3D(2, 2, 0), 1d)

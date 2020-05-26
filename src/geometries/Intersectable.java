@@ -37,7 +37,6 @@ public interface Intersectable {
             return Objects.equals(geometry, geoPoint.geometry) &&
                     Objects.equals(point, geoPoint.point);
         }
-
     }
 
     /**

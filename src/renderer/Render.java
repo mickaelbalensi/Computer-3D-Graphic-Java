@@ -1,20 +1,21 @@
 package renderer;
 
-import elements.Camera;
+import elements.*;
 import geometries.Intersectable;
 import geometries.Intersectable.GeoPoint;
 import scene.Scene;
 import primitives.*;
-
 import java.util.List;
+
+import static java.lang.Math.*;
 
 /**
  * A class representing a renderer
  * Can render images based on a scene
  */
 public class Render {
- private ImageWriter _imageWriter;
- private Scene _scene;
+     private ImageWriter _imageWriter;
+     private Scene _scene;
 
     /**
      * Only constructor
@@ -60,9 +61,37 @@ public class Render {
      * @return the color
      */
     private Color calcColor(GeoPoint intersection) {
-        Color color = _scene.ambientLight.getIntensity();
+        Color color = _scene._ambientLight.getIntensity();
         color = color.add(intersection.geometry.getEmission());
+
+        Vector v = intersection.point.subtract(_scene.getCamera().getP0()).normalize();
+        Vector n = intersection.geometry.getNormal(intersection.point);
+        Material material =intersection.geometry.getMaterial();
+        int nShininess = material.getShininess();
+        double kd = material.getKd();
+        double ks = material.getKs();
+        for (LightSource lightSource : _scene.getLights()) {
+            Vector l = lightSource.getL(intersection.point);
+            if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
+                Color lightIntensity = lightSource.getIntensity(intersection.point);
+                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+            }
+        }
+
         return color;
+    }
+
+    private boolean sign(double val) {
+        return (val > 0d);
+    }
+    private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
+        Vector r= l.subtract(n.scale(l.dotProduct(n)*2));
+        return lightIntensity.scale(ks*pow(max(0,-v.dotProduct(r)),nShininess));
+    }
+
+    private Color calcDiffusive(double kd, Vector l, Vector n, Color lightIntensity) {
+        return lightIntensity.scale(kd*abs(n.dotProduct(l)));
     }
 
     /**

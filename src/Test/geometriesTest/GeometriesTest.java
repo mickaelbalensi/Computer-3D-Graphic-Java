@@ -2,10 +2,10 @@ package geometriesTest;
 
 import org.junit.jupiter.api.Test;
 import geometries.*;
+import geometries.Intersectable.*;
 import primitives.*;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-import geometries.Intersectable.GeoPoint;
 
 class GeometriesTest {
     /**
@@ -15,8 +15,8 @@ class GeometriesTest {
     public void findIntersections(){
         //region ============ Equivalence Partitions Tests ==============
         //TC01 : Several forms (but not all) are truncated
-        Geometries shapes1= new Geometries(new Sphere(new Point3D(2,1,4),3,new Color(256,0,0)), new Sphere(new Point3D(8,12,4),3,new Color(256,0,0)),
-                new Triangle(new Point3D(3.56,7.53,0.26), new Point3D(0.71,6.78,7.68), new Point3D(2.14,11.26,0),new Color(256,0,0)));
+        Geometries shapes1= new Geometries(new Sphere(new Point3D(2,1,4),3), new Sphere(new Point3D(8,12,4),3),
+                new Triangle(new Point3D(3.56,7.53,0.26), new Point3D(0.71,6.78,7.68), new Point3D(2.14,11.26,0)));
         List<GeoPoint> pointsIntersections1= shapes1.findIntersections(new Ray(new Point3D(-6,-4,2),new Vector(17.19,17.87,0.63)));
         assertEquals(pointsIntersections1.size(),4, "TC01 : Several forms (but not all) are truncated");
         //endregion
@@ -37,8 +37,8 @@ class GeometriesTest {
         assertEquals( 1,pointsIntersections4.size(),"TC04 : Only one shape is cropped");
 
         //TC05 : All shapes are truncated
-        Geometries shapes5=new Geometries(new Sphere(new Point3D(2,1,4),3,new Color(256,0,0)), new Sphere(new Point3D(8,12,4),3,new Color(256,0,0)),
-                new Triangle(new Point3D(1,6,0), new Point3D(5,5,0), new Point3D(5,7,8),new Color(256,0,0)));
+        Geometries shapes5=new Geometries(new Sphere(new Point3D(2,1,4),3), new Sphere(new Point3D(8,12,4),3),
+                new Triangle(new Point3D(1,6,0), new Point3D(5,5,0), new Point3D(5,7,8)));
         List<GeoPoint> pointsIntersections5= shapes5.findIntersections(new Ray(new Point3D(-6,-4,2),new Vector(17.19,17.87,0.63)));
         assertEquals( 5,pointsIntersections5.size(),"TC05 : All shapes are truncated");
         //end region
