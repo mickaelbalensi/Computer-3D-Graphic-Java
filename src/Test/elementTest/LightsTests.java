@@ -86,6 +86,42 @@ public class LightsTests {
     }
 
     /**
+     * Produce a picture with some spheres lighted by many light source : 2 spot and 1 Point Light
+     */
+    @Test
+    public void sphereMultipleSource(){
+        Scene scene = new Scene("Test scene");
+        scene.setCamera(new Camera(new Point3D(0, 0, -10000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
+        scene.setDistance(10000);
+        scene.setBackground(Color.BLACK);
+        scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
+
+        scene.addGeometries(
+                new Sphere( new Point3D(-22, -22, 0),13,new Color(java.awt.Color.red), new Material(0.5, 0.5, 100)),
+                new Sphere( new Point3D(-5, -5, 0),11,new Color(java.awt.Color.green), new Material(0.5, 0.5, 100)),
+                new Sphere( new Point3D(10, 10, 0),9,new Color(java.awt.Color.CYAN), new Material(0.5, 0.5, 100)),
+                new Sphere( new Point3D(22, 22, 0),7,new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 100)),
+                new Sphere( new Point3D(30, 30, 0),4,new Color(java.awt.Color.BLACK), new Material(0.5, 0.5, 100))
+        );
+
+        scene.addLights(
+                new SpotLight(new Color(300, 300, 300), new Point3D(-50, 50, -50),
+                1, 0.00001, 0.00000001,new Vector(1, -1, 2)),
+                new SpotLight(new Color(300, 300, 300), new Point3D(150, 50, -50),
+                        1, 0.00001, 0.00000001,new Vector(-1, -1, 1)),
+                new PointLight(new Color(100, 200, 300), new Point3D(150, 0, -50),
+                        1, 0.00001, 0.00000001/*,new Vector(0, 1, 1)*/)
+
+        );
+
+        ImageWriter imageWriter = new ImageWriter("sphereTwoSpot", 150, 150, 500, 500);
+        Render render = new Render(imageWriter, scene);
+
+        render.renderImage();
+        render.writeToImage();
+
+    }
+    /**
      * Produce a picture of a two triangles lighted by a directional light
      */
     @Test
@@ -164,5 +200,7 @@ public class LightsTests {
         render.renderImage();
         render.writeToImage();
     }
+
+
     
 }

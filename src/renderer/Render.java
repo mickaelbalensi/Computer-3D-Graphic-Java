@@ -86,23 +86,30 @@ public class Render {
     private boolean sign(double val) {
         return (val > 0d);
     }
-    /*private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
-        Vector r= l.subtract(n.scale(l.dotProduct(n)*2));
-        return lightIntensity.scale(ks*pow((-v.dotProduct(r)),nShininess));
-    }*/
+
+    /**
+     * Calculate Specular component of light reflection
+     * @param ks                the coefficient of the specular component
+     * @param l
+     * @param n
+     * @param v
+     * @param nShininess
+     * @param lightIntensity
+     * @return
+     */
     private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
         double p = nShininess;
-        double nl=/*alignZero*/(n.dotProduct(l));
+        double nl=(n.dotProduct(l));
 
         if (isZero(nl)) {
             throw new IllegalArgumentException("nl cannot be Zero for scaling the normal vector");
         }
         Vector r= l.add(n.scale(-2*nl));
-        double VR = /*alignZero*/(v.dotProduct(r));
+        double VR = (v.dotProduct(r));
         if (VR >= 0) {
             return Color.BLACK; // view from direction opposite to r vector
         }
-        // [rs,gs,bs]ks(-V.R)^p
+
         return lightIntensity.scale(ks * Math.pow(-1d * VR, p));
     }
 

@@ -7,24 +7,24 @@ import primitives.*;
  * The class is based on primitives.Vector and primitives.Point3D .
  */
 public class Camera {
-    Point3D p0;
-    Vector Vto;
-    Vector Vup;
-    Vector Vright;
+    Point3D _p0;
+    Vector _Vto;
+    Vector _Vup;
+    Vector _Vright;
 
     /**
      * @param p0 is the center Point3D of the Camera
      * @param vto is a Vector, represents the axe Z of the landmark
      * @param vup is a Vector, represents the axe Y of the landmark
      */
-    public Camera (Point3D p0,Vector vto,Vector vup){
-        this.p0=new Point3D(p0);
+    public Camera (Point3D p0, Vector vto, Vector vup){
+        this._p0 =new Point3D(p0);
         try{
             if (vto.dotProduct(vup)!=0)
                 throw new IllegalArgumentException("Vectors vto and vup have to be orthogonal");
-            this.Vto =vto.normalized();
-            this.Vup =vup.normalized();
-            this.Vright =this.Vto.crossProduct(this.Vup);
+            this._Vto =vto.normalized();
+            this._Vup =vup.normalized();
+            this._Vright =this._Vto.crossProduct(this._Vup);
         }catch(IllegalArgumentException ex){
 
         }
@@ -52,28 +52,25 @@ public class Camera {
 
         double factor1=(j-(Nx-1)/2d)*Rx;
         double factor2=(i-(Ny-1)/2d)*Ry;
+        Point3D Pij=Pc;
         Vector v1 = null;
-        Point3D Pij;
-
-        if(factor1!=0) {//if v1 is not the vector zero
-            v1 = this.Vright.scale(factor1);
-            Pij = Pc.add(v1);
-        }else
-            Pij=Pc;
-
         Vector v2=null;
-
-        if (factor2!=0){//if v2 is not the vector zero
-            v2=this.Vup.scale(factor2);
-            Pij=Pij.subtract(v2.getPt()).getPt();
+        if(factor1!=0) {//if v1 is not the vector zero
+            v1 = _Vright.scale(factor1);
+            Pij = Pij.add(v1);
         }
 
-        Vector vec= Pij.subtract(this.p0);
-        return new Ray(this.p0, vec);
+        if (factor2!=0){//if v2 is not the vector zero
+            v2= _Vup.scale(factor2);
+            Pij=Pij.subtract(v2);
+        }
+
+        Vector vec= Pij.subtract(_p0);
+        return new Ray(_p0, vec);
 
     }
 
     public Point3D getP0() {
-        return p0;
+        return _p0;
     }
 }
