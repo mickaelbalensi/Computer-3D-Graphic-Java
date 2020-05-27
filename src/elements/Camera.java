@@ -52,10 +52,22 @@ public class Camera {
 
         double factor1=(j-(Nx-1)/2d)*Rx;
         double factor2=(i-(Ny-1)/2d)*Ry;
-        Vector v1=this.Vright.scale(factor1);
-        Vector v2=this.Vup.scale(factor2);
+        Vector v1 = null;
+        Point3D Pij;
 
-        Point3D Pij= Pc.add(v1.subtract(v2));
+        if(factor1!=0) {//if v1 is not the vector zero
+            v1 = this.Vright.scale(factor1);
+            Pij = Pc.add(v1);
+        }else
+            Pij=Pc;
+
+        Vector v2=null;
+
+        if (factor2!=0){//if v2 is not the vector zero
+            v2=this.Vup.scale(factor2);
+            Pij=Pij.subtract(v2.getPt()).getPt();
+        }
+
         Vector vec= Pij.subtract(this.p0);
         return new Ray(this.p0, vec);
 
