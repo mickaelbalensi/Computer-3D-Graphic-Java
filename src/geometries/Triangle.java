@@ -62,7 +62,11 @@ public class Triangle extends Polygon {
         double t3 = v.dotProduct(v3.crossProduct(v1));
         if (isZero(t3)) return null;
 
-        if  ((t1 > 0 && t2 > 0 && t3 > 0) || (t1 < 0 && t2 < 0 && t3 < 0)) return  intersections;
+        if  ((t1 > 0 && t2 > 0 && t3 > 0) || (t1 < 0 && t2 < 0 && t3 < 0))
+        {
+            intersections.get(0).geometry = this;
+        return intersections;
+        }
         else return null;
 
     }

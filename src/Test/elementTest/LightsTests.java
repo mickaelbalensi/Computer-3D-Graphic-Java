@@ -29,7 +29,7 @@ public class LightsTests {
         scene.addGeometries(
                 new Sphere(new Point3D(0, 0, 20),20,new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 100)));
 
-        scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(1, -1, 1)));
+        scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(-1, 1, 1)));
 
         ImageWriter imageWriter = new ImageWriter("sphereDirectional", 150, 150, 500, 500);
         Render render = new Render(imageWriter, scene);

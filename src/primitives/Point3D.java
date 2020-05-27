@@ -96,6 +96,11 @@ public class Point3D {
        Vector vec = new Vector(this.getX().get()-pt.getX().get(),this.getY().get()-pt.getY().get(),this.getZ().get()-pt.getZ().get());
        return vec; // to subtract two vectors we need to subtract every coordinates of each vectors by his correspondents
     }
+    public Point3D subtract(Vector v) {
+        return new Point3D(this.x._coord - v.pt.x._coord,
+                this.y._coord - v.pt.y._coord,
+                this.z._coord - v.pt.z._coord);
+    }
 
     /**
      *
