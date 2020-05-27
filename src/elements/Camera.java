@@ -50,7 +50,12 @@ public class Camera {
         double Rx=screenWidth/Nx;
         double Ry=screenHeight/Ny;
 
-        Point3D Pij= Pc.add(this.Vright.scale((j-(Nx-1)/2d)*Rx).subtract(this.Vup.scale((i-(Ny-1)/2d)*Ry)));
+        double factor1=(j-(Nx-1)/2d)*Rx;
+        double factor2=(i-(Ny-1)/2d)*Ry;
+        Vector v1=this.Vright.scale(factor1);
+        Vector v2=this.Vup.scale(factor2);
+
+        Point3D Pij= Pc.add(v1.subtract(v2));
         Vector vec= Pij.subtract(this.p0);
         return new Ray(this.p0, vec);
 
