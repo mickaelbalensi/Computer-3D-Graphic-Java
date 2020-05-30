@@ -35,22 +35,24 @@ public class Render {
         Camera camera = _scene.getCamera();
         Intersectable geometries = _scene.getGeometries();
         java.awt.Color background = _scene.getBackground().getColor();
+
         int nX = _imageWriter.getNx();
         int nY=_imageWriter. getNy();
         double width=_imageWriter.getWidth();
         double height=_imageWriter.getHeight();
         double distance =_scene.getDistance();
-        for (int h=0;h<nX;h++)
+
+        for (int row=0;row<nY;row++)
         {
-            for (int w=0;w<nY;w++) {
-                Ray ray = camera.constructRayThroughPixel(nX, nY, h, w, distance, width, height);
+            for (int column=0;column<nX;column++) {
+                Ray ray = camera.constructRayThroughPixel(nX, nY, column, row, distance, width, height);
                 List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
                 if (intersectionPoints.isEmpty())
-                    _imageWriter.writePixel(w, h, background);
+                    _imageWriter.writePixel(column, row, background);
                 else
                     {
                     GeoPoint closestPoint = getClosestPoint(intersectionPoints);
-                    _imageWriter.writePixel(w, h, calcColor(closestPoint).getColor());
+                    _imageWriter.writePixel(column, row, calcColor(closestPoint).getColor());
                 }
             }
         }
