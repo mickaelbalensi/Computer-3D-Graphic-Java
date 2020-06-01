@@ -4,6 +4,8 @@ public class Material {
     double _kD;
     double _kS;
     int _nShininess;
+    double _kR;
+    double _kT;
 
 
     public Material(double kD, double kS, int nShininess) {

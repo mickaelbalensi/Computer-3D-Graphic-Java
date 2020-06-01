@@ -66,7 +66,7 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<GeoPoint> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray,double max) {
 
         List<GeoPoint> intersectionsPoints = null;
 

@@ -45,7 +45,7 @@ public class Triangle extends Polygon {
     //endregion
 
     @Override
-    public List<GeoPoint> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray,double max) {
         List<GeoPoint> intersections = _plane.findIntersections(ray);
         if (intersections == null) return null;
 

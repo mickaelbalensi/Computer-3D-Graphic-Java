@@ -112,7 +112,7 @@ public class Plane extends Geometry {
      * @return Point3D if there is an intersection between the ray and the plane
      */
     @Override
-    public List<GeoPoint> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray,double max) {
 
         ArrayList<GeoPoint> intersections = new ArrayList<>();
         if (_p.subtract(ray.getPt()) == null) return null; // ray starts from point Q - no intersections

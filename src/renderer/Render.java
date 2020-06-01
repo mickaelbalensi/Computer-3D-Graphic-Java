@@ -17,7 +17,8 @@ import static primitives.Util.*;
 public class Render {
      private ImageWriter _imageWriter;
      private Scene _scene;
-     double essai;
+     private static final double DELTA = 0.1;
+    private static final double EPS = 0.1;
 
 
 
@@ -79,9 +80,11 @@ public class Render {
         for (LightSource lightSource : _scene.getLights()) {
             Vector l = lightSource.getL(intersection.point);
             if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
-                Color lightIntensity = lightSource.getIntensity(intersection.point);
-                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                if (unshaded(lightSource,l,n,intersection)) {
+                    Color lightIntensity = lightSource.getIntensity(intersection.point);
+                    color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                            calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                }
             }
         }
 
@@ -152,6 +155,25 @@ public class Render {
             }
         }
     }
+
+    private boolean unshaded(LightSource lightSource,Vector l, Vector n, GeoPoint geoPoint) {
+        Vector lightDirection = l.scale(-1); // from point to light source
+        Vector epsVector = n.scale(n.dotProduct(lightDirection) > 0 ? EPS : -EPS);
+        Point3D point = geoPoint.point.add(epsVector);
+        Ray lightRay = new Ray(point, lightDirection);
+        List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
+        if (intersections.isEmpty())
+            return true;
+        double distance = lightSource.getDistance(geoPoint.point);
+        for (GeoPoint gpt : intersections) {
+            if (alignZero(gpt.point.distance(geoPoint.point) - distance) <= 0)
+                return false;
+        }
+        return true;
+
+    }
+
+
 
     /**
      * Function writeToImage produces unoptimized jpeg file of
