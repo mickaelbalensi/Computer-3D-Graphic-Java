@@ -17,6 +17,9 @@ import static primitives.Util.*;
 public class Render {
      private ImageWriter _imageWriter;
      private Scene _scene;
+     double essai;
+
+
 
     /**
      * Only constructor
