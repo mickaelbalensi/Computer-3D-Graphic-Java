@@ -52,7 +52,8 @@ public class Render {
                 else
                     {
                     GeoPoint closestPoint = getClosestPoint(intersectionPoints);
-                    _imageWriter.writePixel(column, row, calcColor(closestPoint).getColor());
+                    java.awt.Color colorClosestPoint = calcColor(closestPoint).getColor();
+                    _imageWriter.writePixel(column, row, colorClosestPoint);
                 }
             }
         }
@@ -77,8 +78,9 @@ public class Render {
             Vector l = lightSource.getL(intersection.point);
             if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
                 Color lightIntensity = lightSource.getIntensity(intersection.point);
-                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                Color calcDiff=calcDiffusive(kd, l, n, lightIntensity);
+                Color calcSpec=calcSpecular(ks, l, n, v, nShininess, lightIntensity);
+                color = color.add(calcDiff,calcSpec);
             }
         }
 
@@ -129,7 +131,9 @@ public class Render {
         GeoPoint minDistancePoint=intersectionPoints.get(0);
 
         for (int i=1;i<intersectionPoints.size();i++){
-            if(intersectionPoints.get(i).point.distance(_scene.getCamera().getP0()) < minDistancePoint.point.distance(_scene.getCamera().getP0()))
+            double distancePoint1=intersectionPoints.get(i).point.distance(_scene.getCamera().getP0());
+            double distanceMinPoint=minDistancePoint.point.distance(_scene.getCamera().getP0());
+            if( distancePoint1< distanceMinPoint)
                 minDistancePoint=intersectionPoints.get(i);
         }
         return minDistancePoint;
