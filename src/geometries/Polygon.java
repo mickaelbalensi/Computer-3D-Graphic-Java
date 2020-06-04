@@ -101,7 +101,7 @@ public class Polygon extends Geometry {
 
     @Override
     public Vector getNormal(Point3D point) {
-        return _plane.getNormal(point);
+        return _plane.getNormal();
     }
 
     @Override
@@ -127,7 +127,7 @@ public class Polygon extends Geometry {
             if (isZero(sign)) return null;
             if (positive != (sign >0)) return null;
         }
-
+        intersections.get(0).geometry=this;
         return intersections;
     }
 }

@@ -7,11 +7,16 @@ public class Material {
     double _kR;
     double _kT;
 
-
-    public Material(double kD, double kS, int nShininess) {
+    public Material(double kT,double kR,double kD, double kS, int nShininess) {
+        this._kR=kR;
+        this._kT=kT;
         this._kD = kD;
         this._kS = kS;
         this._nShininess = nShininess;
+    }
+    public Material(double kD, double kS, int nShininess) {
+        new Material(0,0,kD,kS,nShininess);
+
     }
 
     public Material(Material material) {
@@ -41,6 +46,8 @@ public class Material {
      * getter of shininess
      * @return the shininess
      */
+    public double getkT(){return _kT;}
+    public double getkR(){return _kR;}
     public int getShininess() {
         return _nShininess;
     }

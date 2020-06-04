@@ -19,6 +19,9 @@ public class Render {
      private Scene _scene;
      private static final double DELTA = 0.1;
     private static final double EPS = 0.1;
+    private static final int MAX_CALC_COLOR_LEVEL = 10;
+    private static final double MIN_CALC_COLOR_K = 0.001;
+
 
 
 
@@ -56,7 +59,7 @@ public class Render {
                 else
                     {
                     GeoPoint closestPoint = getClosestPoint(intersectionPoints);
-                    _imageWriter.writePixel(column, row, calcColor(closestPoint).getColor());
+                    _imageWriter.writePixel(column, row, calcColor(closestPoint,ray).getColor());//je ne suis pas sur pour le ray dans calcolor
                 }
             }
         }
@@ -67,10 +70,10 @@ public class Render {
      * @param  @param intersection (Point3D) the point of which we need the color
      * @return the color
      */
-    private Color calcColor(GeoPoint intersection) {
+    private Color calcColor(GeoPoint intersection,Ray inRay) {
         Color color = _scene._ambientLight.getIntensity();
         color = color.add(intersection.geometry.getEmission());
-
+        Vector a = inRay.getDirection();
         Vector v = intersection.point.subtract(_scene.getCamera().getP0()).normalize();
         Vector n = intersection.geometry.getNormal(intersection.point);
         Material material =intersection.geometry.getMaterial();
@@ -142,6 +145,32 @@ public class Render {
     }
 
     /**
+     * The closest intersections point with the geometrie who forms
+     * the shadow in our principal geometrie
+     * @param ray
+     * @return geoPoint
+     */
+    private GeoPoint FindClosestIntersections(Ray ray){
+        GeoPoint closestPoint;
+
+        List<GeoPoint>intersections=_scene.getGeometries().findIntersections(ray);
+        if (intersections==null)
+           return null;
+
+        closestPoint=intersections.get(0);
+        double minDistance=ray.getPt().distance(closestPoint.point);
+        for (GeoPoint geoPoint:intersections){
+            double newDistance=ray.getPt().distance(geoPoint.point);
+            if (newDistance< minDistance)
+            {
+                minDistance=minDistance;
+                closestPoint=geoPoint;
+            }
+        }
+             return closestPoint;
+    }
+
+    /**
      * Displays a grid with fixed squares size
      */
     public void printGrid(int interval, java.awt.Color color){
@@ -173,7 +202,28 @@ public class Render {
 
     }
 
+    /**
+     * it sends back the reflected ray from the geometric pictures
+     * @param ray
+     * @param normal
+     * @param pt
+     * @return
+     */
+      public Ray  constructReflectedRay(Ray ray,Vector normal,Point3D pt){
+            Vector newVector;
+            double d=ray.getDirection().dotProduct(normal);
+            newVector=ray.getDirection().subtract(normal.scale(2*d));
+            return new Ray(pt,newVector);
+      }
 
+    /**
+     * send the refractedRay
+     * @param ray
+     * @return
+     */
+      public Ray constructRefractedRay(GeoPoint geoPoint,Ray ray){
+          return new Ray(geoPoint.point,ray.getDirection());
+      }
 
     /**
      * Function writeToImage produces unoptimized jpeg file of

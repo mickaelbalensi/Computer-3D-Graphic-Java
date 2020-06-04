@@ -61,6 +61,8 @@ public class Ray {
         return this.pt.equals(ray.pt) &&
                 this.direction.equals(ray.direction);
     }
-
+    public Point3D getTargetPoint(double length) {
+        return isZero(length ) ? pt : pt.add(direction.scale(length));
+    }
 
 }

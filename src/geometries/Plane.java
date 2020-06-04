@@ -42,6 +42,7 @@ public class Plane extends Geometry {
         Vector tempNormal = temp4.crossProduct(temp5);
 
         this._p = pt1;
+        tempNormal.normalize();
         this._normal = tempNormal;
         t = -(new Vector(pt1).dotProduct(_normal));
 
@@ -113,21 +114,22 @@ public class Plane extends Geometry {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray,double max) {
+        Vector p0Q;
+        try {
+            p0Q = _p.subtract(ray.getPt());
+        } catch (IllegalArgumentException e) {
+            return null; // ray starts from point Q - no intersections
+        }
 
-        ArrayList<GeoPoint> intersections = new ArrayList<>();
-        if (_p.subtract(ray.getPt()) == null) return null; // ray starts from point Q - no intersections
-        if (isZero(_normal.dotProduct(ray.getDirection()))) // ray is parallel to the plane - no intersections
+        double nv = _normal.dotProduct(ray.getDirection());
+        if (isZero(nv)) // ray is parallel to the plane - no intersections
             return null;
 
-        double t = alignZero(_normal.dotProduct(_p.subtract(ray.getPt())) / _normal.dotProduct(ray.getDirection()));
+        double t = alignZero(_normal.dotProduct(p0Q) / nv);
 
-        if (t <= 0) return null;
-        else {
-            GeoPoint intersection = new GeoPoint(this, ray.getPt().add(ray.getDirection().scale(t)));
-            intersections.add(intersection);
-            return intersections;
-        }
+        return t <= 0 ? null : List.of( new GeoPoint(this, ray.getTargetPoint(t)));
     }
+
 
 
 
@@ -178,11 +180,16 @@ public class Plane extends Geometry {
     }
     @Override
     public Vector getNormal(Point3D pt) {
-        Vector V = new Vector(_p);
-        Vector norm = _normal.crossProduct(V);
-        return norm;
+        //Vector V = new Vector(_p);
+        //Vector norm = _normal.crossProduct(V);
+        //return norm;
+        return _normal;
     }
     //endregion
+    public Vector getNormal() {
+        return getNormal(null);
+    }
+
 
     @Override
     public String toString() {
