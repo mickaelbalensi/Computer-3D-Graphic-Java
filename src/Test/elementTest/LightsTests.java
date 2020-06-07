@@ -31,7 +31,7 @@ public class LightsTests {
 
         scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(1, -1, 1)));
 
-        ImageWriter imageWriter = new ImageWriter("sphereDirectional", 150, 150, 10, 10);
+        ImageWriter imageWriter = new ImageWriter("sphereDirectional", 150, 150, 500, 500);
         Render render = new Render(imageWriter, scene);
 
         render.renderImage();
@@ -78,7 +78,7 @@ public class LightsTests {
         scene.addLights(new SpotLight(new Color(500, 300, 0), new Point3D(-50, 50, -50),
                 1, 0.00001, 0.00000001,new Vector(1, -1, 2)));
 
-        ImageWriter imageWriter = new ImageWriter("sphereSpot2", 150, 150, 10, 10);
+        ImageWriter imageWriter = new ImageWriter("sphereSpot2", 150, 150, 500, 500);
         Render render = new Render(imageWriter, scene);
 
         render.renderImage();
