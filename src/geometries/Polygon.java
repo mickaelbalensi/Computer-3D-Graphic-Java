@@ -1,5 +1,3 @@
-
-
 package geometries;
 
 import primitives.Color;
@@ -12,24 +10,21 @@ import static primitives.Util.*;
 /**
  * geometries.Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
- * 
+ *
  * @author Dan
  */
-
 public class Polygon extends Geometry {
-/**
+    /**
      * List of polygon's vertices
      */
-
     protected List<Point3D> _vertices;
-/**
+    /**
      * Associated plane in which the polygon lays
      */
-
     protected Plane _plane;
 
     //region CTORs
-/**
+    /**
      * geometries.Polygon constructor based on vertices list. The list must be ordered by edge
      * path. The polygon must be convex.
      *
@@ -47,7 +42,6 @@ public class Polygon extends Geometry {
      *                                  <li>The polygon is concave (not convex></li>
      *                                  </ul>
      */
-
     public Polygon(Color color, Material material, Point3D... vertices) {
         super(color,material);
         if (vertices.length < 3)
@@ -88,21 +82,19 @@ public class Polygon extends Geometry {
         }
     }
 
-/**
+    /**
      * Same Constructor without material
      * @param color
      * @param vertices
      */
-
     public Polygon(Color color, Point3D... vertices) {
         this(color,new Material(0,0,0), vertices);
     }
 
-/**
+    /**
      * Same Constructor without color and material
      * @param vertices
      */
-
     public Polygon( Point3D... vertices) {
         this(Color.BLACK, vertices);
     }
@@ -136,7 +128,7 @@ public class Polygon extends Geometry {
             if (isZero(sign)) return null;
             if (positive != (sign >0)) return null;
         }
-
+        intersections.get(0).geometry=this;
         return intersections;
     }
 }

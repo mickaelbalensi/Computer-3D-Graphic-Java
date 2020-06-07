@@ -10,7 +10,7 @@ import scene.Scene;
 
 /**
  * Test rendering abasic image
- * 
+ *
  * @author Dan
  */
 public class LightsTests {
@@ -76,7 +76,7 @@ public class LightsTests {
                 new Sphere( new Point3D(0, 0, 50),50,new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 100)));
 
         scene.addLights(new SpotLight(new Color(500, 300, 0), new Point3D(-50, 50, -50),
-                 1, 0.00001, 0.00000001,new Vector(1, -1, 2)));
+                1, 0.00001, 0.00000001,new Vector(1, -1, 2)));
 
         ImageWriter imageWriter = new ImageWriter("sphereSpot2", 150, 150, 10, 10);
         Render render = new Render(imageWriter, scene);
@@ -106,7 +106,7 @@ public class LightsTests {
 
         scene.addLights(
                 new SpotLight(new Color(300, 300, 300), new Point3D(-50, 50, -50),
-                1, 0.00001, 0.00000001,new Vector(1, -1, 2)),
+                        1, 0.00001, 0.00000001,new Vector(1, -1, 2)),
                 new SpotLight(new Color(300, 300, 300), new Point3D(150, 50, -50),
                         1, 0.00001, 0.00000001,new Vector(-1, -1, 1)),
                 new PointLight(new Color(100, 200, 300), new Point3D(150, 0, -50),
@@ -202,5 +202,5 @@ public class LightsTests {
     }
 
 
-    
+
 }

@@ -17,9 +17,11 @@ public class Plane extends Geometry {
     protected Point3D _p;
     protected Vector _normal;//we need a point and a vector to make a plane
 
+
+
     //region CTORs
 
-/**
+    /**
      * Constructor for a Plane receiving 3 point to caracterise it, and it's color and the material
      *
      * @param pt1      (Point3D)
@@ -35,17 +37,18 @@ public class Plane extends Geometry {
         Vector temp2 = new Vector(pt2);
         Vector temp3 = new Vector(pt3);
 
-        Vector U = temp1.subtract(temp2);
-        Vector V = temp1.subtract(temp3);
+        Vector temp4 = temp1.subtract(temp2);
+        Vector temp5 = temp1.subtract(temp3);
 
-        Vector tempNormal = U.crossProduct(V).normalized();
+        Vector tempNormal = temp4.crossProduct(temp5).normalized();
 
         this._p = new Point3D(pt1);
+
         this._normal = tempNormal;
 
     }
 
-/**
+    /**
      * Constructor for a Plane receiving 3 point to caracterise it, and it's color
      *
      * @param pt1
@@ -57,7 +60,7 @@ public class Plane extends Geometry {
         this(pt1, pt2, pt3, color, new Material(0, 0, 0));
     }
 
-/**
+    /**
      * Constructor for a Plane receiving 3 point to caracterise it
      *
      * @param pt1
@@ -68,7 +71,7 @@ public class Plane extends Geometry {
         this(pt1, pt2, pt3, Color.BLACK, new Material(0, 0, 0));
     }
 
-/**
+    /**
      * Ctor receiving:
      * @param vec
      * @param pt1
@@ -82,7 +85,7 @@ public class Plane extends Geometry {
         this._normal = vec;
     }
 
-/**
+    /**
      * Ctor receiving
      * @param vec
      * @param pt1
@@ -94,7 +97,7 @@ public class Plane extends Geometry {
         this._p = pt1;
         this._normal = vec;
     }
-/**
+    /**
      * @param vec
      * @param pt1 the vector and the point who form the plane
      */
@@ -105,45 +108,53 @@ public class Plane extends Geometry {
         this._normal = vec;
     }
 
-/**
+    /**
      * @param ray ray pointing toward a Geometry
      * @return Point3D if there is an intersection between the ray and the plane
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
+        Vector p0Q;
+        try {
+            p0Q = _p.subtract(ray.getPt());
+        } catch (IllegalArgumentException e) {
+            return null; // ray starts from point Q - no intersections
+        }
 
-        ArrayList<GeoPoint> intersections = new ArrayList<>();
-        if (_p.subtract(ray.getPt()) == null) return null; // ray starts from point Q - no intersections
-        if (isZero(_normal.dotProduct(ray.getDirection()))) // ray is parallel to the plane - no intersections
+        double nv = _normal.dotProduct(ray.getDirection());
+        if (isZero(nv)) // ray is parallel to the plane - no intersections
             return null;
 
-        double t = alignZero(_normal.dotProduct(_p.subtract(ray.getPt())) / _normal.dotProduct(ray.getDirection()));
+        double t = alignZero(_normal.dotProduct(p0Q) / nv);
 
-        if (t <= 0) return null;
-        else {
-            GeoPoint intersection = new GeoPoint(this, ray.getPt().add(ray.getDirection().scale(t)));
-            intersections.add(intersection);
-            return intersections;
-        }
+        return t <= 0 ? null : List.of( new GeoPoint(this, ray.getTargetPoint(t)));
     }
+
+
     //endregion
     //region getters
 
-/**
+    /**
      * getter of one Point in plane
      *
      * @return Point3D
      */
-
-    public Point3D getPt1() {
+    public Point3D getPoint() {
         return _p;
     }
-
     @Override
     public Vector getNormal(Point3D pt) {
+        //Vector V = new Vector(_p);
+        //Vector norm = _normal.crossProduct(V);
+        //return norm;
         return _normal;
     }
     //endregion
+
+    public Vector getNormal() {
+        return getNormal(null);
+    }
+
 
     @Override
     public String toString() {

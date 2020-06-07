@@ -44,11 +44,10 @@ public class Triangle extends Polygon {
     }
     //endregion
 
-
     @Override
-    public List<GeoPoint> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray/*,double max*/) {
         List<GeoPoint> intersections = _plane.findIntersections(ray);
-        if (intersections.size() == 0) return null;
+        if (intersections == null) return null;
 
         Point3D pt = ray.getPt();
         Vector v = ray.getDirection();
@@ -81,3 +80,5 @@ public class Triangle extends Polygon {
         return result;
     }
 }
+
+
