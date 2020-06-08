@@ -10,7 +10,7 @@ import static primitives.Util.*;
 /**
  * geometries.Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
- * 
+ *
  * @author Dan
  */
 public class Polygon extends Geometry {
@@ -43,13 +43,14 @@ public class Polygon extends Geometry {
      *                                  </ul>
      */
     public Polygon(Color color, Material material, Point3D... vertices) {
+        super(color,material);
         if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         _vertices = List.of(vertices);
         // Generate the plane according to the first three vertices and associate the
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
-        _plane = new Plane(vertices[0], vertices[1], vertices[2],color,material);
+        _plane = new Plane(vertices[0], vertices[1], vertices[2]);
         if (vertices.length == 3) return; // no need for more tests for a Triangle
 
         Vector n = _plane.getNormal(vertices[0]);
@@ -127,7 +128,7 @@ public class Polygon extends Geometry {
             if (isZero(sign)) return null;
             if (positive != (sign >0)) return null;
         }
-
+        intersections.get(0).geometry=this;
         return intersections;
     }
 }

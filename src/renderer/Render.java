@@ -17,6 +17,7 @@ import static primitives.Util.*;
 public class Render {
      private ImageWriter _imageWriter;
      private Scene _scene;
+    private static final double DELTA = 0.1;
 
     /**
      * Only constructor
@@ -52,7 +53,8 @@ public class Render {
                 else
                     {
                     GeoPoint closestPoint = getClosestPoint(intersectionPoints);
-                    _imageWriter.writePixel(column, row, calcColor(closestPoint).getColor());
+                    java.awt.Color colorClosestPoint = calcColor(closestPoint).getColor();
+                    _imageWriter.writePixel(column, row, colorClosestPoint);
                 }
             }
         }
@@ -77,8 +79,9 @@ public class Render {
             Vector l = lightSource.getL(intersection.point);
             if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
                 Color lightIntensity = lightSource.getIntensity(intersection.point);
-                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                Color calcDiff=calcDiffusive(kd, l, n, lightIntensity);
+                Color calcSpec=calcSpecular(ks, l, n, v, nShininess, lightIntensity);
+                color = color.add(calcDiff,calcSpec);
             }
         }
 
@@ -129,7 +132,9 @@ public class Render {
         GeoPoint minDistancePoint=intersectionPoints.get(0);
 
         for (int i=1;i<intersectionPoints.size();i++){
-            if(intersectionPoints.get(i).point.distance(_scene.getCamera().getP0()) < minDistancePoint.point.distance(_scene.getCamera().getP0()))
+            double distancePoint1=intersectionPoints.get(i).point.distance(_scene.getCamera().getP0());
+            double distanceMinPoint=minDistancePoint.point.distance(_scene.getCamera().getP0());
+            if( distancePoint1< distanceMinPoint)
                 minDistancePoint=intersectionPoints.get(i);
         }
         return minDistancePoint;
@@ -155,6 +160,25 @@ public class Render {
      * the image according to pixel color matrix in the directory
      * of the project
      */
+
+    private boolean unshaded(LightSource lightSource,Vector l, Vector n, GeoPoint geoPoint) {
+        Vector lightDirection = l.scale(-1); // from point to light source
+        Vector epsVector = n.scale(n.dotProduct(lightDirection) > 0 ? EPS : -EPS);
+        Point3D point = geoPoint.point.add(epsVector);
+        Ray lightRay = new Ray(point, lightDirection);
+        List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
+        if (intersections.isEmpty())
+            return true;
+        double distance = lightSource.getDistance(geoPoint.point);
+        for (GeoPoint gpt : intersections) {
+            if (alignZero(gpt.point.distance(geoPoint.point) - distance) <= 0)
+                return false;
+        }
+        return true;
+
+    }
+
+
     public void writeToImage() {
         _imageWriter.writeToImage();
     }

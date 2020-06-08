@@ -102,7 +102,7 @@ public class IntegrationTest {
         //endregion
     }
 
-    @Test
+/*    @Test
     void constructRayThroughPixelWithPlane(){
 
         //region TC01 : The Plane is behind the screen
@@ -152,7 +152,7 @@ public class IntegrationTest {
 
         assertEquals(6, count3,"TC03 : The Plane is oblique");
         //endregion
-    }
+    }*/
 
     @Test
     void constructRayThroughPixelWithTriangle(){

@@ -51,6 +51,9 @@ public class Vector {
         this.pt=new Point3D(vec.pt);
     }
 
+    public Vector(Point3D p1, Point3D p2) {
+        this(p1.subtract(p2));
+    }
     //endregion
 
     //region functions
