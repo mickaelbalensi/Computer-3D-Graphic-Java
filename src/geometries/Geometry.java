@@ -8,7 +8,7 @@ import primitives.*;
  */
 public abstract class Geometry implements Intersectable {
     protected Color _emission;
-    protected Material _material;
+    public Material _material;
 
     //region CTORs
     /**
