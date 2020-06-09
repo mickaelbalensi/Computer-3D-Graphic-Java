@@ -14,34 +14,39 @@ public class Sphere extends RadialGeometry {
     //region CTORs
     /**
      * Constructor for a sphere receiving :
-     * @param pt it's center (Point3D)
+     * @param center it's center (Point3D)
      * @param radius it's radius (double)
-     * @param color it's color (Color)
+     * @param emissionColor it's color (Color)
      * @param material it's material
      */
-    public Sphere(Point3D pt, double radius,Color color, Material material){
-        super(radius,color,material);
-        setCenter(pt);
+    public Sphere(Point3D center, double radius,Color emissionColor, Material material){
+        super(radius,emissionColor,material);
+        setCenter(center);
     }
+
+    public Sphere(Color emissionColor,Material material, double radius,Point3D center){
+        this(center,radius,emissionColor,material);
+    }
+
 
     /**
      * Constructor who takes Point3D doubles and  Color
-     * @param pt (Point3D)
+     * @param center (Point3D)
      * @param radius (double)
-     * @param color (Color)
+     * @param emissionColor (Color)
      */
-    public Sphere(Point3D pt, double radius,Color color){
-        super(radius,color);
-        setCenter(pt);
+    public Sphere(Point3D center, double radius,Color emissionColor){
+        super(radius,emissionColor);
+        setCenter(center);
     }
     /**
      * the geometries.Sphere constructor receiving the middle Point of the sphere and his radius
-     * @param pt the center Point3D
+     * @param center the center Point3D
      * @param radius by type double     
      */    
-    public Sphere (Point3D pt,double radius){
+    public Sphere (Point3D center,double radius){
         super(radius);
-        setCenter(pt);
+        setCenter(center);
     }
     //endregion
 
@@ -66,7 +71,7 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<GeoPoint> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray, double max) {
 
         List<GeoPoint> intersectionsPoints = null;
 
@@ -107,6 +112,8 @@ public class Sphere extends RadialGeometry {
         }
         return intersectionsPoints;
     }
+
+
 
     public void setCenter(Point3D _center) {
         this._center = _center;

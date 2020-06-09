@@ -15,8 +15,8 @@ import static primitives.Util.*;
  * Can render images based on a scene
  */
 public class Render {
-     private ImageWriter _imageWriter;
-     private Scene _scene;
+    private ImageWriter _imageWriter;
+    private Scene _scene;
     private static final double DELTA = 0.1;
 
     /**
@@ -78,13 +78,14 @@ public class Render {
         for (LightSource lightSource : _scene.getLights()) {
             Vector l = lightSource.getL(intersection.point);
             if (sign(n.dotProduct(l)) == sign(n.dotProduct(v))) {
-                Color lightIntensity = lightSource.getIntensity(intersection.point);
-                Color calcDiff=calcDiffusive(kd, l, n, lightIntensity);
-                Color calcSpec=calcSpecular(ks, l, n, v, nShininess, lightIntensity);
-                color = color.add(calcDiff,calcSpec);
+                if (unshaded(lightSource,l,n,intersection)) {
+                    Color lightIntensity = lightSource.getIntensity(intersection.point);
+                    Color calcDiff=calcDiffusive(kd, l, n, lightIntensity);
+                    Color calcSpec=calcSpecular(ks, l, n, v, nShininess, lightIntensity);
+                    color = color.add(calcDiff,calcSpec);
+                }
             }
         }
-
         return color;
     }
 
@@ -160,18 +161,18 @@ public class Render {
      * the image according to pixel color matrix in the directory
      * of the project
      */
-
     private boolean unshaded(LightSource lightSource,Vector l, Vector n, GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
-        Vector epsVector = n.scale(n.dotProduct(lightDirection) > 0 ? EPS : -EPS);
+        Vector epsVector = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
         Point3D point = geoPoint.point.add(epsVector);
         Ray lightRay = new Ray(point, lightDirection);
-        List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
+        double lightDistance = lightSource.getDistance(geoPoint.point);
+        List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay,lightDistance);
         if (intersections.isEmpty())
             return true;
-        double distance = lightSource.getDistance(geoPoint.point);
+
         for (GeoPoint gpt : intersections) {
-            if (alignZero(gpt.point.distance(geoPoint.point) - distance) <= 0)
+            if (alignZero(gpt.point.distance(geoPoint.point) - lightDistance) <= 0)
                 return false;
         }
         return true;

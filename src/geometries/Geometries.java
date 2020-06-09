@@ -35,7 +35,7 @@ public class Geometries implements Intersectable {
      * @return all the intersections points between our rays and our shapes
      */
     @Override
-    public List<GeoPoint> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray, double max) {
         List<GeoPoint> intersectionPointsList= new ArrayList<>();
         for(int i=0;i<shapes.size();i++){
             List<GeoPoint> list=shapes.get(i).findIntersections(ray);

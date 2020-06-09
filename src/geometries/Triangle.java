@@ -14,11 +14,15 @@ public class Triangle extends Polygon {
      * @param p1
      * @param p2
      * @param p3
-     * @param color
+     * @param emissionColor
      * @param material
      */
-    public Triangle(Point3D p1, Point3D p2, Point3D p3, Color color, Material material) {
-        super(color, material,p1, p2, p3);
+    public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emissionColor, Material material) {
+        super(emissionColor, material,p1, p2, p3);
+    }
+
+    public Triangle(Color emissionColor, Material material, Point3D p1, Point3D p2, Point3D p3) {
+        this(p1,p2,p3,emissionColor,material);
     }
 
     /**
@@ -26,10 +30,10 @@ public class Triangle extends Polygon {
      * @param p1
      * @param p2
      * @param p3
-     * @param color
+     * @param emissionColor
      */
-    public Triangle(Point3D p1, Point3D p2, Point3D p3, Color color) {
-        super(color,p1, p2, p3);
+    public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emissionColor) {
+        super(emissionColor,p1, p2, p3);
     }
 
     /**
