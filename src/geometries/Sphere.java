@@ -4,6 +4,9 @@ import primitives.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 /**
  *  the geometries.Sphere class represents geometry sphere
  *  this class extends geometries.RadialGeometry for his radius
@@ -71,7 +74,35 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<GeoPoint> findIntersections(Ray ray, double max) {
+    public List<GeoPoint> findIntersections(Ray ray) {
+        Vector u;
+
+        try {
+            //first step calculate of  vector u refer to the recitation 3
+            u = _center.subtract(ray.getPt());
+        } catch (IllegalArgumentException e) {
+            return List.of(new GeoPoint(this, (ray.getTargetPoint(this._radius))));
+        }
+        double tm = ray.getDirection().dotProduct(u);//calculate of the distance Tm
+        double distance = alignZero(Math.sqrt(Math.abs(u.lengthSquared() - (tm * tm))));
+        if (distance >= _radius)
+            return null;
+
+        double th = Math.sqrt(((_radius * _radius) - (distance * distance)));
+        if (isZero(th)) return null;
+
+        double t1 = alignZero(tm + th);
+        if (t1 > 0) {
+            double t2 = alignZero(tm - th);
+            if (t2 > 0)
+                return List.of(new GeoPoint(this,ray.getTargetPoint(t1)),new GeoPoint(this,ray.getTargetPoint(t2)));
+            else
+                return List.of(new GeoPoint(this,ray.getTargetPoint(t1)));
+        }
+        return null;
+    }
+
+/*    public List<GeoPoint> findIntersections(Ray ray) {
 
         List<GeoPoint> intersectionsPoints = null;
 
@@ -111,7 +142,7 @@ public class Sphere extends RadialGeometry {
                 }
         }
         return intersectionsPoints;
-    }
+    }*/
 
 
 
