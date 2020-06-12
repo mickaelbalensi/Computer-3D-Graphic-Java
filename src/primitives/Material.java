@@ -4,18 +4,23 @@ public class Material {
     double _kD;
     double _kS;
     int _nShininess;
+    double _kT;
+    double _kR;
 
-
-    public Material(double kD, double kS, int nShininess) {
+    public Material(double kT, double kR,double kD, double kS, int nShininess) {
+        this._kT=kT;
+        this._kR=kR;
         this._kD = kD;
         this._kS = kS;
         this._nShininess = nShininess;
     }
 
+    public Material(double kD, double kS, int nShininess) {
+        this(0,0,kD,kS,nShininess);
+    }
+
     public Material(Material material) {
-        this._kD = material._kD;
-        this._kS = material._kS;
-        this._nShininess = material._nShininess;
+        this(0,0,material._kD,material._kS,material._nShininess);
     }
 
 
