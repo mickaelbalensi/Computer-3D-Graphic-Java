@@ -8,6 +8,12 @@ import geometries.Intersectable;
 public class Ray {
     protected Point3D pt;
     protected Vector direction;
+    private static final double DELTA = 0.1;
+
+    public Ray(Point3D begin, Vector direction, Vector normal) {
+        this.pt=begin.add(normal.scale(normal.dotProduct(direction) > 0 ? DELTA : -DELTA));
+        this.direction=direction.normalized();
+    }
 
     /**
      *
@@ -16,7 +22,7 @@ public class Ray {
      */
     public Ray(Point3D pt, Vector vec) {
         this.pt=pt;
-        this.direction=vec.normalize();
+        this.direction=vec.normalized();
     }
 
     /**
