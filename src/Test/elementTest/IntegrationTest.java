@@ -10,95 +10,96 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IntegrationTest {
-    Camera cam = new Camera(Point3D.ZERO,new Vector(0,0,1), new Vector(0,-1,0));
-    Camera cam2 = new Camera(new Point3D(0,0,-0.5),new Vector(0,0,1), new Vector(0,-1,0));
+    Camera cam = new Camera(Point3D.ZERO, new Vector(0, 0, 1), new Vector(0, -1, 0));
+    Camera cam2 = new Camera(new Point3D(0, 0, -0.5), new Vector(0, 0, 1), new Vector(0, -1, 0));
 
     int Nx = 3;
     int Ny = 3;
+
     @Test
-    void constructRayThroughPixelWithSphere(){
+    void constructRayThroughPixelWithSphere() {
 
         //region TC01 : The Sphere is behind the screen
 
-        Sphere sphere1 = new Sphere(new Point3D(0,0,3),1 );
+        Sphere sphere1 = new Sphere(new Point3D(0, 0, 3), 1);
 
         int count1 = 0;
 
-        for(int i=0;i<Nx;i++)
-            for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Intersectable.GeoPoint> result= sphere1.findIntersections(ray);
-                if(result != null)
-                    count1+= result.size();
+        for (int i = 0; i < Nx; i++)
+            for (int j = 0; j < Ny; j++) {
+                Ray ray = cam.constructRayThroughPixel(Nx, Ny, j, i, 1, 3, 3);
+                List<Point3D> result = sphere1.findIntersections(ray);
+                if (result != null)
+                    count1 += result.size();
             }
-        assertEquals(2, count1,"TC01 : Sphere behind the screen");
+        assertEquals(2, count1, "TC01 : Sphere behind the screen");
         //endregion
 
         //region TC02 : The Sphere is in front of the screen and fill it
 
-        Sphere sphere2 = new Sphere(new Point3D(0,0,2.5),2.5 );
+        Sphere sphere2 = new Sphere(new Point3D(0, 0, 2.5), 2.5);
 
         int count2 = 0;
 
-        for(int i=0;i<Nx;i++)
-            for(int j=0;j<Ny;j++){
-                Ray ray= cam2.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Intersectable.GeoPoint> result= sphere2.findIntersections(ray);
-                if(result != null)
-                    count2+= result.size();
+        for (int i = 0; i < Nx; i++)
+            for (int j = 0; j < Ny; j++) {
+                Ray ray = cam2.constructRayThroughPixel(Nx, Ny, j, i, 1, 3, 3);
+                List<Point3D> result = sphere2.findIntersections(ray);
+                if (result != null)
+                    count2 += result.size();
             }
 
-        assertEquals(18, count2,"TC02 : The Sphere is in front of the screen and fill it");
+        assertEquals(18, count2, "TC02 : The Sphere is in front of the screen and fill it");
         //endregion
 
         //region TC03 : The Sphere is in front of the screen but don't fill it
 
-        Sphere sphere3 = new Sphere(new Point3D(0,0,2.5),2 );
+        Sphere sphere3 = new Sphere(new Point3D(0, 0, 2.5), 2);
 
         int count3 = 0;
 
-        for(int i=0;i<Nx;i++)
-            for(int j=0;j<Ny;j++){
-                Ray ray= cam2.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Intersectable.GeoPoint> result= sphere3.findIntersections(ray);
-                if(result != null)
-                    count3+= result.size();
+        for (int i = 0; i < Nx; i++)
+            for (int j = 0; j < Ny; j++) {
+                Ray ray = cam2.constructRayThroughPixel(Nx, Ny, j, i, 1, 3, 3);
+                List<Point3D> result = sphere3.findIntersections(ray);
+                if (result != null)
+                    count3 += result.size();
             }
 
-        assertEquals(10, count3,"TC03 : The Sphere is in front of the screen but don't fill it");
+        assertEquals(10, count3, "TC03 : The Sphere is in front of the screen but don't fill it");
         //endregion
 
         //region TC04 : The Camera is in the Sphere
-        Sphere sphere4 = new Sphere(new Point3D(0,0,1),5 );
+        Sphere sphere4 = new Sphere(new Point3D(0, 0, 1), 5);
 
         int count4 = 0;
 
-        for(int i=0;i<Nx;i++)
-            for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Intersectable.GeoPoint> result= sphere4.findIntersections(ray);
-                if(result != null)
-                    count4+= result.size();
+        for (int i = 0; i < Nx; i++)
+            for (int j = 0; j < Ny; j++) {
+                Ray ray = cam.constructRayThroughPixel(Nx, Ny, j, i, 1, 3, 3);
+                List<Point3D> result = sphere4.findIntersections(ray);
+                if (result != null)
+                    count4 += result.size();
             }
 
-        assertEquals(9, count4,"TC04 : The Camera is in the Sphere");
+        assertEquals(9, count4, "TC04 : The Camera is in the Sphere");
         //endregion
 
         //region TC05 : The Sphere is behind the camera
 
-        Sphere sphere5 = new Sphere(new Point3D(0,0,-1),0.5 );
+        Sphere sphere5 = new Sphere(new Point3D(0, 0, -1), 0.5);
 
         int count5 = 0;
 
-        for(int i=0;i<Nx;i++)
-            for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Intersectable.GeoPoint> result= sphere5.findIntersections(ray);
-                if(result != null)
-                    count5+= result.size();
+        for (int i = 0; i < Nx; i++)
+            for (int j = 0; j < Ny; j++) {
+                Ray ray = cam.constructRayThroughPixel(Nx, Ny, j, i, 1, 3, 3);
+                List<Point3D> result = sphere5.findIntersections(ray);
+                if (result != null)
+                    count5 += result.size();
             }
 
-        assertEquals(0, count5,"TC05 : The Sphere is behind the camera");
+        assertEquals(0, count5, "TC05 : The Sphere is behind the camera");
         //endregion
     }
 
@@ -113,7 +114,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
-                List<Intersectable.GeoPoint> result= plane1.findIntersections(ray);
+                List<Point3D> result= plane1.findIntersections(ray);
                 if(result != null)
                     count1+= result.size();
             }
@@ -129,7 +130,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Intersectable.GeoPoint> result= plane2.findIntersections(ray);
+                List<Point3D> result= plane2.findIntersections(ray);
                 if(result != null)
                     count2+= result.size();
             }
@@ -145,7 +146,7 @@ public class IntegrationTest {
         for(int i=0;i<Nx;i++)
             for(int j=0;j<Ny;j++){
                 Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
-                List<Intersectable.GeoPoint> result= plane3.findIntersections(ray);
+                List<Point3D> result= plane3.findIntersections(ray);
                 if(result != null)
                     count3+= result.size();
             }
@@ -155,37 +156,37 @@ public class IntegrationTest {
     }*/
 
     @Test
-    void constructRayThroughPixelWithTriangle(){
+    void constructRayThroughPixelWithTriangle() {
         //region TC01 : The little triangle is behind the screen
-        Triangle triangle1 = new Triangle(new Point3D(0,-1,2),new Point3D(1,1,2),new Point3D(-1,1,2),new Color(256,0,0));
+        Triangle triangle1 = new Triangle(new Point3D(0, -1, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2), new Color(256, 0, 0));
 
         int count1 = 0;
 
-        for(int i=0;i<Nx;i++)
-            for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,9,9);
-                List<Intersectable.GeoPoint> result= triangle1.findIntersections(ray);
-                if(result != null)
-                    count1+= result.size();
+        for (int i = 0; i < Nx; i++)
+            for (int j = 0; j < Ny; j++) {
+                Ray ray = cam.constructRayThroughPixel(Nx, Ny, j, i, 1, 9, 9);
+                List<Point3D> result = triangle1.findIntersections(ray);
+                if (result != null)
+                    count1 += result.size();
             }
 
-        assertEquals(1, count1,"TC01 : The little triangle is behind the screen");
+        assertEquals(1, count1, "TC01 : The little triangle is behind the screen");
         //endregion
 
         //region TC02 : The big triangle is behind the screen
-        Triangle triangle2 = new Triangle(new Point3D(0,-20,2),new Point3D(1,1,2),new Point3D(-1,1,2),new Color(256,0,0));
+        Triangle triangle2 = new Triangle(new Point3D(0, -20, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2), new Color(256, 0, 0));
 
         int count2 = 0;
 
-        for(int i=0;i<Nx;i++)
-            for(int j=0;j<Ny;j++){
-                Ray ray= cam.constructRayThroughPixel(Nx,Ny,j,i,1,3,3);
-                List<Intersectable.GeoPoint> result= triangle2.findIntersections(ray);
-                if(result != null)
-                    count2+= result.size();
+        for (int i = 0; i < Nx; i++)
+            for (int j = 0; j < Ny; j++) {
+                Ray ray = cam.constructRayThroughPixel(Nx, Ny, j, i, 1, 3, 3);
+                List<Point3D> result = triangle2.findIntersections(ray);
+                if (result != null)
+                    count2 += result.size();
             }
 
-        assertEquals(2, count2,"TC02 : The big triangle is behind the screen");
+        assertEquals(2, count2, "TC02 : The big triangle is behind the screen");
         //endregion
     }
 }

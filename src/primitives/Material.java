@@ -1,11 +1,14 @@
 package primitives;
 
 public class Material {
-    double _kD;
-    double _kS;
-    int _nShininess;
-    double _kT;
-    double _kR;
+    private double _kD = 0d;
+    private double _kS = 0d;
+    private int _nShininess = 1;
+    private double _kT = 0d;
+    private double _kR = 0d;
+    public static final Material DEFAULT = new Material();
+
+    public Material() {}
 
     public Material(double kT, double kR,double kD, double kS, int nShininess) {
         this._kT=kT;
