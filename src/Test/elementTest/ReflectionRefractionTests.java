@@ -63,14 +63,13 @@ public class ReflectionRefractionTests {
 				new Sphere(new Color(100, 20, 20), new Material(0.25, 0.25, 20), 200, new Point3D(-950, 900, 1000)),
 				new Triangle(new Color(20, 20, 20), new Material(0, 0, 0, 0, 1), new Point3D(1500, 1500, 1500),
 						new Point3D(-1500, -1500, 1500), new Point3D(670, -670, -3000)),
-				/**----------------------------------------------------------------la ligne en dessous, le nShiness etait egal a 0.5*/
-				new Triangle(new Color(20, 20, 20), new Material(0, 0, 0, 0, 1), new Point3D(1500, 1500, 1500),
+				new Triangle(new Color(20, 20, 20), new Material(0, 0, 0, 0, 0.5), new Point3D(1500, 1500, 1500),
 						new Point3D(-1500, -1500, 1500), new Point3D(-1500, 1500, 2000)));
 
 		scene.addLights(new SpotLight(new Color(1020, 400, 400),  new Point3D(-750, 750, 150), 
 				   new Vector(-1, 1, 4), 1, 0.00001, 0.000005));
 
-		ImageWriter imageWriter = new ImageWriter("twoSpheresMirrored", 2500, 2500, 500, 500);
+		ImageWriter imageWriter = new ImageWriter("twoSpheresMirrored", 2500, 2500, 2000, 2000);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();

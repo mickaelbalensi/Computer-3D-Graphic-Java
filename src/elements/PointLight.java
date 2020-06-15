@@ -4,22 +4,21 @@ import primitives.*;
 
 public class PointLight extends Light implements LightSource {
     protected Point3D _position;
-    double _kC,_kL,_kQ;
+    double _kC, _kL, _kQ;
 
     /**
-     *
      * @param intensity
      * @param position
      * @param kC
      * @param kL
      * @param kQ
      */
-    public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ){
+    public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ) {
         super(intensity);
-        _position=position;
-        _kC=kC;
-        _kL=kL;
-        _kQ=kQ;
+        _position = position;
+        _kC = kC;
+        _kL = kL;
+        _kQ = kQ;
     }
 
     public PointLight(Color colorIntensity, Point3D position) {
@@ -28,10 +27,9 @@ public class PointLight extends Light implements LightSource {
 
     @Override
     public Color getIntensity(Point3D p) {
-        double dSquared=p.distanceSquared(_position);
-        double d=p.distance(_position);
-
-        return _intensity.reduce(_kC+_kL*d+_kQ*dSquared);
+        double dSquared = p.distanceSquared(_position);
+        double d = Math.sqrt(dSquared);
+        return _intensity.reduce(_kC + _kL * d + _kQ * dSquared);
     }
 
     @Override
@@ -39,14 +37,8 @@ public class PointLight extends Light implements LightSource {
         return p.subtract(_position).normalize();
     }
 
-    //@Override
+    @Override
     public double getDistance(Point3D point) {
         return _position.distance(point);
     }
-
-/*    @Override
-    public double getDistance(Point3D point) {
-        return _position.distance(point);
-    }*/
-
 }

@@ -11,28 +11,31 @@ public abstract class Geometry implements Intersectable {
     protected Material _material;
 
     //region CTORs
+
     /**
      * geometries.Geometry Constructor receiving the color and material
+     *
      * @param emission color value
      * @param material
      */
-    public Geometry(Color emission, Material material){
-        this._emission=emission;
-        this._material = new Material(material);
+    public Geometry(Color emission, Material material) {
+        this._emission = emission;
+        this._material = material;
     }
 
     /**
      * geometries.Geometry Constructor receiving the color
+     *
      * @param emission color value
      */
-    public Geometry(Color emission){
-        this(emission,new Material(0,0,0));
+    public Geometry(Color emission) {
+        this(emission, new Material(0, 0, 0));
     }
 
     /**
      * the Default Constructor
      */
-    public Geometry(){
+    public Geometry() {
         this(Color.BLACK);
     }
     //endregion
@@ -47,6 +50,7 @@ public abstract class Geometry implements Intersectable {
     /**
      * the geometries.Geometry getMormal function calculate the Normal Vector in
      * specific Point on the Geometry
+     *
      * @param pt by type Point
      * @return the normal vector
      */
