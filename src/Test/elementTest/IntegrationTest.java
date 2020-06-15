@@ -54,7 +54,7 @@ public class IntegrationTest {
 
         //region TC03 : The Sphere is in front of the screen but don't fill it
 
-        Sphere sphere3 = new Sphere(new Point3D(0, 0, 2.5), 2);
+        Sphere sphere3 = new Sphere(new Point3D(0, 0, 2), 2);
 
         int count3 = 0;
 

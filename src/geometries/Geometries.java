@@ -36,7 +36,7 @@ public class Geometries implements Intersectable {
         for (Intersectable geo : shapes) {
             List<GeoPoint> list = geo.findGeoIntersections(ray, max);
             if (list != null) {
-                if (intersectionPointsList != null) intersectionPointsList = new LinkedList<>();
+                if (intersectionPointsList == null) intersectionPointsList = new LinkedList<>();
                 intersectionPointsList.addAll(list);
             }
         }
