@@ -252,7 +252,7 @@ public class Render {
         double vr = alignZero(v.dotProduct(r));
         if (vr >= 0) return Color.BLACK; // view from direction opposite to r vector
 
-        return lightIntensity.scale(ks * Math.pow(-vr, nShininess));
+        return lightIntensity.scale(ks * Math.pow(-vr, nShininess));//
     }
 
     private Color calcDiffusive(double kd, double nl, Color lightIntensity) {

@@ -2,14 +2,21 @@ package elements;
 
 import primitives.*;
 
+/**
+ * class directional light implement the interface light source.
+ * It represent a light source like the sun, it lighting all geometries in the same lightning
+ * This class have a field vector direction and its the direction of the light in the scene
+ *
+ * @author mickael balensi
+ */
 public class DirectionalLight extends Light implements LightSource {
     private Vector _direction;
 
     /**
      * the elements.DirectionalLight Constructor receiving intensity of the light and it's direction
      *
-     * @param intensity of type Color
-     * @param direction of type Vector
+     * @param intensity the Color of the light
+     * @param direction the Vector direction of the light
      */
     public DirectionalLight(Color intensity, Vector direction) {
         super(intensity);

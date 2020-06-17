@@ -5,10 +5,13 @@ import primitives.*;
 
 /**
  * this class geometries.Geometry represents all of geometric shapes
+ * this class is abstract,
+ * Geometry implements the Intersectable's interface
+ * @author mickael balensi
  */
 public abstract class Geometry implements Intersectable {
-    protected Color _emission;
-    protected Material _material;
+    protected Color emission; // the emission color of the Geometry
+    protected Material material; // the material of the Geometry
 
     //region CTORs
 
@@ -19,8 +22,8 @@ public abstract class Geometry implements Intersectable {
      * @param material
      */
     public Geometry(Color emission, Material material) {
-        this._emission = emission;
-        this._material = material;
+        this.emission = emission;
+        this.material = material;
     }
 
     /**
@@ -29,7 +32,7 @@ public abstract class Geometry implements Intersectable {
      * @param emission color value
      */
     public Geometry(Color emission) {
-        this(emission, new Material(0, 0, 0));
+        this(emission, Material.DEFAULT);
     }
 
     /**
@@ -40,26 +43,23 @@ public abstract class Geometry implements Intersectable {
     }
     //endregion
 
-    /**
-     * @return the Color emission of the Geometry
-     */
+    //region getters
     public Color getEmission() {
-        return _emission;
+        return emission;
     }
+    public Material getMaterial() {
+        return material;
+    }
+    //endregion
 
     /**
-     * the geometries.Geometry getMormal function calculate the Normal Vector in
-     * specific Point on the Geometry
+     * the geometries.Geometry getNormal function is the principal function of this class
+     * it calculate the Normal Vector in specific Point (received in parameter) on the Geometry
      *
-     * @param pt by type Point
+     * @param pt Point on Geometry
      * @return the normal vector
      */
     public abstract Vector getNormal(Point3D pt);
 
-    /**
-     * @return the Material of the Geometry
-     */
-    public Material getMaterial() {
-        return _material;
-    }
+
 }

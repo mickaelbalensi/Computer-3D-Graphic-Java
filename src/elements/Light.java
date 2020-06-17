@@ -3,7 +3,7 @@ package elements;
 import primitives.*;
 
 /**
- * this class includes all light source of the scene
+ * this class includes all light of the scene
  */
 public abstract class Light {
     protected Color _intensity;
@@ -16,10 +16,6 @@ public abstract class Light {
         this._intensity=intensity;
     }
 
-    /**
-     * the getter of intensity
-     * @return the intensity of the light
-     */
     public Color getIntensity(){
         return _intensity;
     }

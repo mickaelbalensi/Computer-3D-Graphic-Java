@@ -2,13 +2,22 @@ package elements;
 
 import primitives.*;
 
+/**
+ * the class PointLight is one kind of lightSource. It represents lights like light bulbs of room, that lighting in all directions
+ * class point light implements light source
+ * this class includes the position of the central point of the light
+ *
+ * @author mickael balensi
+ */
 public class PointLight extends Light implements LightSource {
     protected Point3D _position;
     double _kC, _kL, _kQ;
 
     /**
-     * @param intensity
-     * @param position
+     * constructor that receive all the parameters :
+     *
+     * @param intensity , the intensity of light
+     * @param position the position of the central point of the light
      * @param kC
      * @param kL
      * @param kQ

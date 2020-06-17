@@ -1,59 +1,56 @@
 package primitives;
 
+/**
+ * This Class represents the material of shapes.
+ * This Class indicates if the shape is transparent/opaque or if the lights source are reflected by the shape
+ * This Class includes how many index :
+ * index of diffusive, index of specular, index of transparency, index of reflection, and index of shininess of the material
+ *
+ * @author mickael balensi
+ */
 public class Material {
-    private double _kD = 0d;
-    private double _kS = 0d;
-    private int _nShininess = 1;
-    private double _kT = 0d;
-    private double _kR = 0d;
-    public static final Material DEFAULT = new Material();
+    private double kD = 0d; // index of diffusive
+    private double kS = 0d; // index of specular
+    private int nShininess = 1; // index of shininess
+    private double kT = 0d; //index of transparency
+    private double kR = 0d; //index of reflection
+    public static final Material DEFAULT = new Material(); // the default material of the Shape
 
+    //region CTORs
     public Material() {}
 
     public Material(double kD, double kS, int nShininess, double kT, double kR) {
-        this._kT = kT;
-        this._kR = kR;
-        this._kD = kD;
-        this._kS = kS;
-        this._nShininess = nShininess;
+        this.kT = kT;
+        this.kR = kR;
+        this.kD = kD;
+        this.kS = kS;
+        this.nShininess = nShininess;
     }
 
     public Material(double kD, double kS, int nShininess) {
         this(kD, kS, nShininess, 0, 0);
     }
+    //endregion
 
-    /**
-     * getter of kd
-     *
-     * @return kd
-     */
+    //region getters
     public double getKd() {
-        return _kD;
+        return kD;
     }
 
-    /**
-     * getter of ks
-     *
-     * @return ks
-     */
     public double getKs() {
-        return _kS;
+        return kS;
     }
 
-    /**
-     * getter of shininess
-     *
-     * @return the shininess
-     */
     public int getShininess() {
-        return _nShininess;
+        return nShininess;
     }
 
     public double getKt() {
-        return _kT;
+        return kT;
     }
 
     public double getKr() {
-        return _kR;
+        return kR;
     }
+    //endregion
 }

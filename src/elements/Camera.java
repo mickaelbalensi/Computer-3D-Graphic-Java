@@ -87,78 +87,90 @@ import primitives.*;
 /**
  * Class elements.Camera is the  class representing a camera to be a central cartesian landmark
  * The class is based on primitives.Vector and primitives.Point3D .
+ *
+ * @author mickael balensi
  */
 
 public class Camera {
-    Point3D _p0;
-    Vector _Vto;
-    Vector _Vup;
-    Vector _Vright;
+    private Point3D p0; // the central cartesian landmark
+    private Vector Vto; // the axe Z
+    private Vector Vup; // the axe -Y
+    private Vector Vright; //the axe X
 
-/**
-     * @param p0 is the center Point3D of the Camera
+    //region CTOR
+    /**
+     * its constructor that create a new camera with the position chosed
+     *
+     * @param p0  is the center Point3D of the Camera
      * @param vto is a Vector, represents the axe Z of the landmark
      * @param vup is a Vector, represents the axe Y of the landmark
-
-*/
-
-    public Camera (Point3D p0, Vector vto, Vector vup){
-        this._p0 =new Point3D(p0);
-        try{
-            if (vto.dotProduct(vup)!=0)
+     */
+    public Camera(Point3D p0, Vector vto, Vector vup) {
+        this.p0 = new Point3D(p0);
+        try {
+            if (vto.dotProduct(vup) != 0)
                 throw new IllegalArgumentException("Vectors vto and vup have to be orthogonal");
-            this._Vto =vto.normalized();
-            this._Vup =vup.normalized();
-            this._Vright =this._Vto.crossProduct(this._Vup).normalize();
-        }catch(IllegalArgumentException ex){
+            this.Vto = vto.normalized();
+            this.Vup = vup.normalized();
+            this.Vright = this.Vto.crossProduct(this.Vup).normalize();
+        } catch (IllegalArgumentException ex) {
 
         }
     }
+    //endregion
 
-/**
-     * This function returns all of rays crosses the view plane
-     * @param Nx numbers of pixel int the width of the screen
-     * @param Ny numbers of pixel int the height of the screen
-     * @param j index of column
-     * @param i index of line
+    //region getter
+    public Point3D getP0() {
+        return p0;
+    }
+    //endregion
+
+    /**
+     * Cette fonction permet de creer une droite partant du centre de la camera vers un pixel donne en parametre
+     * Le but etant par la suite de colorer chaque pixel de l'image selon les formes geomeriques presentes sur la scene
+     * de la photo. Pour cela il est important de determiner pour chaque droite partant de la camera traversant un pixel
+     * si la droite atteint un objet de la scene. Si oui, le pixel en question prendra la couleur exacte du point
+     * d'intersection de la droite avec l'objet. Et cepour chaque pixel de l'image
+     *
+     * @param Nx             numbers of pixel int the width of the screen
+     * @param Ny             numbers of pixel int the height of the screen
+     * @param j              index of column
+     * @param i              index of line
      * @param screenDistance distance between the view plane and the camera
-     * @param screenWidth the width of the view plane
-     * @param screenHeight the height of the camera
-     * @return rays crosses the view plane*/
-
-
-    public Ray constructRayThroughPixel (int Nx, int Ny,
-                                         int j, int i, double screenDistance,
-                                         double screenWidth, double screenHeight){
+     * @param screenWidth    the width of the view plane
+     * @param screenHeight   the height of the camera
+     * @return rays crosses the view plane
+     */
+    public Ray constructRayThroughPixel(int Nx, int Ny,
+                                        int j, int i, double screenDistance,
+                                        double screenWidth, double screenHeight) {
 
         //Point3D Pc= new Point3D(0,0,screenDistance);
 
-        Point3D Pc = _p0.add(_Vto.scale(screenDistance));
+        Point3D Pc = p0.add(Vto.scale(screenDistance));
 
-        double Rx=screenWidth/Nx;
-        double Ry=screenHeight/Ny;
+        double Rx = screenWidth / Nx;
+        double Ry = screenHeight / Ny;
 
-        double factor1=(j-(Nx-1)/2d)*Rx;
-        double factor2=(i-(Ny-1)/2d)*Ry;
-        Point3D Pij=Pc;
+        double factor1 = (j - (Nx - 1) / 2d) * Rx;
+        double factor2 = (i - (Ny - 1) / 2d) * Ry;
+        Point3D Pij = Pc;
         Vector v1 = null;
-        Vector v2=null;
-        if(factor1!=0) {//if v1 is not the vector zero
-            v1 = _Vright.scale(factor1);
+        Vector v2 = null;
+        if (factor1 != 0) {//if v1 is not the vector zero
+            v1 = Vright.scale(factor1);
             Pij = Pij.add(v1);
         }
 
-        if (factor2!=0){//if v2 is not the vector zero
-            v2= _Vup.scale(factor2);
-            Pij=Pij.subtract(v2);
+        if (factor2 != 0) {//if v2 is not the vector zero
+            v2 = Vup.scale(factor2);
+            Pij = Pij.subtract(v2);
         }
 
-        Vector vec= Pij.subtract(_p0);
-        return new Ray(_p0, vec);
+        Vector vec = Pij.subtract(p0);
+        return new Ray(p0, vec);
 
     }
 
-    public Point3D getP0() {
-        return _p0;
-    }
+
 }
