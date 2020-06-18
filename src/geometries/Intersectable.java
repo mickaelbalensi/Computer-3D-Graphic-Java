@@ -51,9 +51,14 @@ public interface Intersectable {
         return l2;
     }
 
+    /**
+     *Send back all the intersections  point between the shapes and the rays  and the distance from the
+      beginning ray to the point in order not to receive a point wich is too far from the camera (max<=distance)
+     * @param ray
+     * @return
+     */
     default List<GeoPoint> findGeoIntersections(Ray ray) {
         return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
     }
-
     List<GeoPoint> findGeoIntersections(Ray ray, double max);
 }

@@ -1,6 +1,9 @@
 package primitives;
 import geometries.Intersectable;
 
+/**
+ * this class represents a vector
+ */
 public class Vector {
     //region fields
     protected Point3D pt;
@@ -36,6 +39,7 @@ public class Vector {
     }
 
     /**
+     * the
      * @param pt  the point pointed by our vector
      */
     public Vector(Point3D pt){

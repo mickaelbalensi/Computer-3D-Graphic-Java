@@ -11,8 +11,7 @@ public class Triangle extends Polygon {
     //region CTORs
 
     /**
-     * Ctor receiving 3 points with color and material
-     *
+     * Ctor receiving 3 points with color and material therefore we can get a complete triangle
      * @param p1
      * @param p2
      * @param p3

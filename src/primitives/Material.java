@@ -3,7 +3,7 @@ package primitives;
 /**
  * This Class represents the material of shapes.
  * This Class indicates if the shape is transparent/opaque or if the lights source are reflected by the shape
- * This Class includes how many index :
+ * This Class includes several indexes :
  * index of diffusive, index of specular, index of transparency, index of reflection, and index of shininess of the material
  *
  * @author mickael balensi

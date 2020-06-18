@@ -18,11 +18,11 @@ public class Sphere extends RadialGeometry {
 
     /**
      * Constructor for a sphere receiving :
-     *
      * @param center        it's center (Point3D)
      * @param radius        it's radius (double)
      * @param emissionColor it's color (Color)
      * @param material      it's material
+     * therefore we can construct a full sphere thanks to his center and radius and the color and his material
      */
     public Sphere(Point3D center, double radius, Color emissionColor, Material material) {
         super(radius, emissionColor, material);
@@ -57,7 +57,6 @@ public class Sphere extends RadialGeometry {
 
     /**
      * the getter of the center of the Sphere
-     *
      * @return center by type Point3D
      */
     public Point3D getCenter() {

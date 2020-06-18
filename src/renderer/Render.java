@@ -263,6 +263,12 @@ public class Render {
         return findClosestIntersection(ray, Double.POSITIVE_INFINITY);
     }
 
+    /**
+     *the first intersection point between the ray and the shapes
+     * @param ray
+     * @param max
+     * @return
+     */
     private GeoPoint findClosestIntersection(Ray ray, double max) {
         Point3D pt = ray.getPt();
         List<GeoPoint> intersectionPoints = _scene.getGeometries().findGeoIntersections(ray, max);
@@ -280,6 +286,13 @@ public class Render {
         return minDistancePoint;
     }
 
+    /**
+     * Sends back the ray which is reflected by the shape after the arrival ray intersected it
+     * @param n
+     * @param pt
+     * @param ray
+     * @return
+     */
     public Ray constructReflectedRay(Vector n, Point3D pt, Ray ray) {
         Vector v = ray.getDirection();
         double _2vn = 2 * v.dotProduct(n);
@@ -293,6 +306,13 @@ public class Render {
         return reflectedRay;
     }
 
+    /**
+     * Sends back the ray who passes threw the shape
+     * @param n
+     * @param geoPoint
+     * @param ray
+     * @return
+     */
     public Ray constructRefractedRay(Vector n, GeoPoint geoPoint, Ray ray) {
 
 /*
@@ -342,6 +362,14 @@ public class Render {
         return true;
     }
 
+    /**
+     *
+     * @param lightSource
+     * @param l
+     * @param n
+     * @param geoPoint
+     * @return
+     */
     private double transparency(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
@@ -384,7 +412,6 @@ public class Render {
 
     /**
      * Set debug printing on
-     *
      * @return the Render object itself
      */
     public Render setDebugPrint() {

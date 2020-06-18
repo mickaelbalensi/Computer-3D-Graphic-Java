@@ -23,7 +23,6 @@ public class Plane extends Geometry {
 
     /**
      * Constructor for a Plane receiving 3 point to caracterise it, and it's color and the material
-     *
      * @param pt1      (Point3D)
      * @param pt2      (Point3D)
      * @param pt3      (Point3D)
@@ -49,8 +48,7 @@ public class Plane extends Geometry {
     }
 
     /**
-     * Constructor for a Plane receiving 3 point to caracterise it, and it's color
-     *
+     * Old Constructor for a Plane receiving 3 point to caracterise it, and it's color without material
      * @param pt1
      * @param pt2
      * @param pt3
@@ -61,8 +59,7 @@ public class Plane extends Geometry {
     }
 
     /**
-     * Constructor for a Plane receiving 3 point to caracterise it
-     *
+     *Old  Constructor for a Plane receiving 3 point to caracterise it who calls material constructor
      * @param pt1
      * @param pt2
      * @param pt3

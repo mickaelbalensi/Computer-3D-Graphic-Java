@@ -5,11 +5,20 @@ import geometries.Intersectable;
 import static primitives.Util.isZero;
 import geometries.Intersectable;
 
+/**
+ * this class represents a vector which start form a beginning point
+ */
 public class Ray {
     protected Point3D pt;
     protected Vector direction;
     private static final double DELTA = 0.1;
 
+    /**
+     * the begin is the beginning point of our vector and the direction represents the vector's direction
+     * @param begin
+     * @param direction
+     * @param normal
+     */
     public Ray(Point3D begin, Vector direction, Vector normal) {
         this.pt=begin.add(normal.scale(normal.dotProduct(direction) > 0 ? DELTA : -DELTA));
         this.direction=direction.normalized();
@@ -26,7 +35,6 @@ public class Ray {
     }
 
     /**
-     *
      * @param r now our ray leaves from the point and is directed by our vector
      */
     public  Ray(Ray r){
@@ -43,13 +51,16 @@ public class Ray {
     }
 
     /**
-     *
      * @return Vector which is our direction
      */
     public Vector getDirection() {
         return direction;
     }
 
+    /**
+     * @param lenght
+     * @return the end point of the vector
+     */
     public Point3D getTargetPoint(double lenght){
         if (isZero(lenght))return pt;
         else
