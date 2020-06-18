@@ -308,7 +308,6 @@ public class Render {
     /**
      * Displays a grid with fixed squares size
      */
-
     public void printGrid(int interval, java.awt.Color color) {
         for (int h = 0; h < _imageWriter.getNy(); h++) {
             for (int w = 0; w < _imageWriter.getNx(); w++) {
@@ -326,7 +325,6 @@ public class Render {
      * the image according to pixel color matrix in the directory
      * of the project
      */
-
     private boolean unshaded(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
