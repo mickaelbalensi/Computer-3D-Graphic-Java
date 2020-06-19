@@ -155,10 +155,7 @@ public class Render<bool> {
         final double width = _imageWriter.getWidth();
         final double height = _imageWriter.getHeight();
         final double distance = _scene.getDistance();
-        var ref = new Object() {
-            GeoPoint myPoint;
-        };
-        AtomicReference<Ray> myRay = null;
+
         // Multi-threading
         final Pixel thePixel = new Pixel(nY, nX);
         // Generate threads
@@ -168,31 +165,34 @@ public class Render<bool> {
                 Pixel pixel = new Pixel();
                 max = 0;
                 while (thePixel.nextPixel(pixel)) {
-                    //Ray ray =camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
-                    ArrayList<Ray> rayList=  camera.constructRayThroughPixel2(nX, nY, pixel.col, pixel.row, distance, width, height);
-                    int countNull =0;
+                    //Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
+                    //GeoPoint closestPoint1 = findClosestIntersection(ray);
+                    GeoPoint myPoint=null;
+                    Ray myRay=null;
+                    //if (closestPoint1==null){
+                    //    _imageWriter.writePixel(pixel.col, pixel.row,background);}
+                    //else{
+                    ArrayList<Ray>rayList=camera.constructRayThroughPixel2(nX, nY, pixel.col, pixel.row, distance, width, height);
+                    int countNull=0;
                     int count=0;
+                    Color color=Color.BLACK;
                     for (Ray rays: rayList)
                     {
                         GeoPoint closestPoint=findClosestIntersection(rays);
-                        if (closestPoint ==null)
-                            countNull++;
+                        if (closestPoint==null) color.add(new Color(background));
                         else {
                             count++;
-                        if (count==1) {ref.myPoint =closestPoint; myRay.set(rays);}
+                       // if (count==1) {myPoint =closestPoint; myRay=rays;}
+                            color.add(calcColor(closestPoint,rays));
                         }
                     }
                     //GeoPoint closestPoint=findClosestIntersection(rayList.get(0));
-                    Color black=new Color(background);
-                    if (ref.myPoint!=null) {
-                        Color color = new Color(calcColor(ref.myPoint, myRay.get()).getColor());
-                        Color averageColor = black.scale((countNull / rayList.size())).add(color.scale(count / rayList.size()));
-                        _imageWriter.writePixel(pixel.col, pixel.row/*closestPoint == null ? background :*/
-                                /*calcColor(closestPoint, ray).getColor()*/,averageColor.getColor());
-                    }
-                        else
-                        _imageWriter.writePixel(pixel.col, pixel.row, background);
+                    //Color black=new Color(background);
+                        //Color color = new Color(calcColor(myPoint, myRay));
+                       // Color averageColor = (black.scale((countNull / rayList.size())).add(color.scale(count / rayList.size())));
+                        _imageWriter.writePixel(pixel.col, pixel.row,color.reduce(rayList.size()).getColor());
                 }
+                //}
             });
         }
         for (Thread thread : threads) thread.start();
