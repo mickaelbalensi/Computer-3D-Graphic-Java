@@ -6,6 +6,7 @@ import geometries.Intersectable.GeoPoint;
 import scene.Scene;
 import primitives.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.*;
@@ -17,7 +18,7 @@ import static primitives.Util.*;
  * Can render images based on a scene
  */
 
-public class Render {
+public class Render<bool> {
     private ImageWriter _imageWriter;
     private Scene _scene;
     private static final double DELTA = 0.1;
@@ -143,6 +144,7 @@ public class Render {
      * This function create an image of shapes according to the ambient light
      */
     public void renderImage() {
+        boolean flag;
         final Camera camera = _scene.getCamera();
         final Intersectable geometries = _scene.getGeometries();
         final java.awt.Color background = _scene.getBackground().getColor();
@@ -162,10 +164,25 @@ public class Render {
                 Pixel pixel = new Pixel();
                 max = 0;
                 while (thePixel.nextPixel(pixel)) {
-                    Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
-                    GeoPoint closestPoint = findClosestIntersection(ray);
-                    _imageWriter.writePixel(pixel.col, pixel.row, closestPoint == null ? background :
-                            calcColor(closestPoint, ray).getColor());
+                    //Ray ray =camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
+                    ArrayList<Ray> rayList=  camera.constructRayThroughPixel2(nX, nY, pixel.col, pixel.row, distance, width, height);
+                    int countNull =0;
+                    int count=0;
+                    for (Ray rays: rayList)
+                    {
+                        GeoPoint closestPoint=findClosestIntersection(rays);
+                        if (closestPoint ==null)
+                            countNull++;
+                        else
+                            count++;
+                    }
+                    GeoPoint closestPoint=findClosestIntersection(rayList.get(0));
+                    Color black=new Color(background);
+                    Color color =new Color(calcColor(closestPoint,rayList.get(0)).getColor());
+
+                        Color averageColor = black.scale((countNull / rayList.size())).add(color.scale(count / rayList.size()));
+                        _imageWriter.writePixel(pixel.col, pixel.row/*closestPoint == null ? background :*/
+                                /*calcColor(closestPoint, ray).getColor()*/,averageColor.getColor());
                 }
             });
         }
@@ -389,5 +406,7 @@ public class Render {
         _print = true;
         return this;
     }
+
+
 }
 
