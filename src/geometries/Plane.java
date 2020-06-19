@@ -113,7 +113,7 @@ public class Plane extends Geometry {
      * @return Point3D if there is an intersection between the ray and the plane
      */
     @Override
-    public List<GeoPoint> findIntersections(Ray ray, double max) {
+    public List<GeoPoint> findGeoIntersections(Ray ray, double max) {
         Vector p0Q;
         try {
             p0Q = _p.subtract(ray.getPt());
@@ -127,9 +127,8 @@ public class Plane extends Geometry {
 
         double t = alignZero(_normal.dotProduct(p0Q) / nv);
 
-        return t <= 0 ? null : List.of( new GeoPoint(this, ray.getTargetPoint(t)));
+        return t <= 0 || alignZero(t - max) >= 0 ? null : List.of( new GeoPoint(this, ray.getTargetPoint(t)));
     }
-
 
     //endregion
     //region getters

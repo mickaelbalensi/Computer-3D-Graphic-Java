@@ -12,19 +12,15 @@ public class Geometries implements Intersectable {
         this.shapes = new ArrayList<Intersectable>();
     }
 
-    public Geometries(Intersectable ... geometries){
+    public Geometries(Intersectable... geometries) {
         this.shapes = new ArrayList<>();
-        for (int i=0;i< geometries.length;i++){
+        for (int i = 0; i < geometries.length; i++) {
             this.shapes.add(geometries[i]);
         }
     }
 
-    public Geometries(Geometries geo){
-        this.shapes = new ArrayList<Intersectable>(geo.shapes);
-    }
-
-    public void add(Intersectable ... geometries){
-        for (int i=0;i< geometries.length;i++){
+    public void add(Intersectable... geometries) {
+        for (int i = 0; i < geometries.length; i++) {
             this.shapes.add(geometries[i]);
         }
     }
@@ -35,16 +31,15 @@ public class Geometries implements Intersectable {
      * @return all the intersections points between our rays and our shapes
      */
     @Override
-    public List<GeoPoint> findIntersections(Ray ray, double max) {
-        List<GeoPoint> intersectionPointsList= new ArrayList<>();
-        for(int i=0;i<shapes.size();i++){
-            List<GeoPoint> list=shapes.get(i).findIntersections(ray);
-            if(list!=null)
-                for(int j=0;j<list.size();j++){
-                intersectionPointsList.add(list.get(j));
-                }
+    public List<GeoPoint> findGeoIntersections(Ray ray, double max) {
+        List<GeoPoint> intersectionPointsList = null;
+        for (Intersectable geo : shapes) {
+            List<GeoPoint> list = geo.findGeoIntersections(ray, max);
+            if (list != null) {
+                if (intersectionPointsList == null) intersectionPointsList = new LinkedList<>();
+                intersectionPointsList.addAll(list);
+            }
         }
-
         return intersectionPointsList;
     }
 }

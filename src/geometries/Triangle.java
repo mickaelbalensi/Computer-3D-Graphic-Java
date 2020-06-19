@@ -9,8 +9,10 @@ import static primitives.Util.isZero;
 public class Triangle extends Polygon {
 
     //region CTORs
+
     /**
      * Ctor receiving 3 points with color and material
+     *
      * @param p1
      * @param p2
      * @param p3
@@ -18,30 +20,31 @@ public class Triangle extends Polygon {
      * @param material
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emissionColor, Material material) {
-        super(emissionColor, material,p1, p2, p3);
+        super(emissionColor, material, p1, p2, p3);
     }
 
     public Triangle(Color emissionColor, Material material, Point3D p1, Point3D p2, Point3D p3) {
-        this(p1,p2,p3,emissionColor,material);
+        this(p1, p2, p3, emissionColor, material);
     }
 
     /**
      * the same ctor without material
+     *
      * @param p1
      * @param p2
      * @param p3
      * @param emissionColor
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emissionColor) {
-        super(emissionColor,p1, p2, p3);
+        super(emissionColor, p1, p2, p3);
     }
 
     /**
      * the same ctor without color and material
+     *
      * @param p1
      * @param p2
-     * @param p3
-     * the three points who form the triangle
+     * @param p3 the three points who form the triangle
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3) {
         super(p1, p2, p3);
@@ -49,8 +52,8 @@ public class Triangle extends Polygon {
     //endregion
 
     @Override
-    public List<GeoPoint> findIntersections(Ray ray/*,double max*/) {
-        List<GeoPoint> intersections = _plane.findIntersections(ray);
+    public List<GeoPoint> findGeoIntersections(Ray ray, double max) {
+        List<GeoPoint> intersections = _plane.findGeoIntersections(ray, max);
         if (intersections == null) return null;
 
         Point3D pt = ray.getPt();
@@ -66,15 +69,17 @@ public class Triangle extends Polygon {
         double t3 = v.dotProduct(v3.crossProduct(v1));
         if (isZero(t3)) return null;
 
-        if  ((t1 > 0 && t2 > 0 && t3 > 0) || (t1 < 0 && t2 < 0 && t3 < 0)) {
+        if ((t1 > 0 && t2 > 0 && t3 > 0) || (t1 < 0 && t2 < 0 && t3 < 0)) {
             //for GeoPoint
             intersections.get(0).geometry = this;
             return intersections;
             //return intersections;
         }
-        else return null;
 
+        // the intersection point with the plane is outside the triangle
+        return null;
     }
+
     @Override
     public String toString() {
         String result = "";

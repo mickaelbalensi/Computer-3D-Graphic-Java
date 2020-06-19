@@ -4,7 +4,9 @@ import primitives.Color;
 
 import java.awt.*;
 import java.util.List;
+
 import primitives.*;
+
 import static primitives.Util.*;
 
 /**
@@ -24,11 +26,12 @@ public class Polygon extends Geometry {
     protected Plane _plane;
 
     //region CTORs
+
     /**
      * geometries.Polygon constructor based on vertices list. The list must be ordered by edge
      * path. The polygon must be convex.
      *
-     * @param color the color of the polygon
+     * @param color    the color of the polygon
      * @param material it's material
      * @param vertices list of vertices according to their order by edge path
      * @throws IllegalArgumentException in any case of illegal combination of vertices:
@@ -43,7 +46,7 @@ public class Polygon extends Geometry {
      *                                  </ul>
      */
     public Polygon(Color color, Material material, Point3D... vertices) {
-        super(color,material);
+        super(color, material);
         if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         _vertices = List.of(vertices);
@@ -84,18 +87,20 @@ public class Polygon extends Geometry {
 
     /**
      * Same Constructor without material
+     *
      * @param color
      * @param vertices
      */
     public Polygon(Color color, Point3D... vertices) {
-        this(color,new Material(0,0,0), vertices);
+        this(color, new Material(0, 0, 0), vertices);
     }
 
     /**
      * Same Constructor without color and material
+     *
      * @param vertices
      */
-    public Polygon( Point3D... vertices) {
+    public Polygon(Point3D... vertices) {
         this(Color.BLACK, vertices);
     }
     //endregion
@@ -106,14 +111,14 @@ public class Polygon extends Geometry {
     }
 
     @Override
-    public List<GeoPoint> findIntersections(Ray ray, double max) {
-        List<GeoPoint> intersections = _plane.findIntersections(ray);
+    public List<GeoPoint> findGeoIntersections(Ray ray, double max) {
+        List<GeoPoint> intersections = _plane.findGeoIntersections(ray);
         if (intersections == null) return null;
 
         Point3D p0 = ray.getPt();
         Vector v = ray.getDirection();
 
-        Vector v1  = _vertices.get(1).subtract(p0);
+        Vector v1 = _vertices.get(1).subtract(p0);
         Vector v2 = _vertices.get(0).subtract(p0);
         double sign = v.dotProduct(v1.crossProduct(v2));
         if (isZero(sign))
@@ -126,9 +131,9 @@ public class Polygon extends Geometry {
             v2 = _vertices.get(i).subtract(p0);
             sign = alignZero(v.dotProduct(v1.crossProduct(v2)));
             if (isZero(sign)) return null;
-            if (positive != (sign >0)) return null;
+            if (positive != (sign > 0)) return null;
         }
-        intersections.get(0).geometry=this;
+        intersections.get(0).geometry = this;
         return intersections;
     }
 }

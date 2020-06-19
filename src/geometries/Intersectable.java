@@ -6,10 +6,13 @@ import primitives.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Intersectable is a common interface for all geometries that are able
  * to intersect from a ray to their entity (Shape)
+ * @author mickael balensi
  */
 public interface Intersectable {
     /**
@@ -19,18 +22,9 @@ public interface Intersectable {
         public Geometry geometry;
         public Point3D point;
 
-        /**
-         * Constructor who takes Geometry and Point3D
-         * @param geo
-         * @param pt
-         */
-        GeoPoint(Geometry geo,Point3D pt){
-            this.geometry=geo;
-            this.point=pt;
-        }
-
-        public Point3D getPoint(){
-            return point;
+        GeoPoint(Geometry geo, Point3D pt) {
+            this.geometry = geo;
+            this.point = pt;
         }
 
         @Override
@@ -38,17 +32,28 @@ public interface Intersectable {
             if (this == o) return true;
             if (!(o instanceof GeoPoint)) return false;
             GeoPoint geoPoint = (GeoPoint) o;
-            return Objects.equals(geometry, geoPoint.geometry) &&
-                    Objects.equals(point, geoPoint.point);
+            return geometry == geoPoint.geometry && point.equals(geoPoint.point);
         }
     }
 
+
     /**
+     * This function calculates all of intersect points from a ray (receiving in parameter)
+     * to his entity (Shape) and return List of all intersect points
+     *
      * @param ray ray pointing toward a Geometry
-     * @return List<Point3D> return values
+     * @return List<Point3D> return list of intersect points
      */
-    default List<GeoPoint> findIntersections(Ray ray) {
-        return findIntersections(ray, Double.POSITIVE_INFINITY);
+    default List<Point3D> findIntersections(Ray ray) {
+        List<GeoPoint> l1 = findGeoIntersections(ray);
+        if (l1 == null) return null;
+        List<Point3D> l2 = l1.stream().map(gp -> gp.point).collect(Collectors.toList());
+        return l2;
     }
-    List<GeoPoint> findIntersections(Ray ray, double max);
+
+    default List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+
+    List<GeoPoint> findGeoIntersections(Ray ray, double max);
 }
