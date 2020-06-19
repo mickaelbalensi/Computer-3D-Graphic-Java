@@ -1,5 +1,6 @@
 package elements;
 
+import geometries.Sphere;
 import primitives.*;
 
 /**
@@ -36,6 +37,11 @@ public class DirectionalLight extends Light implements LightSource {
     @Override
     public double getDistance(Point3D point) {
         return Double.POSITIVE_INFINITY;
+    }
+
+    @Override
+    public Sphere getBulb() {
+        return null;
     }
 
 

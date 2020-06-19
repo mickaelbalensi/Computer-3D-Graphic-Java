@@ -13,22 +13,22 @@ import java.util.List;
  * and many shapes for the image
  */
 public class Scene {
-    String _name;
-    Color _background;
-    public AmbientLight _ambientLight;
-    Geometries _geometries;
-    Camera _camera;
-    double _distance;
-    List<LightSource> _lights;
+    String name;
+    Color background;
+    public AmbientLight ambientLight;
+    Geometries geometries;
+    Camera camera;
+    double distance;
+    List<LightSource> lights;
 
     /**
      * Scene.Constructor receiving name of the scene
-     * @param _name
+     * @param name
      */
-    public Scene(String _name){
-        this._name = _name;
-        this._geometries =new Geometries();
-        this._lights= new LinkedList<LightSource>();
+    public Scene(String name){
+        this.name = name;
+        this.geometries =new Geometries();
+        this.lights = new LinkedList<LightSource>();
     }
 
     //region getters/setters
@@ -38,7 +38,7 @@ public class Scene {
      * @return the name
      */
     public String getName(){
-        return _name;
+        return name;
     }
 
     /**
@@ -46,7 +46,7 @@ public class Scene {
      * @return the color of the background
      */
     public Color getBackground(){
-        return _background;
+        return background;
     }
 
     /**
@@ -54,7 +54,7 @@ public class Scene {
      * @return the ambientLight
      */
     public AmbientLight getAmbientLight() {
-        return _ambientLight;
+        return ambientLight;
     }
 
     /**
@@ -62,7 +62,7 @@ public class Scene {
      * @return the list of geometries in the picture
      */
     public Geometries getGeometries() {
-        return _geometries;
+        return geometries;
     }
 
     /**
@@ -70,7 +70,7 @@ public class Scene {
      * @return the camera
      */
     public Camera getCamera() {
-        return _camera;
+        return camera;
     }
 
     /**
@@ -78,7 +78,7 @@ public class Scene {
      * @return the distance between the camera and the screen
      */
     public double getDistance() {
-        return _distance;
+        return distance;
     }
 
     /**
@@ -86,14 +86,14 @@ public class Scene {
      * @return list of lights
      */
     public List<LightSource> getLights() {
-        return _lights;
+        return lights;
     }
     /**
      * set the name of the scene
      * @param _name type string
      */
     public void setName(String _name) {
-        this._name = _name;
+        this.name = _name;
     }
 
     /**
@@ -101,7 +101,7 @@ public class Scene {
      * @param _background type Color
      */
     public void setBackground(Color _background) {
-        this._background = _background;
+        this.background = _background;
     }
 
     /**
@@ -109,7 +109,7 @@ public class Scene {
      * @param _ambientLight type AmbientLight
      */
     public void setAmbientLight(AmbientLight _ambientLight) {
-        this._ambientLight = _ambientLight;
+        this.ambientLight = _ambientLight;
     }
 
     /**
@@ -117,7 +117,7 @@ public class Scene {
      * @param _geometries type Geometries
      */
     public void setGeometries(Geometries _geometries) {
-        this._geometries = _geometries;
+        this.geometries = _geometries;
     }
 
     /**
@@ -125,7 +125,7 @@ public class Scene {
      * @param _camera type Camera
      */
     public void setCamera(Camera _camera) {
-        this._camera = _camera;
+        this.camera = _camera;
     }
 
     /**
@@ -133,7 +133,7 @@ public class Scene {
      * @param _distance type double
      */
     public void setDistance(double _distance) {
-        this._distance = _distance;
+        this.distance = _distance;
     }
 
 
@@ -148,7 +148,7 @@ public class Scene {
      */
     public void addGeometries(Intersectable... geometries){
         for(int i=0;i<geometries.length;i++)
-            this._geometries.add(geometries[i]);
+            this.geometries.add(geometries[i]);
     }
 
     /**
@@ -157,7 +157,7 @@ public class Scene {
      */
     public void addLights(LightSource... lights) {
         for(int i=0;i<lights.length;i++)
-            this._lights.add(lights[i]);
+            this.lights.add(lights[i]);
     }
 
 }

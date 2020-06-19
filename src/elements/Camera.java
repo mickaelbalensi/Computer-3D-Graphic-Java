@@ -84,6 +84,8 @@ package elements;
 
 import primitives.*;
 
+import java.util.ArrayList;
+
 /**
  * Class elements.Camera is the  class representing a camera to be a central cartesian landmark
  * The class is based on primitives.Vector and primitives.Point3D .
@@ -168,9 +170,43 @@ public class Camera {
         }
 
         Vector vec = Pij.subtract(p0);
-        return new Ray(p0, vec);
+        Ray res= new Ray(p0, vec);
+        return res;
 
     }
+    public ArrayList<Ray> constructRayThroughPixel2(int Nx, int Ny,
+                                                   int j, int i, double screenDistance,
+                                                   double screenWidth, double screenHeight) {
 
+        //Point3D Pc= new Point3D(0,0,screenDistance);
+
+        Point3D Pc = p0.add(Vto.scale(screenDistance));
+
+        double Rx = screenWidth / Nx;
+        double Ry = screenHeight / Ny;
+
+        double factor1 = (j - (Nx - 1) / 2d) * Rx;
+        double factor2 = (i - (Ny - 1) / 2d) * Ry;
+        Point3D Pij = Pc;
+        Vector v1 = null;
+        Vector v2 = null;
+        if (factor1 != 0) {//if v1 is not the vector zero
+            v1 = Vright.scale(factor1);
+            Pij = Pij.add(v1);
+        }
+
+        if (factor2 != 0) {//if v2 is not the vector zero
+            v2 = Vup.scale(factor2);
+            Pij = Pij.subtract(v2);
+        }
+
+        Vector vec = Pij.subtract(p0);
+        Ray res= new Ray(p0, vec);
+
+
+        int radius= Nx<Ny ? Nx/2 : Ny/2;
+
+        return res.getListRays(Pij,radius);
+    }
 
 }

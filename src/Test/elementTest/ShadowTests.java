@@ -28,11 +28,13 @@ public class ShadowTests {
 
 		scene.addGeometries(new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
 				60, new Point3D(0, 0, 200)), //
-				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
+				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30,0,0), //
 						new Point3D(-70, 40, 0), new Point3D(-40, 70, 0), new Point3D(-68, 68, 4)));
 
-		scene.addLights(new SpotLight(new Color(400, 240, 0), //
+		scene.addLights(
+						new SpotLight(new Color(400, 240, 0), //
 				new Point3D(-100, 100, -200), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7));
+
 
 		ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 200, 200, 400, 400);
 		Render render = new Render(imageWriter, scene);
@@ -177,5 +179,29 @@ public class ShadowTests {
 		render.renderImage();
 		render.writeToImage();
 	}
+
+	@Test
+	public void ombreTest(){
+		Scene scene = new Scene("Test scene");
+		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
+		scene.setDistance(1000);
+		scene.setBackground(Color.BLACK);
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
+
+		scene.addGeometries(new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
+						60, new Point3D(0, 0, 200)), //
+				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30,1,0), //
+						new Point3D(-50, 25, 0), new Point3D(-20, 55, 0), new Point3D(-48, 53, 4)));
+
+		scene.addLights(
+				new PointLight(new Color(400, 240, 0), new Point3D(-100, 100, -200), 1, 1E-5, 1.5E-7));
+
+		ImageWriter imageWriter = new ImageWriter("ombre", 200, 200, 500, 500);
+		Render render = new Render(imageWriter, scene);
+
+		render.renderImage();
+		render.writeToImage();
+	}
+
 
 }

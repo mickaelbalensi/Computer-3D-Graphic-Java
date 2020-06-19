@@ -1,5 +1,6 @@
 package elements;
 
+import geometries.Sphere;
 import primitives.*;
 
 /**
@@ -10,8 +11,11 @@ import primitives.*;
  * @author mickael balensi
  */
 public class PointLight extends Light implements LightSource {
-    protected Point3D _position;
-    double _kC, _kL, _kQ;
+    //protected Point3D position;
+    protected double kC, kL, kQ;
+    protected Sphere bulb;
+    protected static final int RADIUS=5;
+
 
     /**
      * constructor that receive all the parameters :
@@ -22,32 +26,43 @@ public class PointLight extends Light implements LightSource {
      * @param kL
      * @param kQ
      */
+    public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ, int radius) {
+        super(intensity);
+        bulb = new Sphere(position,radius);
+        this.kC = kC;
+        this.kL = kL;
+        this.kQ = kQ;
+    }
     public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ) {
         super(intensity);
-        _position = position;
-        _kC = kC;
-        _kL = kL;
-        _kQ = kQ;
+        bulb = new Sphere(position,RADIUS);
+        this.kC = kC;
+        this.kL = kL;
+        this.kQ = kQ;
     }
-
     public PointLight(Color colorIntensity, Point3D position) {
-        this(colorIntensity, position, 1d, 0d, 0d);
+        this(colorIntensity, position, 1d, 0d, 0d,RADIUS);
     }
 
     @Override
     public Color getIntensity(Point3D p) {
-        double dSquared = p.distanceSquared(_position);
+        double dSquared = p.distanceSquared(bulb.getCenter());
         double d = Math.sqrt(dSquared);
-        return _intensity.reduce(_kC + _kL * d + _kQ * dSquared);
+        return _intensity.reduce(kC + kL * d + kQ * dSquared);
     }
 
     @Override
     public Vector getL(Point3D p) {
-        return p.subtract(_position).normalize();
+        return p.subtract(bulb.getCenter()).normalize();
     }
 
     @Override
     public double getDistance(Point3D point) {
-        return _position.distance(point);
+        return bulb.getCenter().distance(point);
     }
+
+    public Sphere getBulb(){
+        return bulb;
+    }
+
 }

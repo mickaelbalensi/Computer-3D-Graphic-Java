@@ -1,5 +1,6 @@
 package elements;
 
+import geometries.Sphere;
 import primitives.*;
 
 /**
@@ -30,4 +31,6 @@ public interface LightSource {
      * @return the distance lightSource-Point
      */
     double getDistance(Point3D point);
+
+    Sphere getBulb();
 }
