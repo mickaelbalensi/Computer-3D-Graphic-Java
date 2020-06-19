@@ -8,6 +8,7 @@ import primitives.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.lang.Math.*;
 import static primitives.Util.*;
@@ -154,7 +155,10 @@ public class Render<bool> {
         final double width = _imageWriter.getWidth();
         final double height = _imageWriter.getHeight();
         final double distance = _scene.getDistance();
-
+        var ref = new Object() {
+            GeoPoint myPoint;
+        };
+        AtomicReference<Ray> myRay = null;
         // Multi-threading
         final Pixel thePixel = new Pixel(nY, nX);
         // Generate threads
@@ -173,16 +177,21 @@ public class Render<bool> {
                         GeoPoint closestPoint=findClosestIntersection(rays);
                         if (closestPoint ==null)
                             countNull++;
-                        else
+                        else {
                             count++;
+                        if (count==1) {ref.myPoint =closestPoint; myRay.set(rays);}
+                        }
                     }
-                    GeoPoint closestPoint=findClosestIntersection(rayList.get(0));
+                    //GeoPoint closestPoint=findClosestIntersection(rayList.get(0));
                     Color black=new Color(background);
-                    Color color =new Color(calcColor(closestPoint,rayList.get(0)).getColor());
-
+                    if (ref.myPoint!=null) {
+                        Color color = new Color(calcColor(ref.myPoint, myRay.get()).getColor());
                         Color averageColor = black.scale((countNull / rayList.size())).add(color.scale(count / rayList.size()));
                         _imageWriter.writePixel(pixel.col, pixel.row/*closestPoint == null ? background :*/
                                 /*calcColor(closestPoint, ray).getColor()*/,averageColor.getColor());
+                    }
+                        else
+                        _imageWriter.writePixel(pixel.col, pixel.row, background);
                 }
             });
         }
