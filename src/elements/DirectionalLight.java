@@ -41,7 +41,7 @@ public class DirectionalLight extends Light implements LightSource {
 
     @Override
     public Sphere getBulb() {
-        return null;
+        return new Sphere(new Point3D( Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY), Double.POSITIVE_INFINITY);
     }
 
 

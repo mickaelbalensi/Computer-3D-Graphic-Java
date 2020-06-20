@@ -14,6 +14,7 @@ public class PointLight extends Light implements LightSource {
     //protected Point3D position;
     protected double kC, kL, kQ;
     protected Sphere bulb;
+    //protected int radius;
     protected static final int RADIUS=5;
 
 
@@ -29,16 +30,14 @@ public class PointLight extends Light implements LightSource {
     public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ, int radius) {
         super(intensity);
         bulb = new Sphere(position,radius);
+/*        this.position=position;
+        this.radius=radius;*/
         this.kC = kC;
         this.kL = kL;
         this.kQ = kQ;
     }
     public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ) {
-        super(intensity);
-        bulb = new Sphere(position,RADIUS);
-        this.kC = kC;
-        this.kL = kL;
-        this.kQ = kQ;
+        this(intensity,position,kC,kL,kQ,RADIUS);
     }
     public PointLight(Color colorIntensity, Point3D position) {
         this(colorIntensity, position, 1d, 0d, 0d,RADIUS);

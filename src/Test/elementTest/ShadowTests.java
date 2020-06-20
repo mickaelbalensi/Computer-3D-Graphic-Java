@@ -28,15 +28,15 @@ public class ShadowTests {
 
 		scene.addGeometries(new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
 				60, new Point3D(0, 0, 200)), //
-				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30,0,0), //
+				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30,0.3,0), //
 						new Point3D(-70, 40, 0), new Point3D(-40, 70, 0), new Point3D(-68, 68, 4)));
 
 		scene.addLights(
 						new SpotLight(new Color(400, 240, 0), //
 				new Point3D(-100, 100, -200), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7));
 
-
-		ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 200, 200, 400, 400);
+		//ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 100, 100, 10, 10);
+		ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 200, 200, 500, 500);
 		Render render = new Render(imageWriter, scene);
 
 		render.renderImage();

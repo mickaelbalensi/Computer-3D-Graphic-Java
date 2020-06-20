@@ -3,12 +3,11 @@ package renderer;
 import elements.*;
 import geometries.Intersectable;
 import geometries.Intersectable.GeoPoint;
+import primitives.Vector;
 import scene.Scene;
 import primitives.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static java.lang.Math.*;
 import static primitives.Util.*;
@@ -166,7 +165,7 @@ public class Render {
                 Pixel pixel = new Pixel();
                 max = 0;
                 while (thePixel.nextPixel(pixel)) {
-                    if(counter==24)
+                    if(counter==72 /*|| counter ==51*/)
                         counter+=1;
                     else
                         counter+=1;
@@ -322,60 +321,41 @@ public class Render {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
 
-        /*ArrayList<Ray> listRay = new ArrayList<Ray>();
-        listRay.add(lightRay);
-
-        int radius = (int) lightSource.getBulb().getRadius();
-        Point3D center = lightSource.getBulb().getCenter();
-        double centerX = center.getX().get();
-        double centerY = center.getY().get();
-        double centerZ = center.getZ().get();
-
-        Random rand = new Random();
-        for (int i = 0; i < 100; i++) {
-            double x = rand.nextInt((int) centerX + radius - (int) (centerX - radius) + 1) + (centerX - radius);
-            double y = rand.nextInt((int) centerY + radius - (int) (centerY - radius) + 1) + (centerY - radius);
-            double z = rand.nextInt((int) centerZ + radius - (int) (centerZ - radius) + 1) + (centerZ - radius);
-            Point3D pointOfSphere = new Point3D(x, y, z);
-            Vector dest = pointOfSphere.subtract(geoPoint.point);
-            Ray r = new Ray(geoPoint.point, dest, n);
-            listRay.add(r);
-        }*/
         ArrayList<Ray> listRay = lightRay.getListRays(lightSource.getBulb().getCenter(),(int) lightSource.getBulb().getRadius());
 
 
         double lightDistance = lightSource.getDistance(geoPoint.point);
+        //il faut que j enleve ce intersections qui a priori est inutile
         List<GeoPoint> intersections = null;
-
+        double ktR=1.0;
+        double sumKtr=0;
         for (Ray r : listRay) {
-            List<GeoPoint> inter = _scene.getGeometries().findGeoIntersections(r, lightDistance);
-            if (inter != null) {
+            List<GeoPoint> intersecOneRay = _scene.getGeometries().findGeoIntersections(r, lightDistance);
+
+            if (intersecOneRay!= null)
+                for (GeoPoint gpt : intersecOneRay) {
+                    ktR *= gpt.geometry.getMaterial().getKt();
+                }
+            else{
+                ktR=1;
+            }
+            sumKtr+=ktR;
+            ktR=1.0;
+            if (intersecOneRay != null) {
                 if (intersections == null)
-                    intersections = inter;
+                    intersections = intersecOneRay;
                 else
-                    intersections.addAll(inter);
+                    intersections.addAll(intersecOneRay);
             }
         }
 
         if (intersections == null)
             return 1.0;
 
-        int nbInter=intersections.size();
         int numRay=listRay.size();
-        double illuminated = (numRay-(double)nbInter) / numRay;
-        //return  illuminated;
+        double ktrAverage= sumKtr/numRay;
 
-        /*double ktr = 1.0;
-        for (GeoPoint gpt : intersections) {
-            illuminated *= gpt.geometry.getMaterial().getKt();
-            if (illuminated < MIN_CALC_COLOR_K) return 0.0;
-        }*/
-        /*if(illuminated*geoPoint.geometry.getMaterial().getKt()<MIN_CALC_COLOR_K)
-            return 0.0;*/
-        return  illuminated;
-        /*double illuminated = intersections.size() / listRay.size();
-        ktr *= illuminated;
-        return ktr;*/
+        return  ktrAverage;
     }
 
     /**
