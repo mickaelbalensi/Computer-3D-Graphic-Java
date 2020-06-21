@@ -175,24 +175,27 @@ public class Render<bool> {
                     ArrayList<Ray>rayList=camera.constructRayThroughPixel2(nX, nY, pixel.col, pixel.row, distance, width, height);
                     int countNull=0;
                     int count=0;
-                    Color color=Color.BLACK;
-                    for (Ray rays: rayList)
-                    {
-                        GeoPoint closestPoint=findClosestIntersection(rays);
-                        if (closestPoint==null) color.add(new Color(background));
-                        else {
-                            count++;
-                       // if (count==1) {myPoint =closestPoint; myRay=rays;}
-                            color.add(calcColor(closestPoint,rays));
-                        }
+                        for (Ray rays:rayList){
+                            GeoPoint closestPoint=findClosestIntersection(rays);
+                            if (closestPoint != null){
+                                count++;
+                                myPoint=closestPoint;
+                                myRay=rays;
+                            }
+                            else
+                                countNull++;
                     }
-                    //GeoPoint closestPoint=findClosestIntersection(rayList.get(0));
-                    //Color black=new Color(background);
-                        //Color color = new Color(calcColor(myPoint, myRay));
-                       // Color averageColor = (black.scale((countNull / rayList.size())).add(color.scale(count / rayList.size())));
-                        _imageWriter.writePixel(pixel.col, pixel.row,color.reduce(rayList.size()).getColor());
+                        if (count==0)
+                    _imageWriter.writePixel(pixel.col, pixel.row,background);
+                        else{
+                            //if (myPoint!=null)
+                            Color color1;
+                            color1=(calcColor(myPoint,myRay).scale(count));
+                            Color color2=(new Color(background)).scale(countNull);
+                            Color color3=new Color(color1.add(color2));
+                            _imageWriter.writePixel(pixel.col, pixel.row,color3.reduce(rayList.size()).getColor());
+                        }
                 }
-                //}
             });
         }
         for (Thread thread : threads) thread.start();
