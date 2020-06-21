@@ -6,15 +6,13 @@ import primitives.*;
 /**
  * the class PointLight is one kind of lightSource. It represents lights like light bulbs of room, that lighting in all directions
  * class point light implements light source
- * this class includes the position of the central point of the light
+ * this class includes a shape lightning, we decide that this shape will be a bulb like a sphere
  *
  * @author mickael balensi
  */
 public class PointLight extends Light implements LightSource {
-    //protected Point3D position;
     protected double kC, kL, kQ;
     protected Sphere bulb;
-    //protected int radius;
     protected static final int RADIUS=5;
 
 
@@ -60,6 +58,7 @@ public class PointLight extends Light implements LightSource {
         return bulb.getCenter().distance(point);
     }
 
+    @Override
     public Sphere getBulb(){
         return bulb;
     }

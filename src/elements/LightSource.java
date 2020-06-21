@@ -32,5 +32,10 @@ public interface LightSource {
      */
     double getDistance(Point3D point);
 
+    /**
+     * After refactoring, we add that the lightSource is not only an illuminating point
+     * it's also a geometry. So we add a bulb for PointLight abd SpotLight
+     * @return the bulb
+     */
     Sphere getBulb();
 }

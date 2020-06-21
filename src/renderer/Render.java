@@ -28,7 +28,9 @@ public class Render {
     private final int SPARE_THREADS = 2; // Spare threads if trying to use all the cores
     private boolean _print = false; // printing progress percentage
 
-    static int counter=0;
+    private static int counter = 0;
+    private static boolean ACTIVATE = true;
+    private static boolean DEACTIVATE = false;
 
 
     /**
@@ -165,10 +167,6 @@ public class Render {
                 Pixel pixel = new Pixel();
                 max = 0;
                 while (thePixel.nextPixel(pixel)) {
-                    if(counter==72 /*|| counter ==51*/)
-                        counter+=1;
-                    else
-                        counter+=1;
                     Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
                     GeoPoint closestPoint = findClosestIntersection(ray);
                     _imageWriter.writePixel(pixel.col, pixel.row, closestPoint == null ? background :
@@ -210,7 +208,7 @@ public class Render {
             Vector l = lightSource.getL(geopoint.point);
             double nl = alignZero(n.dotProduct(l));
             if (nv * nl > 0) {
-                double ktr = transparency2(lightSource, l, n, geopoint);
+                double ktr = transparency(lightSource, l, n, geopoint, ACTIVATE);
                 if (ktr * k > MIN_CALC_COLOR_K) {
                     Color lightIntensity = lightSource.getIntensity(geopoint.point).scale(ktr);
                     Color calcDiff = calcDiffusive(kd, nl, lightIntensity);
@@ -299,6 +297,67 @@ public class Render {
         return new Ray(geoPoint.point, ray.getDirection(), n);
     }
 
+    private double transparency(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint, boolean flag) {
+        Vector lightDirection = l.scale(-1); // from point to light source
+        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);// from point to light source
+
+        if (lightSource instanceof DirectionalLight || flag == DEACTIVATE) {
+
+            double lightDistance = lightSource.getDistance(geoPoint.point);
+            List<GeoPoint> intersections = _scene.getGeometries().findGeoIntersections(lightRay, lightDistance);
+            if (intersections == null)
+                return 1.0;
+
+            double ktr = 1.0;
+            for (GeoPoint gpt : intersections) {
+                ktr *= gpt.geometry.getMaterial().getKt();
+                if (ktr < MIN_CALC_COLOR_K)
+                    return 0.0;
+            }
+            return ktr;
+
+        } else {
+            // get list of several rays
+            ArrayList<Ray> listRay = lightRay.getListRays(lightSource.getBulb().getCenter(), (int) lightSource.getBulb().getRadius());
+
+            double lightDistance = lightSource.getDistance(geoPoint.point);
+
+            double ktr = 1.0;
+            double sumKtr = 0;//sum ktr of all intersection points for all rays
+            boolean flagIntersection = false;
+
+            for (Ray r : listRay) {
+                List<GeoPoint> intersecOneRay = _scene.getGeometries().findGeoIntersections(r, lightDistance);
+                // if the ray 'r' don't crosses any geometries, it's like it crosses geometries transparent
+                if (intersecOneRay == null) ktr = 1.0;
+                else {
+                    flagIntersection = true;//there is at least one intersection point
+                    // calculate an accumulation of ktr for all geometries crossed by the ray 'r'
+                    for (GeoPoint gpt : intersecOneRay) {
+                        ktr *= gpt.geometry.getMaterial().getKt();
+                    }
+                }
+
+                sumKtr += ktr;
+                ktr = 1.0;
+            }
+
+            if (flagIntersection == false)//if there aren't any intersection
+                return 1.0;
+
+            int numRay = listRay.size();
+            double ktrAverage = sumKtr / numRay;
+
+            return ktrAverage;
+        }
+    }
+
+/*    private double transparency3(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint, boolean flag) {
+        if (lightSource instanceof DirectionalLight || flag == DEACTIVATE)
+            return transparency(lightSource, l, n, geoPoint);
+        else return transparency2(lightSource, l, n, geoPoint);
+    }
+
     private double transparency(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
@@ -320,43 +379,39 @@ public class Render {
     private double transparency2(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
-
-        ArrayList<Ray> listRay = lightRay.getListRays(lightSource.getBulb().getCenter(),(int) lightSource.getBulb().getRadius());
-
+        // get list of several rays
+        ArrayList<Ray> listRay = lightRay.getListRays(lightSource.getBulb().getCenter(), (int) lightSource.getBulb().getRadius());
 
         double lightDistance = lightSource.getDistance(geoPoint.point);
-        //il faut que j enleve ce intersections qui a priori est inutile
-        List<GeoPoint> intersections = null;
-        double ktR=1.0;
-        double sumKtr=0;
+
+        double ktr = 1.0;
+        double sumKtr = 0;//sum ktr of all intersection points for all rays
+        boolean flagIntersection = false;
+
         for (Ray r : listRay) {
             List<GeoPoint> intersecOneRay = _scene.getGeometries().findGeoIntersections(r, lightDistance);
-
-            if (intersecOneRay!= null)
+            // if the ray 'r' don't crosses any geometries, it's like it crosses geometries transparent
+            if (intersecOneRay == null) ktr = 1.0;
+            else {
+                flagIntersection = true;//there is at least one intersection point
+                // calculate an accumulation of ktr for all geometries crossed by the ray 'r'
                 for (GeoPoint gpt : intersecOneRay) {
-                    ktR *= gpt.geometry.getMaterial().getKt();
+                    ktr *= gpt.geometry.getMaterial().getKt();
                 }
-            else{
-                ktR=1;
             }
-            sumKtr+=ktR;
-            ktR=1.0;
-            if (intersecOneRay != null) {
-                if (intersections == null)
-                    intersections = intersecOneRay;
-                else
-                    intersections.addAll(intersecOneRay);
-            }
+
+            sumKtr += ktr;
+            ktr = 1.0;
         }
 
-        if (intersections == null)
+        if (flagIntersection == false)//if there aren't any intersection
             return 1.0;
 
-        int numRay=listRay.size();
-        double ktrAverage= sumKtr/numRay;
+        int numRay = listRay.size();
+        double ktrAverage = sumKtr / numRay;
 
-        return  ktrAverage;
-    }
+        return ktrAverage;
+    }*/
 
     /**
      * Displays a grid with fixed squares size
