@@ -174,7 +174,7 @@ public class Render<bool> {
                     //else{
                     if (closestPoint1==null){_imageWriter.writePixel(pixel.col, pixel.row,background);}
                     else {
-                    List<Ray>rayList=camera.constructRayThroughPixel2(nX, nY, pixel.col, pixel.row, distance, width, height);
+                    List<Ray>rayList=camera.constructRayThroughPixel3(nX, nY, pixel.col, pixel.row, distance, width, height);
                    Color color=Color.BLACK;
                         for (Ray rays:rayList){
                             GeoPoint closestPoint=findClosestIntersection(rays);
@@ -187,7 +187,7 @@ public class Render<bool> {
                     }
                     _imageWriter.writePixel(pixel.col, pixel.row,color.reduce(rayList.size()).getColor());
                 }
-                }
+               }
             });
         }
         for (Thread thread : threads) thread.start();

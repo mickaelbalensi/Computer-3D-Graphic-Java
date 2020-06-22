@@ -85,6 +85,7 @@ package elements;
 import primitives.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class elements.Camera is the  class representing a camera to be a central cartesian landmark
@@ -100,6 +101,7 @@ public class Camera {
     private Vector Vright; //the axe X
 
     //region CTOR
+
     /**
      * its constructor that create a new camera with the position chosed
      *
@@ -201,12 +203,48 @@ public class Camera {
         }
 
         Vector vec = Pij.subtract(p0);
-        Ray res= new Ray(p0, vec);
+        Ray res = new Ray(p0, vec);
 
 
-        int radius= Nx<Ny ? Nx/2 : Ny/2;
+        int radius = Nx < Ny ? Nx / 2 : Ny / 2;
 
-        return res.getListRays(Pij,radius);
+        return res.getListRays(Pij, radius);
     }
 
+    public ArrayList<Ray> constructRayThroughPixel3(int Nx, int Ny,
+                                                    int j, int i, double screenDistance,
+                                                    double screenWidth, double screenHeight) {
+
+        //Point3D Pc= new Point3D(0,0,screenDistance);
+
+        Point3D Pc = p0.add(Vto.scale(screenDistance));
+
+        double Rx = screenWidth / (Nx*50);
+        double Ry = screenHeight / (Ny*50);
+        ArrayList<Ray> rayList = new ArrayList<>();
+        for (int row = 0; row < 50; row++)
+            for (int col = 0; col < 50; col++) {
+                double factor1 = (row+i*50 - (Nx*50  - 1) / 2d) * Rx;
+                double factor2 = (col+j*50 - (Ny*50  - 1) / 2d) * Ry;
+                Point3D Pij = Pc;
+                Vector v1 = null;
+                Vector v2 = null;
+                if (factor1 != 0) {//if v1 is not the vector zero
+                    v1 = Vright.scale(factor1);
+                    Pij = Pij.add(v1);
+                }
+
+                if (factor2 != 0) {//if v2 is not the vector zero
+                    v2 = Vup.scale(factor2);
+                    Pij = Pij.subtract(v2);
+                }
+                Vector vec = Pij.subtract(p0);
+                Ray ray = new Ray(p0, vec);
+                rayList.add(ray);
+            }
+        return rayList;
+    }
 }
+
+
+
