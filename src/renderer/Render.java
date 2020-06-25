@@ -297,6 +297,15 @@ public class Render {
         return new Ray(geoPoint.point, ray.getDirection(), n);
     }
 
+    /**
+     * this function checks if the
+     * @param lightSource
+     * @param l
+     * @param n
+     * @param geoPoint
+     * @param flag
+     * @return
+     */
     private double transparency(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint, boolean flag) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection, n);// from point to light source

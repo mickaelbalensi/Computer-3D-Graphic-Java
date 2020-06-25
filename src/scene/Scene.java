@@ -4,6 +4,7 @@ import elements.*;
 import geometries.*;
 import primitives.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -149,6 +150,16 @@ public class Scene {
     public void addGeometries(Intersectable... geometries){
         for(int i=0;i<geometries.length;i++)
             this.geometries.add(geometries[i]);
+    }
+
+    /**
+     * add an many ArrayList of many geometries in the the group of geometries of the picture
+     * @param arrayGeo type ArrayList<Intersectable>...
+     */
+    public void addGeometries(ArrayList<Intersectable> ... arrayGeo){
+        for(int i=0;i<arrayGeo.length;i++)
+            for(Intersectable geo :arrayGeo[i])
+                this.geometries.add(geo);
     }
 
     /**

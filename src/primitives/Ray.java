@@ -86,7 +86,7 @@ public class Ray {
         double centerZ = center.getZ().get();
 
         Random rand = new Random();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             double x = rand.nextInt((int) centerX + radius - (int) (centerX - radius) + 1) + (centerX - radius);
             double y = rand.nextInt((int) centerY + radius - (int) (centerY - radius) + 1) + (centerY - radius);
             double z = rand.nextInt((int) centerZ + radius - (int) (centerZ - radius) + 1) + (centerZ - radius);

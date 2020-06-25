@@ -1,5 +1,6 @@
 package elementTest;
 
+import image.*;
 import org.junit.Test;
 
 import elements.*;
@@ -7,6 +8,8 @@ import geometries.*;
 import primitives.*;
 import renderer.*;
 import scene.Scene;
+
+import java.util.ArrayList;
 
 /**
  * Testing basic shadows
@@ -26,8 +29,8 @@ public class ShadowTests {
 		scene.setBackground(Color.BLACK);
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
 
-		scene.addGeometries(new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
-				60, new Point3D(0, 0, 200)), //
+		scene.addGeometries(
+				new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), 60, new Point3D(0, 0, 200)),
 				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30,0.5,0), //
 						new Point3D(-70, 40, 0), new Point3D(-40, 70, 0), new Point3D(-68, 68, 4)));
 
@@ -207,5 +210,124 @@ public class ShadowTests {
 
 	}
 
+	@Test
+	public void wolfTest(){
+		Scene scene = new Scene("Test scene");
+		scene.setCamera(new Camera(new Point3D(500, 500, -4000), new Vector(0, 0, 1), new Vector(0, 1, 0)));
+		scene.setDistance(200);
+		scene.setBackground(Color.BLACK);
+		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0));
 
+		scene.addGeometries(
+				new Wolf1(new Color(java.awt.Color.darkGray), new Material(0.5, 0.5, 30),2,new Point3D(0,0,0)).getList(),
+				new Wolf2(new Color(java.awt.Color.white), new Material(0.5, 0.5, 30),2,new Point3D(0,0,0)).getList(),
+				new Wolf3(new Color(java.awt.Color.darkGray), new Material(0.5, 0.5, 30),2,new Point3D(0,0,0)).getList(),
+				new Wolf4(new Color(java.awt.Color.lightGray), new Material(0.5, 0.5, 30),2,new Point3D(0,0,0)).getList()
+				);
+
+		scene.addLights(
+				new PointLight(new Color(400, 240, 0), new Point3D(500, 500, -2000), 1, 1E-5, 1.5E-7));
+
+		ImageWriter imageWriter = new ImageWriter("wolfTest", 200, 200, 500, 500);
+		Render render = new Render(imageWriter, scene).setMultithreading(20);
+
+		render.renderImage();
+		render.writeToImage();
+
+	}
+
+	@Test
+	public void catTest(){
+		Scene scene = new Scene("Test scene");
+		scene.setCamera(new Camera(new Point3D(500, 500, -4000), new Vector(0, 0, 1), new Vector(0, 1, 0)));
+		scene.setDistance(200);
+		scene.setBackground(Color.BLACK);
+		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0));
+
+		scene.addGeometries(
+
+				new Cat1(new Color(java.awt.Color.blue), new Material(0.5, 0.5, 30),1,new Point3D(0,0,0)).getList(),
+				new Cat2(new Color(java.awt.Color.blue), new Material(0.5, 0.5, 30),1,new Point3D(0,0,0)).getList(),
+				new Cat3(new Color(java.awt.Color.blue), new Material(0.5, 0.5, 30),1,new Point3D(0,0,0)).getList(),
+				new Cat4(new Color(java.awt.Color.blue), new Material(0.5, 0.5, 30),1,new Point3D(0,0,0)).getList(),
+				new Cat5(new Color(java.awt.Color.blue), new Material(0.5, 0.5, 30),1,new Point3D(0,0,0)).getList(),
+				new Cat6(new Color(java.awt.Color.blue), new Material(0.5, 0.5, 30),1,new Point3D(0,0,0)).getList()
+
+		);
+
+		scene.addLights(
+				new PointLight(new Color(400, 240, 0), new Point3D(-100, 100, 200), 1, 1E-5, 1.5E-7));
+
+		ImageWriter imageWriter = new ImageWriter("catTest", 200, 200, 500, 500);
+		Render render = new Render(imageWriter, scene).setMultithreading(20);
+
+		render.renderImage();
+		render.writeToImage();
+
+	}
+	@Test
+	public void testPositionCamera() {
+		Scene scene = new Scene("Test scene");
+		scene.setCamera(new Camera(new Point3D(-1000, 0, 200), new Vector(1, 0, 0), new Vector(0, -1, 0)));
+		scene.setDistance(1000);
+		scene.setBackground(Color.BLACK);
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
+
+		scene.addGeometries(
+				new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), 60, new Point3D(0, 0, 200)),
+				new Sphere(new Point3D(-100, -100, 200),10, new Color(java.awt.Color.BLUE)),
+				new Sphere(new Point3D(-100, 100, 200),10, new Color(java.awt.Color.GREEN)),
+				new Sphere(new Point3D(100, -100, 200),10, new Color(java.awt.Color.red)),
+				new Sphere(new Point3D(100, 100, 200),10, new Color(java.awt.Color.white)),
+				new Sphere(new Point3D(-50, 0, 200),10, new Color(java.awt.Color.black)),
+
+				new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30,0.5,0), //
+						new Point3D(-70, 40, 0), new Point3D(-40, 70, 0), new Point3D(-68, 68, 4)));
+
+		scene.addLights(
+				new SpotLight(new Color(400, 240, 0), //
+						new Point3D(-100, 100, -200), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7));
+
+		//ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 100, 100, 10, 10);
+		ImageWriter imageWriter = new ImageWriter("positionCamera2", 200, 200, 500, 500);
+		Render render = new Render(imageWriter, scene);
+
+		render.renderImage();
+		render.writeToImage();
+	}
+
+	@Test
+	public void ConstrucMyImage()
+	{
+		Scene scene = new Scene("Test scene");
+		scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
+		scene.setDistance(1000);
+		scene.setBackground(Color.BLACK);
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
+
+		scene.addGeometries(
+				new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30,0,0.5), 20, new Point3D(-20, 70, 0)),
+				new Sphere(new Color(java.awt.Color.RED), new Material(1, 1, 30,0.6,0), 20, new Point3D(-20, -30, 0)),
+				new Sphere(new Color(java.awt.Color.BLACK), new Material(0.25, 0.25, 30,0.6,1), 20, new Point3D(30, 20, 0)),
+				new Sphere(new Color(java.awt.Color.ORANGE), new Material(0.5, 0.5, 10,0.6,0), 20, new Point3D(-70, 20, 0)),
+				new Sphere(new Color(java.awt.Color.GREEN), new Material(0.5, 0.5, 10,0,0.5),30, new Point3D(-20, 20, 0)),
+				new Triangle(Color.BLACK, new Material(0.5, 0.5, 60,0,1), new Point3D(-150, 150, 115), new Point3D(150, 150, 135), new Point3D(75, -75, 150)), //
+				new Triangle(Color.BLACK, new Material(0.5, 0.5, 60,0,1), new Point3D(-150, 150, 115), new Point3D(-70, -70, 140), new Point3D(75, -75, 150))
+				);
+
+
+
+		scene.addLights(
+		new SpotLight(new Color(400, 240, 0), //
+				new Point3D(-100, 10, -200), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7)
+				);
+
+		ImageWriter imageWriter = new ImageWriter("ConstrucMyImage", 200, 200, 400, 400);
+		Render render = new Render(imageWriter, scene).setMultithreading(6);
+
+		render.renderImage();
+		render.writeToImage();
+
+
+}
 }
