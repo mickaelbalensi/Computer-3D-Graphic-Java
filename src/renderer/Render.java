@@ -164,30 +164,12 @@ public class Render<bool> {
             threads[i] = new Thread(() -> {
                 Pixel pixel = new Pixel();
                 max = 0;
-                while (thePixel.nextPixel(pixel)) {
-                    Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
-                    GeoPoint closestPoint1 = findClosestIntersection(ray);
-                    GeoPoint myPoint=null;
-                    Ray myRay=null;
-                    //if (closestPoint1==null){
-                    //    _imageWriter.writePixel(pixel.col, pixel.row,background);}
-                    //else{
-                    if (closestPoint1==null){_imageWriter.writePixel(pixel.col, pixel.row,background);}
-                    else {
-                    List<Ray>rayList=camera.constructRayThroughPixel3(nX, nY, pixel.col, pixel.row, distance, width, height);
-                   Color color=Color.BLACK;
-                        for (Ray rays:rayList){
-                            GeoPoint closestPoint=findClosestIntersection(rays);
-                            if (closestPoint != null)
-                            {
-                               color= color.add(calcColor(closestPoint,rays));
-                            }
-                            else
-                                color=color.add(_scene.getBackground());
+                    while (thePixel.nextPixel(pixel)) {
+                        Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
+                        GeoPoint closestPoint = findClosestIntersection(ray);
+                        _imageWriter.writePixel(pixel.col, pixel.row, closestPoint == null ? background :
+                                calcColor(closestPoint, ray).getColor());
                     }
-                    _imageWriter.writePixel(pixel.col, pixel.row,color.reduce(rayList.size()).getColor());
-                }
-               }
             });
         }
         for (Thread thread : threads) thread.start();

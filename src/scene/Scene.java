@@ -160,4 +160,7 @@ public class Scene {
             this._lights.add(lights[i]);
     }
 
+    public void setBackground(java.awt.Color white) {
+        this._background = _background;
+    }
 }
