@@ -27,7 +27,7 @@ public class Render {
     private int _threads = 1;
     private final int SPARE_THREADS = 2; // Spare threads if trying to use all the cores
     private boolean _print = false; // printing progress percentage
-
+    private static int count=0;
     private static int counter = 0;
     private static boolean ACTIVATE = true;
     private static boolean DEACTIVATE = false;
@@ -166,11 +166,20 @@ public class Render {
             threads[i] = new Thread(() -> {
                 Pixel pixel = new Pixel();
                 max = 0;
+
                 while (thePixel.nextPixel(pixel)) {
+                    count ++;
                     Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
                     GeoPoint closestPoint = findClosestIntersection(ray);
-                    _imageWriter.writePixel(pixel.col, pixel.row, closestPoint == null ? background :
-                            calcColor(closestPoint, ray).getColor());
+                    int rest= count %1000;
+                    if (count<=180000 || rest<=240)
+                        _imageWriter.writePixel(pixel.col, pixel.row, closestPoint == null ? background :
+                                calcColor(closestPoint, ray,DEACTIVATE).getColor());
+                    else
+                        _imageWriter.writePixel(pixel.col, pixel.row, closestPoint == null ? background :
+                                calcColor(closestPoint, ray,ACTIVATE).getColor());
+                    if(count%200==0)
+                        System.out.println(count);
                 }
             });
         }
@@ -185,8 +194,8 @@ public class Render {
         }
     }
 
-    private Color calcColor(GeoPoint geopoint, Ray inRay) {
-        return calcColor(geopoint, inRay, MAX_CALC_COLOR_LEVEL, 1.0).add(
+    private Color calcColor(GeoPoint geopoint, Ray inRay,boolean flag) {
+        return calcColor(geopoint, inRay, MAX_CALC_COLOR_LEVEL, 1.0,flag).add(
                 _scene.ambientLight.getIntensity());
     }
 
@@ -194,7 +203,7 @@ public class Render {
      * @param @param intersection (Point3D) the point of which we need the color
      * @return the color
      */
-    private Color calcColor(GeoPoint geopoint, Ray inRay, int level, double k) {
+    private Color calcColor(GeoPoint geopoint, Ray inRay, int level, double k,boolean flag) {
         Color color = geopoint.geometry.getEmission();
 
         Vector v = inRay.getDirection();
@@ -208,7 +217,7 @@ public class Render {
             Vector l = lightSource.getL(geopoint.point);
             double nl = alignZero(n.dotProduct(l));
             if (nv * nl > 0) {
-                double ktr = transparency(lightSource, l, n, geopoint, ACTIVATE);
+                double ktr = transparency(lightSource, l, n, geopoint, flag);
                 if (ktr * k > MIN_CALC_COLOR_K) {
                     Color lightIntensity = lightSource.getIntensity(geopoint.point).scale(ktr);
                     Color calcDiff = calcDiffusive(kd, nl, lightIntensity);
@@ -225,7 +234,7 @@ public class Render {
             Ray reflectedRay = constructReflectedRay(n, geopoint.point, inRay);
             GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
             if (reflectedPoint != null)
-                color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr).scale(kr));
+                color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr,flag).scale(kr));
         }
 
         double kt = material.getKt(), kkt = k * kt;
@@ -233,7 +242,7 @@ public class Render {
             Ray refractedRay = constructRefractedRay(n, geopoint, inRay);
             GeoPoint refractedPoint = findClosestIntersection(refractedRay);
             if (refractedPoint != null)
-                color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt).scale(kt));
+                color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt,flag).scale(kt));
         }
         return color;
     }
