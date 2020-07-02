@@ -30,6 +30,7 @@ public class ShadowTests {
         scene.setBackground(Color.BLACK);
         scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
 
+
         scene.addGeometries(
                 new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), 60, new Point3D(0, 0, 200)),
                 new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30, 0.5, 0), //
@@ -368,7 +369,8 @@ public class ShadowTests {
         scene.setBackground(Color.BLACK);
         scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0));
 
-        scene.addGeometries(
+        //scene.addBox(new Box(new Cat()));
+        /*scene.addGeometries(
 
                 new Cat1(new Color(java.awt.Color.darkGray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList(),
                 new Cat2(new Color(java.awt.Color.gray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList(),
@@ -377,7 +379,7 @@ public class ShadowTests {
                 new Cat5(new Color(java.awt.Color.gray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList(),
                 new Cat6(new Color(java.awt.Color.darkGray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList()
 
-        );
+        );*/
         scene.addGeometries(
                 new Plane( new Vector(0,0,-1),new Point3D(0, 0, 600), new Color(89,114,210), new Material(0.5, 0.5, 60, .8, 0))
                 //new Plane( new Vector(0, -1, 0), new Point3D(0, 0, 0),new Color(191,148,108), new Material(0.5, 0.5, 60, .5, 1))
@@ -486,5 +488,31 @@ public class ShadowTests {
         render.writeToImage();
 
 
+    }
+
+    @Test
+    public void BoxTest() {
+        Scene scene = new Scene("Test scene");
+        scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
+        scene.setDistance(1000);
+        scene.setBackground(Color.BLACK);
+        scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
+
+
+        scene.addGeometries(
+                new Box (new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), 60, new Point3D(0, 0, 200))),
+                new Box (new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30, 0.5, 0), //
+                        new Point3D(-70, 40, 0), new Point3D(-40, 70, 0), new Point3D(-68, 68, 4))));
+
+        scene.addLights(
+                new SpotLight(new Color(400, 240, 0), //
+                        new Point3D(-100, 100, -200), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7));
+
+        //ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 100, 100, 10, 10);
+        ImageWriter imageWriter = new ImageWriter("sphereTriangleInitial", 200, 200, 500, 500);
+        Render render = new Render(imageWriter, scene);
+
+        render.renderImage();
+        render.writeToImage();
     }
 }

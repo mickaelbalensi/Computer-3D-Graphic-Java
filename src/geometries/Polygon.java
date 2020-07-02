@@ -3,6 +3,7 @@ package geometries;
 import primitives.Color;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import primitives.*;
@@ -15,11 +16,12 @@ import static primitives.Util.*;
  *
  * @author Dan
  */
-public class Polygon extends Geometry {
+public class Polygon extends Geometry implements Volume{
     /**
      * List of polygon's vertices
      */
     protected List<Point3D> _vertices;
+
     /**
      * Associated plane in which the polygon lays
      */
@@ -83,6 +85,26 @@ public class Polygon extends Geometry {
             if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
+        Xmin = MAX;
+        Ymin = MAX;
+        Zmin = MAX;
+        Xmax = MIN;
+        Ymax = MIN;
+        Zmax = MIN;
+
+        for (Point3D p : _vertices) {
+            double xPoint = p.getX().get();
+            double yPoint = p.getY().get();
+            double zPoint = p.getZ().get();
+
+            if (Xmin > xPoint)  Xmin = xPoint;
+            if (Ymin > yPoint)  Ymin = yPoint;
+            if (Zmin > zPoint)  Zmin = zPoint;
+
+            if (Xmax < xPoint)  Xmax = xPoint;
+            if (Ymax < yPoint)  Ymax = yPoint;
+            if (Zmax < zPoint)  Zmax = zPoint;
+        }
     }
 
     /**
@@ -136,4 +158,9 @@ public class Polygon extends Geometry {
         intersections.get(0).geometry = this;
         return intersections;
     }
+
+    public List<Point3D> getVertices() {
+        return _vertices;
+    }
+
 }

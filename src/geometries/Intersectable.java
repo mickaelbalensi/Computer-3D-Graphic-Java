@@ -56,4 +56,11 @@ public interface Intersectable {
     }
 
     List<GeoPoint> findGeoIntersections(Ray ray, double max);
+
+    double getXmin();
+    double getYmin();
+    double getZmin();
+    double getXmax();
+    double getYmax();
+    double getZmax();
 }

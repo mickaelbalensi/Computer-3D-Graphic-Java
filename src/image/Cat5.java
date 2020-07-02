@@ -11,11 +11,45 @@ import java.util.ArrayList;
 
 
 public class Cat5 {
-    ArrayList list;
+    private ArrayList<Triangle> list;
+/*    private double Xmin; // the X-value minimum of the Geometry
+    private double Ymin; // the Y-value minimum of the Geometry
+    private double Zmin; // the Z-value minimum of the Geometry
+    private double Xmax; // the X-value maximum of the Geometry
+    private double Ymax; // the Y-value maximum of the Geometry
+    private double Zmax; // the Z-value maximum of the Geometry
+    static double MAX = 100000;
+    static double MIN = -100000;
 
+    //region getters
+    @Override
+    public double getXmin() {
+        return Xmin;
+    }
+    @Override
+    public double getYmin() {
+        return Ymin;
+    }
+    @Override
+    public double getZmin() {
+        return Zmin;
+    }
+    @Override
+    public double getXmax() {
+        return Xmax;
+    }
+    @Override
+    public double getYmax() {
+        return Ymax;
+    }
+    @Override
+    public double getZmax() {
+        return Zmax;
+    }*/
     public ArrayList getList() {
         return list;
     }
+    //endregion
 
     public Cat5(Color emissionLight, Material material, double coef, Point3D pt) {
         list = new ArrayList();
@@ -23,6 +57,7 @@ public class Cat5 {
         double y = pt.getY().get();
         double z = pt.getZ().get();
 
+        //region add Triangles
         Triangle T1401 = new Triangle(emissionLight,material,new Point3D( (212.217191 )* coef+ x,  (318.325064 )* coef+ y,  (32.513435 )* coef+ z ) ,new Point3D( (210.967296 )* coef+ x,  (324.644674 )* coef+ y,  (39.433366 )* coef+ z ) ,new Point3D( (204.676685 )* coef+ x,  (311.767106 )* coef+ y,  (41.020227 )* coef+ z ) );
         list.add(T1401);
         Triangle T1402 = new Triangle(emissionLight,material,new Point3D( (205.630779 )* coef+ x,  (287.890486 )* coef+ y,  (-54.622522 )* coef+ z ) ,new Point3D( (184.793393 )* coef+ x,  (267.284889 )* coef+ y,  (-52.465838 )* coef+ z ) ,new Point3D( (188.874426 )* coef+ x,  (283.620822 )* coef+ y,  (-51.094371 )* coef+ z ) );
@@ -723,5 +758,38 @@ public class Cat5 {
         list.add(T1749);
         Triangle T1750 = new Triangle(emissionLight,material,new Point3D( (-251.118251 )* coef+ x,  (259.73751 )* coef+ y,  (-8.946649 )* coef+ z ) ,new Point3D( (-363.492997 )* coef+ x,  (251.914492 )* coef+ y,  (-8.678407 )* coef+ z ) ,new Point3D( (-336.244024 )* coef+ x,  (256.478358 )* coef+ y,  (0.000757 )* coef+ z ) );
         list.add(T1750);
+        //endregion
+
+       /* double Xmin = MAX; // the X-value minimum of the Geometry
+        double Ymin = MAX; // the Y-value minimum of the Geometry
+        double Zmin = MAX; // the Z-value minimum of the Geometry
+        double Xmax = MIN; // the X-value maximum of the Geometry
+        double Ymax = MIN; // the Y-value maximum of the Geometry
+        double Zmax = MIN; // the Z-value maximum of the Geometry
+
+        for (Triangle t : list) {
+            List<Point3D> listPoint = t.getVertices();
+            for (Point3D p : listPoint) {
+                double xPoint = p.getX().get();
+                double yPoint = p.getY().get();
+                double zPoint = p.getZ().get();
+
+                if (Xmin > xPoint)  Xmin = xPoint;
+                if (Ymin > yPoint)  Ymin = yPoint;
+                if (Zmin > zPoint)  Zmin = zPoint;
+
+                if (Xmax < xPoint)  Xmax = xPoint;
+                if (Ymax < yPoint)  Ymax = yPoint;
+                if (Zmax < zPoint)  Zmax = zPoint;
+
+            }
+        }
+
+        this.Xmin=Xmin;
+        this.Xmax=Xmax;
+        this.Ymin=Ymin;
+        this.Ymax=Ymax;
+        this.Zmin=Zmin;
+        this.Zmax=Zmax;*/
     }
 }

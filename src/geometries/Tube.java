@@ -21,6 +21,12 @@ public class Tube extends RadialGeometry {
     public Tube(Ray ray, double radius, Color color, Material material) {
         super(radius, color, material);
         axisRay = ray;
+        Xmax = MAX;
+        Ymax = MAX;
+        Zmax = MAX;
+        Xmin = MIN;
+        Ymin = MIN;
+        Zmin = MIN;
     }
 
     /**

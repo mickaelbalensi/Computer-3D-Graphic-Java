@@ -1,5 +1,8 @@
 package scene;
 
+
+import com.sun.source.tree.Tree;
+import com.sun.source.tree.TreeVisitor;
 import elements.*;
 import geometries.*;
 import primitives.*;
@@ -14,44 +17,99 @@ import java.util.List;
  * and many shapes for the image
  */
 public class Scene {
-    String name;
-    Color background;
+
+    /**
+     * @author w w w. j a v a g i s t s . c o m
+     */
+    public class Node<T> {
+
+        private T data = null;
+        private List<Node<T>> children = new ArrayList<>();
+        private Node<T> parent = null;
+
+        public Node(T data) {
+            this.data = data;
+        }
+
+        public Node<T> addChild(Node<T> child) {
+            child.setParent(this);
+            this.children.add(child);
+            return child;
+        }
+
+        public void addChildren(List<Node<T>> children) {
+            children.forEach(each -> each.setParent(this));
+            this.children.addAll(children);
+        }
+
+        public List<Node<T>> getChildren() {
+            return children;
+        }
+
+        public T getData() {
+            return data;
+        }
+
+        public void setData(T data) {
+            this.data = data;
+        }
+
+        private void setParent(Node<T> parent) {
+            this.parent = parent;
+        }
+
+        public Node<T> getParent() {
+            return parent;
+        }
+
+    }
+
+    private String name;
+    private Color background;
     public AmbientLight ambientLight;
-    Geometries geometries;
-    Camera camera;
-    double distance;
-    List<LightSource> lights;
+    private Geometries geometries;
+    private Camera camera;
+    private double distance;
+    private List<LightSource> lights;
+    private List<Box> boxs;
+    private Node<Geometries> geometriesTree;
+
 
     /**
      * Scene.Constructor receiving name of the scene
+     *
      * @param name
      */
-    public Scene(String name){
+    public Scene(String name) {
         this.name = name;
-        this.geometries =new Geometries();
+        this.geometries = new Geometries();
         this.lights = new LinkedList<LightSource>();
+        geometriesTree = new Node<Geometries>(new Box());
     }
 
     //region getters/setters
 
     /**
      * get the name of the scene
+     *
      * @return the name
      */
-    public String getName(){
+    public String getName() {
         return name;
     }
 
     /**
      * get the color of the background
+     *
      * @return the color of the background
      */
-    public Color getBackground(){
+    public Color getBackground() {
         return background;
     }
 
     /**
      * get the ambientLight
+     *
      * @return the ambientLight
      */
     public AmbientLight getAmbientLight() {
@@ -60,14 +118,17 @@ public class Scene {
 
     /**
      * get all of shapes of the image
+     *
      * @return the list of geometries in the picture
      */
     public Geometries getGeometries() {
         return geometries;
     }
 
+
     /**
      * get the camera
+     *
      * @return the camera
      */
     public Camera getCamera() {
@@ -76,6 +137,7 @@ public class Scene {
 
     /**
      * get the distance between the camera and the screen
+     *
      * @return the distance between the camera and the screen
      */
     public double getDistance() {
@@ -84,13 +146,20 @@ public class Scene {
 
     /**
      * get all light of the scene
+     *
      * @return list of lights
      */
     public List<LightSource> getLights() {
         return lights;
     }
+
+    public List<Box> getBoxs() {
+        return boxs;
+    }
+
     /**
      * set the name of the scene
+     *
      * @param _name type string
      */
     public void setName(String _name) {
@@ -99,6 +168,7 @@ public class Scene {
 
     /**
      * set the color of the background of the screen
+     *
      * @param _background type Color
      */
     public void setBackground(Color _background) {
@@ -107,6 +177,7 @@ public class Scene {
 
     /**
      * set the light of the scene
+     *
      * @param _ambientLight type AmbientLight
      */
     public void setAmbientLight(AmbientLight _ambientLight) {
@@ -115,6 +186,7 @@ public class Scene {
 
     /**
      * set the List of shapes to represent the picture
+     *
      * @param _geometries type Geometries
      */
     public void setGeometries(Geometries _geometries) {
@@ -123,6 +195,7 @@ public class Scene {
 
     /**
      * set the camera of the scene
+     *
      * @param _camera type Camera
      */
     public void setCamera(Camera _camera) {
@@ -131,6 +204,7 @@ public class Scene {
 
     /**
      * set the distance between the camera and he screen of the picture
+     *
      * @param _distance type double
      */
     public void setDistance(double _distance) {
@@ -138,36 +212,58 @@ public class Scene {
     }
 
 
-
-
-
     //endregion
 
     /**
      * add many geometries in the the group of geometries of the picture
+     *
      * @param geometries type Intersectable
      */
-    public void addGeometries(Intersectable... geometries){
-        for(int i=0;i<geometries.length;i++)
-            this.geometries.add(geometries[i]);
+    public void addGeometries(Intersectable... geometries) {
+        this.geometries.add(geometries);
+/*        for(int i=0;i<geometries.length;i++)
+            this.geometries.add(geometries[i]);*/
     }
 
     /**
      * add an many ArrayList of many geometries in the the group of geometries of the picture
+     *
      * @param arrayGeo type ArrayList<Intersectable>...
      */
-    public void addGeometries(ArrayList<Intersectable> ... arrayGeo){
-        for(int i=0;i<arrayGeo.length;i++)
-            for(Intersectable geo :arrayGeo[i])
+    public void addGeometries(ArrayList<Intersectable>... arrayGeo) {
+        for (int i = 0; i < arrayGeo.length; i++)
+            for (Intersectable geo : arrayGeo[i])
                 this.geometries.add(geo);
     }
 
+   /* public void addMultiGeometries(SeveralGeometries severalGeometries){
+        this.geometries.addList(severalGeometries.getList());
+    }*/
+
+    public void addBox(Box... box) {
+        for (int i = 0; i < box.length; i++)
+            this.boxs.add(box[i]);
+    }
+
+    public void addGroupGeometries(Geometries... geometriesParam) {
+        Box box=new Box();//box containing all geometries in parameters
+        box.addGeometries(geometriesParam);//calculate the size of the box
+        Node<Geometries> node = new Node<>(box);
+
+        for(Geometries g : geometriesParam){
+            node.addChild(new Node<Geometries>(new Box(g)));
+        }
+        geometriesTree.addChild(node);
+    }
+
+
     /**
      * add many lights in the group of lights of the scene
+     *
      * @param lights
      */
     public void addLights(LightSource... lights) {
-        for(int i=0;i<lights.length;i++)
+        for (int i = 0; i < lights.length; i++)
             this.lights.add(lights[i]);
     }
 

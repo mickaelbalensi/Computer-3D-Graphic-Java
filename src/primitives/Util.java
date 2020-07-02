@@ -40,4 +40,30 @@ public abstract class Util {
     public static double alignZero(double number) {
         return getExp(number) < ACCURACY ? 0.0 : number;
     }
+
+    /**
+     * calculate the minimum value between many value in parameters
+     * @param mins
+     * @return
+     */
+    public static double min(double... mins){
+        double min= mins[0];
+        for(double d :mins){
+            min=min(min,d);
+        }
+        return min;
+    }
+
+    /**
+     * calculate the maximum value between many value in parameters
+     * @param mins
+     * @return
+     */
+    public static double max(double... mins){
+        double min= mins[0];
+        for(double d :mins){
+            min=max(min,d);
+        }
+        return min;
+    }
 }

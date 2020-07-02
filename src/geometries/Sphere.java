@@ -11,7 +11,7 @@ import static primitives.Util.alignZero;
  * the geometries.Sphere class represents geometry sphere
  * this class extends geometries.RadialGeometry for his radius
  */
-public class Sphere extends RadialGeometry {
+public class Sphere extends RadialGeometry{
     private Point3D center;
 
     //region CTORs
@@ -27,6 +27,12 @@ public class Sphere extends RadialGeometry {
     public Sphere(Point3D center, double radius, Color emissionColor, Material material) {
         super(radius, emissionColor, material);
         this.center = center;
+        this.Xmin=center.getX().get()-radius;
+        this.Ymin=center.getY().get()-radius;
+        this.Zmin=center.getZ().get()-radius;
+        this.Xmax=center.getX().get()+radius;
+        this.Ymax=center.getY().get()+radius;
+        this.Zmax=center.getZ().get()+radius;
     }
 
     public Sphere(Color emissionColor, Material material, double radius, Point3D center) {
@@ -115,4 +121,5 @@ public class Sphere extends RadialGeometry {
         return List.of(new GeoPoint(this, ray.getTargetPoint(t1)), //
                        new GeoPoint(this, ray.getTargetPoint(t2)));
     }
+
 }
