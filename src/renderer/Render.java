@@ -2,6 +2,7 @@ package renderer;
 
 import elements.*;
 import geometries.Box;
+import geometries.Geometries;
 import geometries.Intersectable;
 import geometries.Intersectable.GeoPoint;
 import primitives.Vector;
@@ -146,10 +147,13 @@ public class Render {
 
     private volatile int max = 0;
 
+    public void renderImage(){
+        renderImage(DEACTIVATE);
+    }
     /**
      * This function create an image of shapes according to the ambient light
      */
-    public void renderImage() {
+    public void renderImage(boolean improvementCheckIntersection) {
         final Camera camera = _scene.getCamera();
         final Intersectable geometries = _scene.getGeometries();
         final java.awt.Color background = _scene.getBackground().getColor();
@@ -169,12 +173,11 @@ public class Render {
                 max = 0;
                 while (thePixel.nextPixel(pixel)) {
                     Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
-                    GeoPoint closestPoint = findClosestIntersection(ray);
-
-
+                    GeoPoint closestPoint = findClosestIntersection(ray,improvementCheckIntersection);
+                    count++;
 
                     _imageWriter.writePixel(pixel.col, pixel.row, closestPoint == null ? background :
-                            calcColor(closestPoint, ray, DEACTIVATE).getColor());
+                            calcColor(closestPoint, ray, DEACTIVATE,improvementCheckIntersection).getColor());
                     System.out.println(count);
                 }
                /* while (thePixel.nextPixel(pixel)) {
@@ -204,6 +207,7 @@ public class Render {
         }
     }
 
+/*
     public void renderImageOriginal() {
         final Camera camera = _scene.getCamera();
         final Intersectable geometries = _scene.getGeometries();
@@ -249,9 +253,10 @@ public class Render {
             System.out.printf("\r100%%\n");
         }
     }
+*/
 
-    private Color calcColor(GeoPoint geopoint, Ray inRay, boolean flag) {
-        return calcColor(geopoint, inRay, MAX_CALC_COLOR_LEVEL, 1.0, flag).add(
+    private Color calcColor(GeoPoint geopoint, Ray inRay, boolean softShadow, boolean improvementCheckIntersection) {
+        return calcColor(geopoint, inRay, MAX_CALC_COLOR_LEVEL, 1.0, softShadow,improvementCheckIntersection).add(
                 _scene.ambientLight.getIntensity());
     }
 
@@ -259,7 +264,7 @@ public class Render {
      * @param @param intersection (Point3D) the point of which we need the color
      * @return the color
      */
-    private Color calcColor(GeoPoint geopoint, Ray inRay, int level, double k, boolean flag) {
+    private Color calcColor(GeoPoint geopoint, Ray inRay, int level, double k, boolean softShadow, boolean improvementCheckIntersection) {
         Color color = geopoint.geometry.getEmission();
 
         Vector v = inRay.getDirection();
@@ -273,7 +278,7 @@ public class Render {
             Vector l = lightSource.getL(geopoint.point);
             double nl = alignZero(n.dotProduct(l));
             if (nv * nl > 0) {
-                double ktr = transparency(lightSource, l, n, geopoint, flag);
+                double ktr = transparency(lightSource, l, n, geopoint, softShadow,improvementCheckIntersection);
                 if (ktr * k > MIN_CALC_COLOR_K) {
                     Color lightIntensity = lightSource.getIntensity(geopoint.point).scale(ktr);
                     Color calcDiff = calcDiffusive(kd, nl, lightIntensity);
@@ -288,17 +293,17 @@ public class Render {
         double kr = material.getKr(), kkr = k * kr;
         if (kkr > MIN_CALC_COLOR_K) {
             Ray reflectedRay = constructReflectedRay(n, geopoint.point, inRay);
-            GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
+            GeoPoint reflectedPoint = findClosestIntersection(reflectedRay,improvementCheckIntersection);
             if (reflectedPoint != null)
-                color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr, flag).scale(kr));
+                color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr, softShadow,improvementCheckIntersection).scale(kr));
         }
 
         double kt = material.getKt(), kkt = k * kt;
         if (kkt > MIN_CALC_COLOR_K) {
             Ray refractedRay = constructRefractedRay(n, geopoint, inRay);
-            GeoPoint refractedPoint = findClosestIntersection(refractedRay);
+            GeoPoint refractedPoint = findClosestIntersection(refractedRay,improvementCheckIntersection);
             if (refractedPoint != null)
-                color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt, flag).scale(kt));
+                color = color.add(calcColor(refractedPoint, refractedRay, level - 1, kkt, softShadow,improvementCheckIntersection).scale(kt));
         }
         return color;
     }
@@ -327,16 +332,47 @@ public class Render {
         return lightIntensity.scale(kd * abs(nl));
     }
 
-    private GeoPoint findClosestIntersection(Ray ray) {
-        return findClosestIntersection(ray, Double.POSITIVE_INFINITY);
+    private GeoPoint findClosestIntersection(Ray ray, boolean improvementCheckIntersection) {
+        return findClosestIntersection(ray, Double.POSITIVE_INFINITY,improvementCheckIntersection);
     }
 
-    private GeoPoint findClosestIntersection(Ray ray, double max) {
+    /**
+     * This function calculate intersections' points from ray receiving in parameter.
+     *
+     * In the case improvement is activated
+     *
+     *
+     * @param ray
+     * @param max
+     * @param improvementCheckIntersection
+     * @return
+     */
+    private List<GeoPoint> improvementIntersection(Ray ray, double max, boolean improvementCheckIntersection){
+        if (improvementCheckIntersection == DEACTIVATE){//check for all geometries if ray crows one of them
+            return _scene.getGeometries().findGeoIntersections(ray, max);
+        }
+        //
+        List<GeoPoint> intersectionPointsWithOuterBox = _scene.getGeometriesTree().getData().findGeoIntersections(ray, max);
+        if (intersectionPointsWithOuterBox == null) return null;
+
+        List<GeoPoint> intersectionPointsWithInnerBox= null;
+        List<GeoPoint> intersectionPointsWithGeometries= null;
+
+        for (Scene.Node<Geometries> g :_scene.getGeometriesTree().getChildren()){
+            intersectionPointsWithInnerBox = g.getData().findGeoIntersections(ray,max);
+            if (intersectionPointsWithInnerBox!=null){
+                if (intersectionPointsWithGeometries==null)
+                    intersectionPointsWithGeometries= new ArrayList();
+                intersectionPointsWithGeometries.addAll(g.getData().findGeoIntersections(ray,max));
+            }
+        }
+        return intersectionPointsWithGeometries;
+    }
+
+    private GeoPoint findClosestIntersection(Ray ray, double max, boolean improvementCheckIntersection) {
         Point3D pt = ray.getPt();
-        List<GeoPoint> intersectionPoints = _scene.getGeometries().findGeoIntersections(ray, max);
+        List<GeoPoint> intersectionPoints = improvementIntersection(ray, max, improvementCheckIntersection);
         if (intersectionPoints == null) return null;
-
-
 
 
         GeoPoint minDistancePoint = null;
@@ -389,17 +425,21 @@ public class Render {
      * @param l
      * @param n
      * @param geoPoint
-     * @param flag
+     * @param softShadow
      * @return
      */
-    private double transparency(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint, boolean flag) {
+    private double transparency(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint, boolean softShadow, boolean improvementCheckIntersection) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection, n);// from point to light source
 
-        if (lightSource instanceof DirectionalLight || flag == DEACTIVATE) {
+        if (lightSource instanceof DirectionalLight || softShadow == DEACTIVATE) {
 
             double lightDistance = lightSource.getDistance(geoPoint.point);
-            List<GeoPoint> intersections = _scene.getGeometries().findGeoIntersections(lightRay, lightDistance);
+            /**
+             * * * * * * * * * * * * * * * * * * * * Remplace line* * * * * * * * * * * * * * * * * * * * * * * * * * *
+             */
+            List<GeoPoint> intersections = improvementIntersection(lightRay,lightDistance,improvementCheckIntersection);
+            //List<GeoPoint> intersections = _scene.getGeometries().findGeoIntersections(lightRay, lightDistance);
             if (intersections == null)
                 return 1.0;
 
@@ -422,7 +462,11 @@ public class Render {
             boolean flagIntersection = false;
 
             for (Ray r : listRay) {
-                List<GeoPoint> intersecOneRay = _scene.getGeometries().findGeoIntersections(r, lightDistance);
+                /**
+                 * * * * * * * * * * * * * * * * * * * * Remplace line* * * * * * * * * * * * * * * * * * * * * * * * * * *
+                 */
+                //List<GeoPoint> intersecOneRay = _scene.getGeometries().findGeoIntersections(r, lightDistance);
+                List<GeoPoint> intersecOneRay = improvementIntersection(r,lightDistance,improvementCheckIntersection);
                 // if the ray 'r' don't crosses any geometries, it's like it crosses geometries transparent
                 if (intersecOneRay == null) ktr = 1.0;
                 else {

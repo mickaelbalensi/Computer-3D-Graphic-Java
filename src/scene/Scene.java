@@ -18,6 +18,15 @@ import java.util.List;
  */
 public class Scene {
 
+    private String name;
+    private Color background;
+    public AmbientLight ambientLight;
+    private Geometries geometries;
+    private Camera camera;
+    private double distance;
+    private List<LightSource> lights;
+    private List<Box> boxes;
+    private Node<Geometries> geometriesTree;
     /**
      * @author w w w. j a v a g i s t s . c o m
      */
@@ -64,15 +73,7 @@ public class Scene {
 
     }
 
-    private String name;
-    private Color background;
-    public AmbientLight ambientLight;
-    private Geometries geometries;
-    private Camera camera;
-    private double distance;
-    private List<LightSource> lights;
-    private List<Box> boxs;
-    private Node<Geometries> geometriesTree;
+
 
 
     /**
@@ -153,9 +154,15 @@ public class Scene {
         return lights;
     }
 
-    public List<Box> getBoxs() {
-        return boxs;
+    public List<Box> getBoxes() {
+        return boxes;
     }
+
+    public Node<Geometries> getGeometriesTree(){
+        return geometriesTree;
+    }
+
+
 
     /**
      * set the name of the scene
@@ -242,18 +249,21 @@ public class Scene {
 
     public void addBox(Box... box) {
         for (int i = 0; i < box.length; i++)
-            this.boxs.add(box[i]);
+            this.boxes.add(box[i]);
     }
 
     public void addGroupGeometries(Geometries... geometriesParam) {
-        Box box=new Box();//box containing all geometries in parameters
-        box.addGeometries(geometriesParam);//calculate the size of the box
-        Node<Geometries> node = new Node<>(box);
+        Box rootBox=new Box();//box containing all geometries in parameters
+        rootBox.addGeometries(geometriesParam);//calculate the size of the box
+
+        Node<Geometries> root = new Node<>(rootBox);
 
         for(Geometries g : geometriesParam){
-            node.addChild(new Node<Geometries>(new Box(g)));
+            root.addChild(new Node<Geometries>(new Box(g)));
         }
-        geometriesTree.addChild(node);
+
+        geometriesTree= new Node(root);
+
     }
 
 

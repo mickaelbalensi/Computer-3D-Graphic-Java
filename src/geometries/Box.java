@@ -7,37 +7,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Box extends Geometries{
-    private List<Polygon> polygons;
-    //private Geometries geometries;
-    private double Xmin; // the X-value minimum of the Geometry
-    private double Ymin; // the Y-value minimum of the Geometry
-    private double Zmin; // the Z-value minimum of the Geometry
-    private double Xmax; // the X-value maximum of the Geometry
-    private double Ymax; // the Y-value maximum of the Geometry
-    private double Zmax; // the Z-value maximum of the Geometry
-
+    //private List<Polygon> shapes;
+    private Geometries geometrie;
+    //private double Xmin; // the X-value minimum of the Geometry
+    //private double Ymin; // the Y-value minimum of the Geometry
+    //private double Zmin; // the Z-value minimum of the Geometry
+    //private double Xmax; // the X-value maximum of the Geometry
+    //private double Ymax; // the Y-value maximum of the Geometry
+    //private double Zmax; // the Z-value maximum of the Geometry
+    protected static double MAX = 100000;
+    protected static double MIN = -100000;
 
     /*    public Box(double Xmin, double Xmax, double Ymin, double Ymax, double Zmin, double Zmax) {
         geometries=new Geometries();
-        polygons.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmin)));
-        polygons.add(new Polygon(new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmin, Ymax, Zmax), new Point3D(Xmax, Ymax, Zmax)));
-        polygons.add(new Polygon(new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmax)));
-        polygons.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmin, Ymax, Zmax)));
-        polygons.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmax, Ymin, Zmax)));
-        polygons.add(new Polygon(new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmin, Ymax, Zmax), new Point3D(Xmax, Ymax, Zmax)));
+        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmin)));
+        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmin, Ymax, Zmax), new Point3D(Xmax, Ymax, Zmax)));
+        shapes.add(new Polygon(new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmax)));
+        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmin, Ymax, Zmax)));
+        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmax, Ymin, Zmax)));
+        shapes.add(new Polygon(new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmin, Ymax, Zmax), new Point3D(Xmax, Ymax, Zmax)));
 }*/
+
+    /**
+     * Default Constructor
+     */
     public Box() {
-        Xmin = 0;
-        Xmax = 0;
-        Ymin = 0;
-        Ymax = 0;
-        Zmin = 0;
-        Zmax = 0;
-        polygons = new ArrayList();
+        Xmin = MAX;
+        Xmax = MIN;
+        Ymin = MAX;
+        Ymax = MIN;
+        Zmin = MAX;
+        Zmax = MIN;
+        shapes = new ArrayList();
     }
 
+
     public Box(Intersectable inter){
+        this();
         setBox(inter.getXmin(), inter.getXmax(), inter.getYmin(), inter.getYmax(), inter.getZmin(), inter.getZmax());
+        geometrie=new Geometries(inter);
     }
 
     /*public Box(Geometries geometries) {
@@ -56,16 +64,19 @@ public class Box extends Geometries{
         this.Zmin = Zmin;
         this.Zmax = Zmax;
 
-        if(polygons==null)
-            polygons=new ArrayList();
+        if(shapes==null)
+            shapes=new ArrayList();
         else
-            polygons.clear();
-        polygons.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmin)));
-        polygons.add(new Polygon(new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmin, Ymax, Zmax), new Point3D(Xmax, Ymax, Zmax)));
-        polygons.add(new Polygon(new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmax)));
-        polygons.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmin, Ymax, Zmax)));
-        polygons.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmax, Ymin, Zmax)));
-        polygons.add(new Polygon(new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmin, Ymax, Zmax), new Point3D(Xmax, Ymax, Zmax)));
+            shapes.clear();
+        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmin, Ymax, Zmin)));
+        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmax, Ymax, Zmax), new Point3D(Xmin, Ymax, Zmax)));
+        shapes.add(new Polygon(new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmax, Ymax, Zmax), new Point3D(Xmax, Ymax, Zmin)));
+        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmin, Ymax, Zmax), new Point3D(Xmin, Ymax, Zmin)));
+        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmin, Ymin, Zmax)));
+        shapes.add(new Polygon(new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmax), new Point3D(Xmin, Ymax, Zmax)));
+
+
+
     }
 
     public void addGeometries(Intersectable ... geometries) {
@@ -87,12 +98,16 @@ public class Box extends Geometries{
         }
 
         setBox(Xmingeometries, Xmaxgeometries, Ymingeometries, Ymaxgeometries, Zmingeometries, Zmaxgeometries);
+
+        if (geometries.length==1) {
+            geometrie=new Geometries(geometries[0]);
+        }
     }
 
     @Override
     public List<GeoPoint> findGeoIntersections(Ray ray, double max) {
         List<GeoPoint> intersectionPoint = null;
-        for (Polygon p : polygons)
+        for (Intersectable p : shapes)
             if (intersectionPoint == null)
                 intersectionPoint = p.findGeoIntersections(ray, max);
             else
@@ -100,9 +115,9 @@ public class Box extends Geometries{
         return intersectionPoint;
     }
 
-    //public Geometries getGeometries() {
-    //    return geometries;
-    //}
+    public List<Intersectable> getGeometries() {
+        return geometrie.getGeometries();
+    }
 
 
 }

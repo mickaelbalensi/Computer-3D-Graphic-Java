@@ -56,6 +56,29 @@ public class Polygon extends Geometry implements Volume{
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
         _plane = new Plane(vertices[0], vertices[1], vertices[2]);
+
+        //calculate the minimum and maximum of coordinates X,Y,Z of the polygon
+        Xmin = MAX;
+        Ymin = MAX;
+        Zmin = MAX;
+        Xmax = MIN;
+        Ymax = MIN;
+        Zmax = MIN;
+
+        for (Point3D p : _vertices) {
+            double xPoint = p.getX().get();
+            double yPoint = p.getY().get();
+            double zPoint = p.getZ().get();
+
+            if (Xmin > xPoint)  Xmin = xPoint;
+            if (Ymin > yPoint)  Ymin = yPoint;
+            if (Zmin > zPoint)  Zmin = zPoint;
+
+            if (Xmax < xPoint)  Xmax = xPoint;
+            if (Ymax < yPoint)  Ymax = yPoint;
+            if (Zmax < zPoint)  Zmax = zPoint;
+        }
+
         if (vertices.length == 3) return; // no need for more tests for a Triangle
 
         Vector n = _plane.getNormal(vertices[0]);
@@ -85,26 +108,7 @@ public class Polygon extends Geometry implements Volume{
             if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
-        Xmin = MAX;
-        Ymin = MAX;
-        Zmin = MAX;
-        Xmax = MIN;
-        Ymax = MIN;
-        Zmax = MIN;
 
-        for (Point3D p : _vertices) {
-            double xPoint = p.getX().get();
-            double yPoint = p.getY().get();
-            double zPoint = p.getZ().get();
-
-            if (Xmin > xPoint)  Xmin = xPoint;
-            if (Ymin > yPoint)  Ymin = yPoint;
-            if (Zmin > zPoint)  Zmin = zPoint;
-
-            if (Xmax < xPoint)  Xmax = xPoint;
-            if (Ymax < yPoint)  Ymax = yPoint;
-            if (Zmax < zPoint)  Zmax = zPoint;
-        }
     }
 
     /**

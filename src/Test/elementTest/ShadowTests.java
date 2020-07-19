@@ -59,7 +59,8 @@ public class ShadowTests {
         scene.setBackground(Color.BLACK);
         scene.setAmbientLight(new AmbientLight(Color.BLACK, 0));
 
-        scene.addGeometries(new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
+        scene.addGeometries(
+                new Sphere(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
                         60, new Point3D(0, 0, 200)), //
                 new Triangle(new Color(java.awt.Color.BLUE), new Material(0.5, 0.5, 30), //
                         new Point3D(-50, 25, 0), new Point3D(-20, 55, 0), new Point3D(-48, 53, 4)));
@@ -369,7 +370,9 @@ public class ShadowTests {
         scene.setBackground(Color.BLACK);
         scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0));
 
-        //scene.addBox(new Box(new Cat()));
+        scene.addGroupGeometries(
+                new Geometries()
+                );
         /*scene.addGeometries(
 
                 new Cat1(new Color(java.awt.Color.darkGray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList(),
@@ -481,7 +484,7 @@ public class ShadowTests {
                         new Point3D(-100, 10, -200), new Vector(1, -1, 3), 1, 1E-5, 1.5E-7)
         );
 
-        ImageWriter imageWriter = new ImageWriter("taille", 200, 200, 400, 400);
+        ImageWriter imageWriter = new ImageWriter("taille2", 200, 200, 400, 400);
         Render render = new Render(imageWriter, scene).setMultithreading(6);
 
         render.renderImage();

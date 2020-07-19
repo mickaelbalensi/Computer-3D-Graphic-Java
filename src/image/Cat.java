@@ -37,6 +37,7 @@ public class Cat {
         cat5 = new Cat5(new Color(java.awt.Color.gray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0));
         cat6 = new Cat6(new Color(java.awt.Color.darkGray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0));
 
+        list =new ArrayList<>();
         list.addAll(cat1.getList());
         list.addAll(cat2.getList());
         list.addAll(cat3.getList());

@@ -25,7 +25,9 @@ public class Geometries implements Intersectable {
         add(geometries);
     }
 
+/*
     public void add(Intersectable... geometries) {
+
         for (int i = 0; i < geometries.length; i++) {
             this.shapes.add(geometries[i]);
         }
@@ -54,10 +56,45 @@ public class Geometries implements Intersectable {
         this.Zmin = ZminGeo;
         this.Zmax = ZmaxGeo;
     }
+*/
 
+    public void add(Intersectable... geometries) {
+        List listGeometries=new ArrayList();
+
+        for (int i = 0; i < geometries.length; i++) {
+            listGeometries.add(geometries[i]);
+        }
+        addList(listGeometries);
+    }
 
     public void addList(List listGeometries) {
         this.shapes.addAll(listGeometries);
+
+        //calculate the min and max of coordinates X,Y,Z of Geometries
+        double XminGeo = shapes.get(0).getXmin();
+        double YminGeo = shapes.get(0).getYmin();
+        double ZminGeo = shapes.get(0).getZmin();
+        double XmaxGeo = shapes.get(0).getXmax();
+        double YmaxGeo = shapes.get(0).getYmax();
+        double ZmaxGeo = shapes.get(0).getZmax();
+
+        for (Intersectable i : shapes) {
+
+            if (XminGeo > i.getXmin()) XminGeo = i.getXmin();
+            if (YminGeo > i.getYmin()) YminGeo = i.getYmin();
+            if (ZminGeo > i.getZmin()) ZminGeo = i.getZmin();
+
+            if (XmaxGeo < i.getXmax()) XmaxGeo = i.getXmax();
+            if (YmaxGeo < i.getYmax()) YmaxGeo = i.getYmax();
+            if (ZmaxGeo < i.getZmax()) ZmaxGeo = i.getZmax();
+        }
+        this.Xmin = XminGeo;
+        this.Xmax = XmaxGeo;
+        this.Ymin = YminGeo;
+        this.Ymax = YmaxGeo;
+        this.Zmin = ZminGeo;
+        this.Zmax = ZmaxGeo;
+
     }
 
     //region getters
