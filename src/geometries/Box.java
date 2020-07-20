@@ -6,27 +6,16 @@ import primitives.Ray;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Create Box in order to contain  shapes
+ */
 public class Box extends Geometries{
-    //private List<Polygon> shapes;
+
     private Geometries geometrie;
-    //private double Xmin; // the X-value minimum of the Geometry
-    //private double Ymin; // the Y-value minimum of the Geometry
-    //private double Zmin; // the Z-value minimum of the Geometry
-    //private double Xmax; // the X-value maximum of the Geometry
-    //private double Ymax; // the Y-value maximum of the Geometry
-    //private double Zmax; // the Z-value maximum of the Geometry
+
     protected static double MAX = 100000;
     protected static double MIN = -100000;
 
-    /*    public Box(double Xmin, double Xmax, double Ymin, double Ymax, double Zmin, double Zmax) {
-        geometries=new Geometries();
-        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmin)));
-        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmin, Ymax, Zmax), new Point3D(Xmax, Ymax, Zmax)));
-        shapes.add(new Polygon(new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmax), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmax)));
-        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmin, Ymax, Zmax)));
-        shapes.add(new Polygon(new Point3D(Xmin, Ymin, Zmin), new Point3D(Xmax, Ymin, Zmin), new Point3D(Xmin, Ymin, Zmax), new Point3D(Xmax, Ymin, Zmax)));
-        shapes.add(new Polygon(new Point3D(Xmin, Ymax, Zmin), new Point3D(Xmax, Ymax, Zmin), new Point3D(Xmin, Ymax, Zmax), new Point3D(Xmax, Ymax, Zmax)));
-}*/
 
     /**
      * Default Constructor
@@ -41,14 +30,24 @@ public class Box extends Geometries{
         shapes = new ArrayList();
     }
 
-
+    /**
+     * CTOR with geometry
+     * @param inter the geometry to put in box
+     */
     public Box(Intersectable inter){
-        //this();
         setBox(inter.getXmin(), inter.getXmax(), inter.getYmin(), inter.getYmax(), inter.getZmin(), inter.getZmax());
         geometrie=new Geometries(inter);
     }
 
-
+    /**
+     * Create the box according to shape's length
+     * @param Xmin min axe X
+     * @param Xmax max axe x
+     * @param Ymin min axe y
+     * @param Ymax max axe y
+     * @param Zmin min axe z
+     * @param Zmax max axe z
+     */
     public void setBox(double Xmin, double Xmax, double Ymin, double Ymax, double Zmin, double Zmax) {
         this.Xmin = Xmin;
         this.Xmax = Xmax;
@@ -72,6 +71,10 @@ public class Box extends Geometries{
 
     }
 
+    /**
+     * this function recalculate the dimensions of the box after adding geometries in the box
+     * @param geometries geometries to add
+     */
     public void addGeometries(Intersectable ... geometries) {
         double Xmingeometries = Xmin;
         double Ymingeometries = Ymin;
@@ -103,15 +106,14 @@ public class Box extends Geometries{
         for (Intersectable p : shapes)
             if (intersectionPoint == null)
                 intersectionPoint = p.findGeoIntersections(ray, max);
-            /*else{
-                List<GeoPoint> intersectionPointsWithFace= p.findGeoIntersections(ray, max);
-                if(intersectionPointsWithFace!=null)
-                    intersectionPoint.addAll(intersectionPointsWithFace);
-            }*/
 
         return intersectionPoint;
     }
 
+    /**
+     * getter of geometries of the box
+     * @return list of geometries
+     */
     public List<Intersectable> getGeometries() {
         return geometrie.getGeometries();
     }

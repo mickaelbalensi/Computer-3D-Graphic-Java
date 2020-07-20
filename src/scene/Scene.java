@@ -25,10 +25,11 @@ public class Scene {
     private Camera camera;
     private double distance;
     private List<LightSource> lights;
-    private List<Box> boxes;
     private Node<Geometries> geometriesTree;
+
     /**
-     * @author w w w. j a v a g i s t s . c o m
+     * Hierarchical construction of geometries of the scene
+     * @param <T> generic, used T = Geometries
      */
     public class Node<T> extends Geometries{
 
@@ -36,41 +37,48 @@ public class Scene {
         private List<Node<T>> children = new ArrayList<>();
         private Node<T> parent = null;
 
+        /**
+         * CTOR with parameter
+         * @param data geometries
+         */
         public Node(T data) {
             this.data = data;
         }
 
+        /**
+         * add child node
+         * @param child node to add
+         * @return the child
+         */
         public Node<T> addChild(Node<T> child) {
             child.setParent(this);
             this.children.add(child);
             return child;
         }
 
-        public void addChildren(List<Node<T>> children) {
-            children.forEach(each -> each.setParent(this));
-            this.children.addAll(children);
-        }
-
+        /**
+         * getter of node's children
+         * @return list of children
+         */
         public List<Node<T>> getChildren() {
             return children;
         }
 
+        /**
+         * getter of data
+         * @return the data, used geometry
+         */
         public T getData() {
             return data;
         }
 
-        public void setData(T data) {
-            this.data = data;
-        }
-
+        /**
+         * setter parent of node
+         * @param parent to set
+         */
         private void setParent(Node<T> parent) {
             this.parent = parent;
         }
-
-        public Node<T> getParent() {
-            return parent;
-        }
-
     }
 
 
@@ -154,14 +162,13 @@ public class Scene {
         return lights;
     }
 
-    public List<Box> getBoxes() {
-        return boxes;
-    }
-
+    /**
+     * getter of root of the tree
+     * @return root of the tree
+     */
     public Node<Geometries> getGeometriesTree(){
         return geometriesTree;
     }
-
 
 
     /**
@@ -242,15 +249,10 @@ public class Scene {
                 this.geometries.add(geo);
     }
 
-   /* public void addMultiGeometries(SeveralGeometries severalGeometries){
-        this.geometries.addList(severalGeometries.getList());
-    }*/
-
-    public void addBox(Box... box) {
-        for (int i = 0; i < box.length; i++)
-            this.boxes.add(box[i]);
-    }
-
+    /**
+     * add grop of geometries to set them in hierarchical structure
+     * @param geometriesParam table of geometries
+     */
     public void addGroupGeometries(Geometries... geometriesParam) {
         Box rootBox=new Box();//box containing all geometries in parameters
         rootBox.addGeometries(geometriesParam);//calculate the size of the box
@@ -268,7 +270,6 @@ public class Scene {
         }
 
         geometriesTree= root;
-
     }
 
 

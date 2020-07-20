@@ -11,7 +11,7 @@ import primitives.*;
  * @author mickael balensi
  */
 public class DirectionalLight extends Light implements LightSource {
-    private Vector _direction;
+    private Vector _direction; //direction of lightning
 
     /**
      * the elements.DirectionalLight Constructor receiving intensity of the light and it's direction
