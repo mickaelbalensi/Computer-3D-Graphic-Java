@@ -22,9 +22,9 @@ public class Vector {
     }
 
     /**
-     * @param x
-     * @param y
-     * @param z
+     * @param x x
+     * @param y y
+     * @param z z
      */
 
     public  Vector(double x, double y,double z){
@@ -45,12 +45,17 @@ public class Vector {
     }
 
     /**
-     * @param vec
+     * @param vec vector
      */
     public Vector(Vector vec){
         this.pt=new Point3D(vec.pt);
     }
 
+    /**
+     * subtract two points
+     * @param p1 p1
+     * @param p2 p2
+     */
     public Vector(Point3D p1, Point3D p2) {
         this(p1.subtract(p2));
     }
@@ -59,14 +64,14 @@ public class Vector {
     //region functions
 
     /**
-     * @param pt
+     * @param pt  point
      */
     public void setPt(Point3D pt) {
         this.pt = pt;
     }
 
     /**
-     * @param vec
+     * @param vec vector
      * @return vector
      */
     public Vector subtract(Vector vec)  {
@@ -74,7 +79,7 @@ public class Vector {
     }
 
     /**
-     * @param vec
+     * @param vec vector
      * @return Vector
      */
     public Vector add(Vector vec)  {
@@ -91,7 +96,6 @@ public class Vector {
     }
 
     /**
-     *
      * @param vec we take a vector that we are going to calculate the dot product with our vector
      * @return double ,the dot product of two vectors
      */

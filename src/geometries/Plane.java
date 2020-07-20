@@ -46,15 +46,22 @@ public class Plane extends Geometry {
 
         this._normal = tempNormal;
 
+        Xmax = MAX;
+        Ymax = MAX;
+        Zmax = MAX;
+        Xmin = MIN;
+        Ymin = MIN;
+        Zmin = MIN;
+
     }
 
     /**
      * Constructor for a Plane receiving 3 point to caracterise it, and it's color
      *
-     * @param pt1
-     * @param pt2
-     * @param pt3
-     * @param color
+     * @param pt1 first plane's point
+     * @param pt2 second plane's point
+     * @param pt3 third plane's point
+     * @param color plane's colors
      */
     public Plane(Point3D pt1, Point3D pt2, Point3D pt3, Color color) {
         this(pt1, pt2, pt3, color, new Material(0, 0, 0));
@@ -62,10 +69,9 @@ public class Plane extends Geometry {
 
     /**
      * Constructor for a Plane receiving 3 point to caracterise it
-     *
-     * @param pt1
-     * @param pt2
-     * @param pt3
+     * @param pt1 pt1
+     * @param pt2 pt2
+     * @param pt3 pt3
      */
     public Plane(Point3D pt1, Point3D pt2, Point3D pt3) {
         this(pt1, pt2, pt3, Color.BLACK, new Material(0, 0, 0));
@@ -73,10 +79,10 @@ public class Plane extends Geometry {
 
     /**
      * Ctor receiving:
-     * @param vec
-     * @param pt1
-     * @param color
-     * @param material
+     * @param vec vector
+     * @param pt1 pt1
+     * @param color color
+     * @param material material
      */
     public Plane(Vector vec, Point3D pt1,Color color,Material material) {
         super(color,material);
@@ -87,9 +93,9 @@ public class Plane extends Geometry {
 
     /**
      * Ctor receiving
-     * @param vec
-     * @param pt1
-     * @param color
+     * @param vec vector
+     * @param pt1 pt1
+     * @param color color
      */
     public Plane(Vector vec, Point3D pt1,Color color) {
         super(color);
@@ -98,7 +104,7 @@ public class Plane extends Geometry {
         this._normal = vec;
     }
     /**
-     * @param vec
+     * @param vec vector
      * @param pt1 the vector and the point who form the plane
      */
     public Plane(Vector vec, Point3D pt1) {
@@ -142,6 +148,9 @@ public class Plane extends Geometry {
         return _p;
     }
     @Override
+    /**
+     * normal's vector
+     */
     public Vector getNormal(Point3D pt) {
         //Vector V = new Vector(_p);
         //Vector norm = _normal.crossProduct(V);

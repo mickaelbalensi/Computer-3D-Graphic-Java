@@ -27,8 +27,7 @@ public final class Coordinate {
 
     /**
      * Copy constructor for coordinate
-     * 
-     * @param other
+     * @param other coordinate
      */
     public Coordinate(Coordinate other) {
         _coord = other._coord;
@@ -50,7 +49,6 @@ public final class Coordinate {
         if (!(obj instanceof Coordinate)) return false;
         return isZero(_coord - ((Coordinate)obj)._coord);
     }
-
     @Override
     public String toString() {
         return "" + _coord;

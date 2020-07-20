@@ -5,6 +5,9 @@ import geometries.Intersectable;
 import static primitives.Util.isZero;
 import geometries.Intersectable;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Ray {
     protected Point3D pt;
     protected Vector direction;
@@ -72,5 +75,28 @@ public class Ray {
                 this.direction.equals(ray.direction);
     }
 
+    public ArrayList<Ray> getListRays(Point3D center, int radius){
+        ArrayList<Ray> listRay = new ArrayList<Ray>();
+        listRay.add(this);
+
+        //int radius = (int) lightSource.getBulb().getRadius();
+        //Point3D center = lightSource.getBulb().getCenter();
+        double centerX = center.getX().get();
+        double centerY = center.getY().get();
+        double centerZ = center.getZ().get();
+
+        Random rand = new Random();
+        for (int i = 0; i < 50; i++) {
+            double x = rand.nextInt((int) centerX + radius - (int) (centerX - radius) + 1) + (centerX - radius);
+            double y = rand.nextInt((int) centerY + radius - (int) (centerY - radius) + 1) + (centerY - radius);
+            double z = rand.nextInt((int) centerZ + radius - (int) (centerZ - radius) + 1) + (centerZ - radius);
+
+            Point3D pointOfSphere = new Point3D(x, y, z);
+            Vector dest = pointOfSphere.subtract(this.pt);
+            Ray r = new Ray(this.pt, dest);
+            listRay.add(r);
+        }
+        return listRay;
+    }
 
 }

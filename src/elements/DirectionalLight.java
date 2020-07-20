@@ -1,5 +1,6 @@
 package elements;
 
+import geometries.Sphere;
 import primitives.*;
 
 /**
@@ -24,6 +25,9 @@ public class DirectionalLight extends Light implements LightSource {
     }
 
     @Override
+    /**
+     * get light's inetensity
+     */
     public Color getIntensity(Point3D p) {
         return super.getIntensity();
     }
@@ -34,8 +38,19 @@ public class DirectionalLight extends Light implements LightSource {
     }
 
     @Override
+    /**
+     * distance between light and object
+     */
     public double getDistance(Point3D point) {
         return Double.POSITIVE_INFINITY;
+    }
+
+    @Override
+    /**
+     * the sphere
+     */
+    public Sphere getBulb() {
+        return new Sphere(new Point3D( Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY), Double.POSITIVE_INFINITY);
     }
 
 

@@ -3,6 +3,7 @@ package geometries;
 import primitives.Color;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import primitives.*;
@@ -15,11 +16,12 @@ import static primitives.Util.*;
  *
  * @author Dan
  */
-public class Polygon extends Geometry {
+public class Polygon extends Geometry implements Volume{
     /**
      * List of polygon's vertices
      */
     protected List<Point3D> _vertices;
+
     /**
      * Associated plane in which the polygon lays
      */
@@ -42,7 +44,7 @@ public class Polygon extends Geometry {
      *                                  <li>The order of vertices is not according to edge path</li>
      *                                  <li>Three consequent vertices lay in the same line (180&#176; angle between two
      *                                  consequent edges)
-     *                                  <li>The polygon is concave (not convex></li>
+     *                                  <li>The polygon is concave (not convex)</li>
      *                                  </ul>
      */
     public Polygon(Color color, Material material, Point3D... vertices) {
@@ -54,6 +56,29 @@ public class Polygon extends Geometry {
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
         _plane = new Plane(vertices[0], vertices[1], vertices[2]);
+
+        //calculate the minimum and maximum of coordinates X,Y,Z of the polygon
+        Xmin = MAX;
+        Ymin = MAX;
+        Zmin = MAX;
+        Xmax = MIN;
+        Ymax = MIN;
+        Zmax = MIN;
+
+        for (Point3D p : _vertices) {
+            double xPoint = p.getX().get();
+            double yPoint = p.getY().get();
+            double zPoint = p.getZ().get();
+
+            if (Xmin > xPoint)  Xmin = xPoint;
+            if (Ymin > yPoint)  Ymin = yPoint;
+            if (Zmin > zPoint)  Zmin = zPoint;
+
+            if (Xmax < xPoint)  Xmax = xPoint;
+            if (Ymax < yPoint)  Ymax = yPoint;
+            if (Zmax < zPoint)  Zmax = zPoint;
+        }
+
         if (vertices.length == 3) return; // no need for more tests for a Triangle
 
         Vector n = _plane.getNormal(vertices[0]);
@@ -83,13 +108,14 @@ public class Polygon extends Geometry {
             if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
+
     }
 
     /**
      * Same Constructor without material
      *
-     * @param color
-     * @param vertices
+     * @param color polygon's color
+     * @param vertices list of polygon's points
      */
     public Polygon(Color color, Point3D... vertices) {
         this(color, new Material(0, 0, 0), vertices);
@@ -98,7 +124,7 @@ public class Polygon extends Geometry {
     /**
      * Same Constructor without color and material
      *
-     * @param vertices
+     * @param vertices list of polygon's points
      */
     public Polygon(Point3D... vertices) {
         this(Color.BLACK, vertices);
@@ -136,4 +162,9 @@ public class Polygon extends Geometry {
         intersections.get(0).geometry = this;
         return intersections;
     }
+
+    public List<Point3D> getVertices() {
+        return _vertices;
+    }
+
 }

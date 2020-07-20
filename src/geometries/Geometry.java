@@ -12,6 +12,15 @@ import primitives.*;
 public abstract class Geometry implements Intersectable {
     protected Color emission; // the emission color of the Geometry
     protected Material material; // the material of the Geometry
+    protected double Xmin; // the X-value minimum of the Geometry
+    protected double Ymin; // the Y-value minimum of the Geometry
+    protected double Zmin; // the Z-value minimum of the Geometry
+    protected double Xmax; // the X-value maximum of the Geometry
+    protected double Ymax; // the Y-value maximum of the Geometry
+    protected double Zmax; // the Z-value maximum of the Geometry
+    protected static double MAX = 100000;
+    protected static double MIN = -100000;
+
 
     //region CTORs
 
@@ -19,7 +28,7 @@ public abstract class Geometry implements Intersectable {
      * geometries.Geometry Constructor receiving the color and material
      *
      * @param emission color value
-     * @param material
+     * @param material geometry's material
      */
     public Geometry(Color emission, Material material) {
         this.emission = emission;
@@ -50,6 +59,30 @@ public abstract class Geometry implements Intersectable {
     public Material getMaterial() {
         return material;
     }
+    @Override
+    public double getXmin() {
+        return Xmin;
+    }
+    @Override
+    public double getYmin() {
+        return Ymin;
+    }
+    @Override
+    public double getZmin() {
+        return Zmin;
+    }
+    @Override
+    public double getXmax() {
+        return Xmax;
+    }
+    @Override
+    public double getYmax() {
+        return Ymax;
+    }
+    @Override
+    public double getZmax() {
+        return Zmax;
+    }
     //endregion
 
     /**
@@ -60,6 +93,7 @@ public abstract class Geometry implements Intersectable {
      * @return the normal vector
      */
     public abstract Vector getNormal(Point3D pt);
+
 
 
 }

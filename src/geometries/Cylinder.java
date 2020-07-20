@@ -17,12 +17,11 @@ public class Cylinder extends Tube {
 
     /**
      * Constructor who takes tube doubles, Color and material
-     *
-     * @param ray
-     * @param radius
-     * @param height
-     * @param color
-     * @param material
+     * @param ray cylinder's ray
+     * @param radius cylinder's radius
+     * @param height cylinder's height
+     * @param color cylinder's color
+     * @param material cylinder's material
      */
     public Cylinder(Ray ray, double radius, double height, Color color, Material material) {
         super(ray, radius, color, material);
@@ -43,10 +42,9 @@ public class Cylinder extends Tube {
 
     /**
      * CTOR without color
-     *
-     * @param ray
-     * @param radius
-     * @param height
+     * @param ray r
+     * @param height height
+     * @param  radius cylinder's radius
      */
     public Cylinder(Ray ray, double radius, double height) {
         this(ray, radius, height, Color.BLACK);
