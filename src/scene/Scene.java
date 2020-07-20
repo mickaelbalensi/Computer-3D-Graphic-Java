@@ -30,7 +30,7 @@ public class Scene {
     /**
      * @author w w w. j a v a g i s t s . c o m
      */
-    public class Node<T> {
+    public class Node<T> extends Geometries{
 
         private T data = null;
         private List<Node<T>> children = new ArrayList<>();
@@ -262,7 +262,13 @@ public class Scene {
             root.addChild(new Node<Geometries>(new Box(g)));
         }
 
-        geometriesTree= new Node(root);
+        int index=0;
+        for (Node<Geometries> n : root.getChildren()){
+            n.addChild(new Node(geometriesParam[index]));
+            index++;
+        }
+
+        geometriesTree= root;
 
     }
 

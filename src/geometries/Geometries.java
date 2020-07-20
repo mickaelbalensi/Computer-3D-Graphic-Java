@@ -121,6 +121,7 @@ public class Geometries implements Intersectable {
     public double getZmax() {
         return Zmax;
     }
+
     public List<Intersectable> getGeometries(){
         return shapes;
     }

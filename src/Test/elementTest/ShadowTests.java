@@ -370,10 +370,8 @@ public class ShadowTests {
         scene.setBackground(Color.BLACK);
         scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0));
 
-        scene.addGroupGeometries(
-                new Geometries()
-                );
-        /*scene.addGeometries(
+
+        scene.addGeometries(
 
                 new Cat1(new Color(java.awt.Color.darkGray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList(),
                 new Cat2(new Color(java.awt.Color.gray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList(),
@@ -382,7 +380,7 @@ public class ShadowTests {
                 new Cat5(new Color(java.awt.Color.gray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList(),
                 new Cat6(new Color(java.awt.Color.darkGray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList()
 
-        );*/
+        );
         scene.addGeometries(
                 new Plane( new Vector(0,0,-1),new Point3D(0, 0, 600), new Color(89,114,210), new Material(0.5, 0.5, 60, .8, 0))
                 //new Plane( new Vector(0, -1, 0), new Point3D(0, 0, 0),new Color(191,148,108), new Material(0.5, 0.5, 60, .5, 1))
@@ -395,9 +393,9 @@ public class ShadowTests {
                 new PointLight(new Color(400, 240, 120), new Point3D(-100, 100, -500), 1, 1E-5, 1.5E-7));
 
         ImageWriter imageWriter =
-                new ImageWriter("cat3planTest", 80, 40, 1000, 500);
+                new ImageWriter("catWithoutImprovement", 80, 40, 1000, 500);
                  //  new ImageWriter("cat2planTest", 20, 10, 250, 125);
-        Render render = new Render(imageWriter, scene).setMultithreading(20);
+        Render render = new Render(imageWriter, scene);
 
         render.renderImage();
         render.writeToImage();
@@ -485,7 +483,7 @@ public class ShadowTests {
         );
 
         ImageWriter imageWriter = new ImageWriter("taille2", 200, 200, 400, 400);
-        Render render = new Render(imageWriter, scene).setMultithreading(6);
+        Render render = new Render(imageWriter, scene);
 
         render.renderImage();
         render.writeToImage();

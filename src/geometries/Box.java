@@ -43,18 +43,11 @@ public class Box extends Geometries{
 
 
     public Box(Intersectable inter){
-        this();
+        //this();
         setBox(inter.getXmin(), inter.getXmax(), inter.getYmin(), inter.getYmax(), inter.getZmin(), inter.getZmax());
         geometrie=new Geometries(inter);
     }
 
-    /*public Box(Geometries geometries) {
-        setBox(geometries.getXmin(), geometries.getXmax(), geometries.getYmin(), geometries.getYmax(), geometries.getZmin(), geometries.getZmax());
-
-    }
-    public Box(Geometry geometry) {
-        setBox(geometry.getXmin(), geometry.getXmax(), geometry.getYmin(), geometry.getYmax(), geometry.getZmin(), geometry.getZmax());
-    }*/
 
     public void setBox(double Xmin, double Xmax, double Ymin, double Ymax, double Zmin, double Zmax) {
         this.Xmin = Xmin;
@@ -110,8 +103,12 @@ public class Box extends Geometries{
         for (Intersectable p : shapes)
             if (intersectionPoint == null)
                 intersectionPoint = p.findGeoIntersections(ray, max);
-            else
-                intersectionPoint.addAll(p.findGeoIntersections(ray, max));
+            /*else{
+                List<GeoPoint> intersectionPointsWithFace= p.findGeoIntersections(ray, max);
+                if(intersectionPointsWithFace!=null)
+                    intersectionPoint.addAll(intersectionPointsWithFace);
+            }*/
+
         return intersectionPoint;
     }
 
