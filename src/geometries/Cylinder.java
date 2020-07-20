@@ -1,20 +1,25 @@
 package geometries;
 
 import primitives.Ray;
-
+/**
+ *The cylinder class represents the two-dimensional cylinder in the
+ * 3D Cartesian coordinate system.it uses primitive classes and objects.
+ */
 public class Cylinder extends Tube {
     protected double height;
 
-
-
+    /**
+     * getter of height
+     * @return height
+     */
   public double getHeight() {
         return height;
     }
 
     /**
-     *
-     * @param tube
-     * @param height
+     * Ctor from
+     * @param tube tube
+     * @param height double
      */
     public Cylinder(Tube tube, double height){
         super(tube);
@@ -22,20 +27,17 @@ public class Cylinder extends Tube {
     }
 
     /**
-     *
-     * @param ray
-     * @param radius
-     * @param height
+     * Second Ctor
+     * @param ray ray
+     * @param radius double
+     * @param height double
      */
     public Cylinder(Ray ray, double radius, double height){
         super(ray,radius);
         this.height=height;
     }
 
-    /**
-     *
-     * @return
-     */
+
     @Override
     public String toString() {
         return "Cylinder{" +
