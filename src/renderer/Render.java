@@ -1,12 +1,10 @@
 package renderer;
 
 import elements.*;
-import geometries.Box;
 import geometries.Geometries;
 import geometries.Intersectable;
 import geometries.Intersectable.GeoPoint;
 import primitives.Vector;
-import scene.Node;
 import scene.Scene;
 import primitives.*;
 
