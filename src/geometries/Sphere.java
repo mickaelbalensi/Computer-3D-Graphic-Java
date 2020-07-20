@@ -6,20 +6,32 @@ import java.util.Collections;
 import java.util.List;
 
 import static primitives.Util.alignZero;
-
+/**
+ * the geometries.Sphere class represents geometry sphere
+ * this class extends geometries.RadialGeometry for his radius
+ */
 public class Sphere extends RadialGeometry {
+
     public Point3D _center;
 
     public Point3D get_center() {
         return _center;
     }
 
+    /**
+     * ctor sphere
+     * @param pt point
+     * @param radius radius
+     */
     public Sphere(Point3D pt, double radius){
         super(radius);
         this._center=pt;
     }
 
     @Override
+    /**
+     * sphere's normal
+     */
     public Vector getNormal(Point3D pt) {
         return pt.subtract(this._center).normalize();
     }

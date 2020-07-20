@@ -5,15 +5,25 @@ import primitives.Ray;
 import primitives.Vector;
 
 import java.util.List;
-
+/**
+ * the geometries.Tube class represents the geometry Tube
+ */
 public class Tube extends RadialGeometry {
     public Ray _axisRay;
-
+    /**
+     * Constructor who takes double, Ray, Color and Material
+     * @param radius   (double)
+     * @param ray ray
+     */
     public Tube(Ray ray, double radius){
         super(radius);
         _axisRay=ray;
     }
 
+    /**
+     * Constructor who takes double, Ray, Color
+     * @param tube tube
+     */
     public Tube(Tube tube){
         super(tube._radius);
         _axisRay=tube._axisRay;

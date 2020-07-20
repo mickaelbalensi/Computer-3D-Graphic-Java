@@ -1,10 +1,18 @@
 package geometries;
 
 import primitives.*;
+/**
+ * DRY to create radius both fors sphere and tube
+ */
 public abstract class RadialGeometry implements Geometry { // inherits from Geometry
     protected double _radius;
 
     //region CTORs
+
+    /**
+     * ctor radialgeometry
+     * @param _radius radius
+     */
     public RadialGeometry(double _radius){
         this._radius=_radius;
     }
@@ -14,6 +22,10 @@ public abstract class RadialGeometry implements Geometry { // inherits from Geom
     }
     //endregion
 
+    /**
+     * getter od radius
+     * @return radius
+     */
     public double get_radius() {
         return _radius;
     }

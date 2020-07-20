@@ -3,7 +3,9 @@ package primitives;
 import java.io.DataInput;
 import java.util.Objects;
 import static primitives.Util.isZero;
-
+/**
+ * ray leaving the camera
+ */
 public class Ray {
     protected Point3D pt;
     protected Vector direction;
