@@ -7,7 +7,6 @@ import primitives.Ray;
 /**
  *The cylinder class represents the two-dimensional cylinder in the
  * 3D Cartesian coordinate system.it uses primitive classes and objects.
- * @author mickael balensi
  */
 public class Cylinder extends Tube {
     protected double height;

@@ -1,6 +1,10 @@
 package geometries;
 
 import primitives.*;
+
+/**
+ * DRY to create radius both fors sphere and tube
+ */
 public abstract class RadialGeometry extends Geometry { // inherits from Geometry
     protected double radius;
     protected double radiusSqrd;

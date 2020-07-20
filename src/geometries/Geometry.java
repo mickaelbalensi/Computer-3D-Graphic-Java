@@ -7,7 +7,6 @@ import primitives.*;
  * this class geometries.Geometry represents all of geometric shapes
  * this class is abstract,
  * Geometry implements the Intersectable's interface
- * @author mickael balensi
  */
 public abstract class Geometry implements Intersectable {
     protected Color emission; // the emission color of the Geometry

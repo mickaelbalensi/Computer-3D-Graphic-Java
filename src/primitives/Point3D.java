@@ -2,6 +2,9 @@ package primitives;
 
 import geometries.Intersectable;
 
+/**
+ * it represents a point in 3D
+ */
 public class Point3D {
     //region fields
     protected Coordinate x;

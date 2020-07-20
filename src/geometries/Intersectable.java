@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 /**
  * Intersectable is a common interface for all geometries that are able
  * to intersect from a ray to their entity (Shape)
- * @author mickael balensi
  */
 public interface Intersectable {
     /**

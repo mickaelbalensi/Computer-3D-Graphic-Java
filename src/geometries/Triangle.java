@@ -6,6 +6,9 @@ import java.util.List;
 
 import static primitives.Util.isZero;
 
+/**
+ * this class represents a triangle
+ */
 public class Triangle extends Polygon {
 
     //region CTORs
