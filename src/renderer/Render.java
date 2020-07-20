@@ -261,14 +261,35 @@ public class Render {
     }
 */
 
+    /**
+     * This function calculate the color of one point, receiving in parameter.
+     * This function calls the calcColor's function with limit for recursive call
+     * @param geopoint the point which calculate it's color
+     * @param inRay the ray of the camera
+     * @param softShadow boolean activation of soft shadow improvement
+     * @param improvementCheckIntersection boolean activation of chipour bitsouyim
+     * @return the color (Color)
+     */
     private Color calcColor(GeoPoint geopoint, Ray inRay, boolean softShadow, boolean improvementCheckIntersection) {
         return calcColor(geopoint, inRay, MAX_CALC_COLOR_LEVEL, 1.0, softShadow, improvementCheckIntersection).add(
                 _scene.ambientLight.getIntensity());
     }
 
     /**
-     * @param @param intersection (Point3D) the point of which we need the color
-     * @return the color
+     * This function calculate the color of one point, receiving in parameter.
+     * the color calculated by several criterion :
+     *  - intensity of light
+     *  - diffusive light
+     *  - specular light
+     *  - reflection and refraction light
+     *  - shadow , if the point is occluded by an other geometry
+     * @param geopoint the point which calculate it's color
+     * @param inRay the ray of the camera
+     * @param level of recursive calls
+     * @param k index
+     * @param softShadow boolean activation of soft shadow improvement
+     * @param improvementCheckIntersection boolean activation of chipour bitsouyim
+     * @return the color (Color)
      */
     private Color calcColor(GeoPoint geopoint, Ray inRay, int level, double k, boolean softShadow, boolean improvementCheckIntersection) {
         Color color = geopoint.geometry.getEmission();
@@ -284,6 +305,7 @@ public class Render {
             Vector l = lightSource.getL(geopoint.point);
             double nl = alignZero(n.dotProduct(l));
             if (nv * nl > 0) {
+                //check if the point is occluded by an other geometry
                 double ktr = transparency(lightSource, l, n, geopoint, softShadow, improvementCheckIntersection);
                 if (ktr * k > MIN_CALC_COLOR_K) {
                     Color lightIntensity = lightSource.getIntensity(geopoint.point).scale(ktr);
@@ -296,6 +318,7 @@ public class Render {
 
         if (level == 1) return Color.BLACK; // don't do recursive part if it will be stopped anyway
 
+        //calculate the reflection color according to recursive calls
         double kr = material.getKr(), kkr = k * kr;
         if (kkr > MIN_CALC_COLOR_K) {
             Ray reflectedRay = constructReflectedRay(n, geopoint.point, inRay);
@@ -304,6 +327,7 @@ public class Render {
                 color = color.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr, softShadow, improvementCheckIntersection).scale(kr));
         }
 
+        //calculate the refraction color according to recursive calls
         double kt = material.getKt(), kkt = k * kt;
         if (kkt > MIN_CALC_COLOR_K) {
             Ray refractedRay = constructRefractedRay(n, geopoint, inRay);
@@ -315,15 +339,15 @@ public class Render {
     }
 
     /**
-     * Calculate Specular component of light reflection
+     * Calculate Specular component of light
      *
-     * @param ks             the coefficient of the specular component
-     * @param l
-     * @param n
-     * @param v
-     * @param nShininess
-     * @param lightIntensity
-     * @return
+     * @param ks the coefficient of the specular component
+     * @param l direction vector of light
+     * @param n normal vector
+     * @param v (Vector)
+     * @param nShininess index of shininess of the geometry on specific point
+     * @param lightIntensity of the scene
+     * @return the specular light
      */
     private Color calcSpecular(double ks, Vector l, Vector n, double nl, Vector v, int nShininess, Color lightIntensity) {
         Vector r = l.add(n.scale(-2 * nl));
@@ -334,23 +358,24 @@ public class Render {
         return lightIntensity.scale(ks * Math.pow(-vr, nShininess));//
     }
 
+    /**
+     * Calculate Diffusive component of light
+     * @param kd the coefficient of the diffusive component
+     * @param nl scalarProduct between vectors normal and light
+     * @param lightIntensity of the scene
+     * @return Calculate Diffusive
+     */
     private Color calcDiffusive(double kd, double nl, Color lightIntensity) {
         return lightIntensity.scale(kd * abs(nl));
     }
 
-    private GeoPoint findClosestIntersection(Ray ray, boolean improvementCheckIntersection) {
-        return findClosestIntersection(ray, Double.POSITIVE_INFINITY, improvementCheckIntersection);
-    }
 
     /**
-     * This function calculate intersections' points from ray receiving in parameter.
-     * <p>
-     * In the case improvement is activated
-     *
-     * @param ray
-     * @param max
-     * @param improvementCheckIntersection
-     * @return
+     * this function calculate intersections points after the improvement
+     * @param ray ray of the light
+     * @param max distance max
+     * @param improvementCheckIntersection boolean activation of the improvement
+     * @return intersectionPoints
      */
     private List<GeoPoint> improvementIntersection(Ray ray, double max, boolean improvementCheckIntersection) {
         if (improvementCheckIntersection == DEACTIVATE) {//check for all geometries if ray crows one of them
@@ -359,9 +384,13 @@ public class Render {
         Scene.Node<Geometries> root = _scene.getGeometriesTree();
 //        List<Intersectable> box =root.getData().getGeometries();
         Geometries box2 = root.getData();
+
+        // check intersection with the Outer Box containing all geometries of the scene
         List<GeoPoint> intersectionPointsWithOuterBox = box2.findGeoIntersections(ray, max);
         if (intersectionPointsWithOuterBox == null)
             return null;
+
+        //return _scene.getGeometries().findGeoIntersections(ray, max);
 
         List<GeoPoint> interPointsWithInnerBox = null;
         List<GeoPoint> intersectionPointsWithGeometries = null;
@@ -382,6 +411,27 @@ public class Render {
         return intersectionPointsWithGeometries;
     }
 
+    /**
+     * Among all of intersections' points from ray receiving in parameter,
+     * This function calculate the closest point
+     *
+     * @param ray ray of light
+     * @param improvementCheckIntersection boolean activation of improvement
+     * @return the closest intersection point
+     */
+    private GeoPoint findClosestIntersection(Ray ray, boolean improvementCheckIntersection) {
+        return findClosestIntersection(ray, Double.POSITIVE_INFINITY, improvementCheckIntersection);
+    }
+
+    /**
+     * Among all of intersections' points from ray receiving in parameter,
+     * This function calculate the closest point
+     *
+     * @param ray ray of light
+     * @param max maximum distance
+     * @param improvementCheckIntersection boolean activation of improvement
+     * @return the closest intersection point
+     */
     private GeoPoint findClosestIntersection(Ray ray, double max, boolean improvementCheckIntersection) {
         Point3D pt = ray.getPt();
         List<GeoPoint> intersectionPoints = improvementIntersection(ray, max, improvementCheckIntersection);
@@ -428,6 +478,13 @@ public class Render {
         return minDistancePoint;
     }
 
+    /**
+     * this function constructs the ray of light reflected on specific point of geometry
+     * @param n normal vector
+     * @param pt point of the geometry
+     * @param ray ray of light
+     * @return Reflected Ray constructed
+     */
     public Ray constructReflectedRay(Vector n, Point3D pt, Ray ray) {
         Vector v = ray.getDirection();
         double _2vn = 2 * v.dotProduct(n);
@@ -438,30 +495,37 @@ public class Render {
         return reflectedRay;
     }
 
+    /**
+     * this function constructs the ray of light refracted on specific point of geometry
+     * @param n normal vector
+     * @param geoPoint point of the geometry
+     * @param ray ray of light
+     * @return refracted Ray constructed
+     */
     public Ray constructRefractedRay(Vector n, GeoPoint geoPoint, Ray ray) {
         return new Ray(geoPoint.point, ray.getDirection(), n);
     }
 
     /**
-     * this function checks if the
+     * this function checks, on specific point of the geometry, if light is occluded by something. If it, there is shadow.
+     * We can activate improvement soft shadow.
      *
-     * @param lightSource
-     * @param l
-     * @param n
-     * @param geoPoint
-     * @param softShadow
-     * @return
+     * @param lightSource light
+     * @param l vector of light
+     * @param n normal vector
+     * @param geoPoint specific point
+     * @param softShadow boolean activation of improvement of soft shadow
+     * @param improvementCheckIntersection boolean activation of chipour bitsouyim
+     * @return pourcent of transparency
      */
     private double transparency(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint, boolean softShadow, boolean improvementCheckIntersection) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection, n);// from point to light source
 
+        // if improvement deactivate or the light source is Directional, there isn't softshadow
         if (lightSource instanceof DirectionalLight || softShadow == DEACTIVATE) {
 
             double lightDistance = lightSource.getDistance(geoPoint.point);
-            /**
-             * * * * * * * * * * * * * * * * * * * * Remplace line* * * * * * * * * * * * * * * * * * * * * * * * * * *
-             */
             List<GeoPoint> intersections = improvementIntersection(lightRay, lightDistance, improvementCheckIntersection);
             //List<GeoPoint> intersections = _scene.getGeometries().findGeoIntersections(lightRay, lightDistance);
             if (intersections == null)
@@ -486,9 +550,6 @@ public class Render {
             boolean flagIntersection = false;
 
             for (Ray r : listRay) {
-                /**
-                 * * * * * * * * * * * * * * * * * * * * Remplace line* * * * * * * * * * * * * * * * * * * * * * * * * * *
-                 */
                 //List<GeoPoint> intersecOneRay = _scene.getGeometries().findGeoIntersections(r, lightDistance);
                 List<GeoPoint> intersecOneRay = improvementIntersection(r, lightDistance, improvementCheckIntersection);
                 // if the ray 'r' don't crosses any geometries, it's like it crosses geometries transparent
@@ -515,71 +576,10 @@ public class Render {
         }
     }
 
-/*    private double transparency3(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint, boolean flag) {
-        if (lightSource instanceof DirectionalLight || flag == DEACTIVATE)
-            return transparency(lightSource, l, n, geoPoint);
-        else return transparency2(lightSource, l, n, geoPoint);
-    }
-
-    private double transparency(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint) {
-        Vector lightDirection = l.scale(-1); // from point to light source
-        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
-
-        double lightDistance = lightSource.getDistance(geoPoint.point);
-        List<GeoPoint> intersections = _scene.getGeometries().findGeoIntersections(lightRay, lightDistance);
-        if (intersections == null)
-            return 1.0;
-
-        double ktr = 1.0;
-        for (GeoPoint gpt : intersections) {
-            ktr *= gpt.geometry.getMaterial().getKt();
-            if (ktr < MIN_CALC_COLOR_K)
-                return 0.0;
-        }
-        return ktr;
-    }
-
-    private double transparency2(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint) {
-        Vector lightDirection = l.scale(-1); // from point to light source
-        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
-        // get list of several rays
-        ArrayList<Ray> listRay = lightRay.getListRays(lightSource.getBulb().getCenter(), (int) lightSource.getBulb().getRadius());
-
-        double lightDistance = lightSource.getDistance(geoPoint.point);
-
-        double ktr = 1.0;
-        double sumKtr = 0;//sum ktr of all intersection points for all rays
-        boolean flagIntersection = false;
-
-        for (Ray r : listRay) {
-            List<GeoPoint> intersecOneRay = _scene.getGeometries().findGeoIntersections(r, lightDistance);
-            // if the ray 'r' don't crosses any geometries, it's like it crosses geometries transparent
-            if (intersecOneRay == null) ktr = 1.0;
-            else {
-                flagIntersection = true;//there is at least one intersection point
-                // calculate an accumulation of ktr for all geometries crossed by the ray 'r'
-                for (GeoPoint gpt : intersecOneRay) {
-                    ktr *= gpt.geometry.getMaterial().getKt();
-                }
-            }
-
-            sumKtr += ktr;
-            ktr = 1.0;
-        }
-
-        if (flagIntersection == false)//if there aren't any intersection
-            return 1.0;
-
-        int numRay = listRay.size();
-        double ktrAverage = sumKtr / numRay;
-
-        return ktrAverage;
-    }*/
 
     /**
      * Displays a grid with fixed squares size
      */
-
     public void printGrid(int interval, java.awt.Color color) {
         for (int h = 0; h < _imageWriter.getNy(); h++) {
             for (int w = 0; w < _imageWriter.getNx(); w++) {
@@ -591,29 +591,9 @@ public class Render {
         }
     }
 
-
     /**
-     * Function writeToImage produces unoptimized jpeg file of
-     * the image according to pixel color matrix in the directory
-     * of the project
+     * it's write the scen to image
      */
-
-    private boolean unshaded(LightSource lightSource, Vector l, Vector n, GeoPoint geoPoint) {
-        Vector lightDirection = l.scale(-1); // from point to light source
-        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
-
-        double lightDistance = lightSource.getDistance(geoPoint.point);
-        List<GeoPoint> intersections = _scene.getGeometries().findGeoIntersections(lightRay, lightDistance);
-        if (intersections == null) return true;
-
-        for (GeoPoint gpt : intersections) {
-            if (gpt.geometry.getMaterial().getKt() == 0)
-                return false;
-        }
-        return true;
-    }
-
-
     public void writeToImage() {
         _imageWriter.writeToImage();
     }

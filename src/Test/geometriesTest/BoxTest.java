@@ -100,17 +100,12 @@ public class BoxTest {
 
         geo.addList(new Cat1(new Color(java.awt.Color.darkGray), new Material(0.5, 0.5, 30), .5, new Point3D(0, 0, 0)).getList());
         scene.addGroupGeometries(
-                //new Geometries(geo)
-
                 new Geometries(new Cat().getGeometries())
         );
 
         scene.addGeometries(
                 new Plane( new Vector(0,0,-1),new Point3D(0, 0, 600), new Color(89,114,210), new Material(0.5, 0.5, 60, .8, 0))
-                //new Plane( new Vector(0, -1, 0), new Point3D(0, 0, 0),new Color(191,148,108), new Material(0.5, 0.5, 60, .5, 1))
-                //new Plane( new Point3D(30, -150, 115), new Point3D(-30, -150, 135), new Point3D(-15, 75, 150),new Color(106,193,187), new Material(0.5, 0.5, 60, .5, 1))
-                //new Triangle(Color.BLACK, new Material(0.5, 0.5, 60, 0, 1), new Point3D(-150, -150, 115), new Point3D(150, -150, 135), new Point3D(75, 75, 150)), //
-                //new Triangle(Color.BLACK, new Material(0.5, 0.5, 60, 0, 1), new Point3D(-150, -150, 115), new Point3D(-70, 70, 140), new Point3D(75, 75, 150))
+                //new Cat().getGeometries()
         );
 
         scene.addLights(

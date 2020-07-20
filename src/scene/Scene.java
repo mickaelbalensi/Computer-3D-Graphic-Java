@@ -270,6 +270,10 @@ public class Scene {
 
         geometriesTree= root;
 
+
+
+
+
     }
 
 
