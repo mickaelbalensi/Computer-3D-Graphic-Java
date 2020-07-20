@@ -4,12 +4,15 @@ import java.io.DataInput;
 import java.util.Objects;
 import static primitives.Util.isZero;
 
+/**
+ * ray leaving the camera
+ */
 public class Ray {
     protected Point3D pt;
     protected Vector direction;
 
     /**
-     *
+     * Ctor
      * @param pt the beginning point of our vector
      * @param vec the direction of the vector going from the point
      */
@@ -19,7 +22,7 @@ public class Ray {
     }
 
     /**
-     *
+     * Copy Ctor
      * @param r now our ray leaves from the point and is directed by our vector
      */
     public  Ray(Ray r){
@@ -28,7 +31,7 @@ public class Ray {
     }
 
     /**
-     *
+     * getter Point
      * @return Point3D whcih is our beggining point
      */
     public Point3D getPt() {
@@ -36,7 +39,7 @@ public class Ray {
     }
 
     /**
-     *
+     * getter Direction
      * @return Vector which is our direction
      */
     public Vector getDirection() {
@@ -44,7 +47,7 @@ public class Ray {
     }
 
     /**
-     *
+     * Calculate the endPoint of the ray
      * @param lenght which is the ray's lenght
      * @return Point which is the destination point reached by our vector
      */

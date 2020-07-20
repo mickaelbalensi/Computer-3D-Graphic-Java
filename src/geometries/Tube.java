@@ -6,13 +6,16 @@ import primitives.Vector;
 
 import java.util.List;
 
+/**
+ * the geometries.Tube class represents the geometry Tube
+ */
 public class Tube extends RadialGeometry {
     public Ray _axisRay;
 
     /**
-     *
-     * @param ray
-     * @param radius
+     * Ctor
+     * @param ray ray
+     * @param radius double
      */
     public Tube(Ray ray, double radius){
         super(radius);
@@ -20,8 +23,8 @@ public class Tube extends RadialGeometry {
     }
 
     /**
-     *
-     * @param tube
+     * Copy Ctor
+     * @param tube Tube
      */
     public Tube(Tube tube){
         super(tube._radius);
@@ -30,7 +33,7 @@ public class Tube extends RadialGeometry {
 
 
     /**
-     *
+     * The getNormal
      * @param pt which the point pointed by the vector
      * @return Point3D if there is an intersection between the vector and the tube
      */
@@ -55,7 +58,7 @@ public class Tube extends RadialGeometry {
     }
 
     /**
-     *
+     * getter of axisray
      * @return ray
      */
     public Ray get_axisRay() {

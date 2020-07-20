@@ -7,12 +7,11 @@ import primitives.Vector;
 import java.util.List;
 
 import static primitives.Util.isZero;
-
+/**
+ * this class represents a triangle
+ */
 public class Triangle extends Polygon {
-    /**
-     *
-     * @return
-     */
+
     @Override
     public String toString() {
         String result = "";
@@ -23,10 +22,11 @@ public class Triangle extends Polygon {
     }
 
     /**
-     *
-     * @param p1
-     * @param p2
-     * @param p3
+     * Ctor
+     *the three points who form the triangle
+     * @param p1 first point
+     * @param p2 second point
+     * @param p3 third point
      * the three points who form the triangle
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3) {
@@ -34,7 +34,7 @@ public class Triangle extends Polygon {
     }
 
     /**
-     *
+     * Calculate intersection's Points
      * @param ray ray pointing toward a Geometry
      * @return Point3D if there is an intersection between the point and the triangle
      */

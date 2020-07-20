@@ -1,5 +1,8 @@
 package primitives;
 
+/**
+ * Class represents Vector
+ */
 public class Vector {
     //region fields
     protected Point3D pt;
@@ -8,7 +11,7 @@ public class Vector {
     //region CTORs
 
     /**
-     *
+     * Ctor
      * @param x coordinate x of our vector
      * @param y coordinate y of our vector
      * @param z coordinate z of our vector
@@ -21,9 +24,10 @@ public class Vector {
     }
 
     /**
-     * @param x
-     * @param y
-     * @param z
+     * Ctor
+     * @param x (double)
+     * @param y (double)
+     * @param z (double)
      */
 
     public  Vector(double x, double y,double z){
@@ -35,6 +39,7 @@ public class Vector {
     }
 
     /**
+     * Second Ctor
      * @param pt  the point pointed by our vector
      */
     public Vector(Point3D pt){
@@ -44,7 +49,8 @@ public class Vector {
     }
 
     /**
-     * @param vec
+     * Copy Ctor
+     * @param vec vector
      */
     public Vector(Vector vec){
         this.pt=new Point3D(vec.pt);
@@ -55,13 +61,15 @@ public class Vector {
     //region functions
 
     /**
-     * @param pt
+     * setter pt
+     * @param pt (point3D)
      */
     public void setPt(Point3D pt) {
         this.pt = pt;
     }
 
     /**
+     *
      * @param vec
      * @return vector
      */
