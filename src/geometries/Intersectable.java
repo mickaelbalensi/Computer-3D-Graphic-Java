@@ -38,11 +38,10 @@ public interface Intersectable {
 
 
     /**
-     * This function calculates all of intersect points from a ray (receiving in parameter)
-     * to his entity (Shape) and return List of all intersect points
-     *
-     * @param ray ray pointing toward a Geometry
-     * @return List<Point3D> return list of intersect points
+     *  This function calculates all of intersect points from a ray (receiving in parameter)
+     *to his entity (Shape) and return List of all intersect points
+     *@param ray ray pointing toward a Geometry
+     * @return l2
      */
     default List<Point3D> findIntersections(Ray ray) {
         List<GeoPoint> l1 = findGeoIntersections(ray);

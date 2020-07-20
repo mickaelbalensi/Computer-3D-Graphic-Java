@@ -25,10 +25,10 @@ public class Point3D {
     }
 
     /**
-     *
-     * @param x
-     * @param y
-     * @param z
+     * point's coordinate
+     * @param x x
+     * @param y y
+     * @param z z
      */
     public Point3D(double x, double y,double z){
         this.x=new Coordinate(x);
@@ -37,7 +37,6 @@ public class Point3D {
     }
 
     /**
-     *
      * @param pt now the coordinates of our points are x,y  and z
      */
 
@@ -53,7 +52,6 @@ public class Point3D {
     //region getters
 
     /**
-     *
      * @return coordinate x
      */
     public Coordinate getX() { return x; }
@@ -129,7 +127,7 @@ public class Point3D {
 
     /**
      *
-     * @param pt
+     * @param pt pt
      * @return double
      * the lenght of the vector
      */

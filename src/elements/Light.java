@@ -16,6 +16,10 @@ public abstract class Light {
         this._intensity=intensity;
     }
 
+    /**
+     * light's intensity
+     * @return intensity
+     */
     public Color getIntensity(){
         return _intensity;
     }

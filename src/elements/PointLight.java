@@ -17,13 +17,15 @@ public class PointLight extends Light implements LightSource {
 
 
     /**
+     /**
      * constructor that receive all the parameters :
      *
      * @param intensity , the intensity of light
      * @param position the position of the central point of the light
-     * @param kC
-     * @param kL
-     * @param kQ
+     * @param kC indication of light intensity
+     * @param kL indication of light intensity
+     * @param kQ indication of light intensity
+     * @param radius light's radius
      */
     public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ, int radius) {
         super(intensity);
@@ -34,6 +36,15 @@ public class PointLight extends Light implements LightSource {
         this.kL = kL;
         this.kQ = kQ;
     }
+
+    /**
+     * constructor that receive all the parameters :
+     * @param intensity , the intensity of light
+     * @param position the position of the central point of the light
+     * @param kC indication of light intensity
+     * @param kL indication of light intensity
+     * @param kQ indication of light intensity
+     */
     public PointLight(Color intensity, Point3D position, double kC, double kL, double kQ) {
         this(intensity,position,kC,kL,kQ,RADIUS);
     }
@@ -42,6 +53,9 @@ public class PointLight extends Light implements LightSource {
     }
 
     @Override
+    /**
+     * color's intensity
+     */
     public Color getIntensity(Point3D p) {
         double dSquared = p.distanceSquared(bulb.getCenter());
         double d = Math.sqrt(dSquared);
@@ -49,16 +63,25 @@ public class PointLight extends Light implements LightSource {
     }
 
     @Override
+    /**
+     *
+     */
     public Vector getL(Point3D p) {
         return p.subtract(bulb.getCenter()).normalize();
     }
 
     @Override
+    /**
+     * distance between light and object
+     */
     public double getDistance(Point3D point) {
         return bulb.getCenter().distance(point);
     }
 
     @Override
+    /**
+     * the sphere
+     */
     public Sphere getBulb(){
         return bulb;
     }

@@ -28,7 +28,7 @@ public abstract class Geometry implements Intersectable {
      * geometries.Geometry Constructor receiving the color and material
      *
      * @param emission color value
-     * @param material
+     * @param material geometry's material
      */
     public Geometry(Color emission, Material material) {
         this.emission = emission;

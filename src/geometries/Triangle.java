@@ -12,28 +12,34 @@ public class Triangle extends Polygon {
 
     /**
      * Ctor receiving 3 points with color and material
-     *
-     * @param p1
-     * @param p2
-     * @param p3
-     * @param emissionColor
-     * @param material
+     * @param p1 first point
+     * @param p2 second point
+     * @param p3 third point
+     * @param emissionColor emission color
+     * @param material material
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emissionColor, Material material) {
         super(emissionColor, material, p1, p2, p3);
     }
 
+    /**
+     * triangle ctor
+     * @param emissionColor emission color
+     * @param material material
+     * @param p1 p1
+     * @param p2 p2
+     * @param p3 p3
+     */
     public Triangle(Color emissionColor, Material material, Point3D p1, Point3D p2, Point3D p3) {
         this(p1, p2, p3, emissionColor, material);
     }
 
     /**
      * the same ctor without material
-     *
-     * @param p1
-     * @param p2
-     * @param p3
-     * @param emissionColor
+     * @param p1 p1
+     * @param p2 p2
+     * @param p3 p3
+     * @param emissionColor emission color
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emissionColor) {
         super(emissionColor, p1, p2, p3);
@@ -41,10 +47,9 @@ public class Triangle extends Polygon {
 
     /**
      * the same ctor without color and material
-     *
-     * @param p1
-     * @param p2
-     * @param p3 the three points who form the triangle
+     * @param p1 p1
+     * @param p2 p2
+     * @param p3 p3
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3) {
         super(p1, p2, p3);

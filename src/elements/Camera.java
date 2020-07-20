@@ -174,6 +174,19 @@ public class Camera {
         return res;
 
     }
+
+    /**
+     * making pass a ray threw a pixel
+     * @param Nx coordinate x
+     * @param Ny coordinate y
+     * @param j position in the collum
+     * @param i position in the row
+     * @param screenDistance distance camera-scene
+     * @param screenWidth screenWidht
+     * @param screenHeight screenHeight
+     * @return list
+     */
+
     public ArrayList<Ray> constructRayThroughPixel2(int Nx, int Ny,
                                                    int j, int i, double screenDistance,
                                                    double screenWidth, double screenHeight) {

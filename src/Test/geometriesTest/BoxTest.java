@@ -117,7 +117,7 @@ public class BoxTest {
                 new PointLight(new Color(400, 240, 120), new Point3D(-100, 100, -500), 1, 1E-5, 1.5E-7));
 
         ImageWriter imageWriter =
-                new ImageWriter("cat3planTest2", 40, 40, 50, 50);
+                new ImageWriter("cat3planTest2", 80, 40, 1000, 500);
         //  new ImageWriter("cat2planTest", 20, 10, 250, 125);
         Render render = new Render(imageWriter, scene).setMultithreading(3);
 

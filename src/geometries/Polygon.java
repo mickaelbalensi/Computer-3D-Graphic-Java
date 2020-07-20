@@ -44,7 +44,7 @@ public class Polygon extends Geometry implements Volume{
      *                                  <li>The order of vertices is not according to edge path</li>
      *                                  <li>Three consequent vertices lay in the same line (180&#176; angle between two
      *                                  consequent edges)
-     *                                  <li>The polygon is concave (not convex></li>
+     *                                  <li>The polygon is concave (not convex)</li>
      *                                  </ul>
      */
     public Polygon(Color color, Material material, Point3D... vertices) {
@@ -114,8 +114,8 @@ public class Polygon extends Geometry implements Volume{
     /**
      * Same Constructor without material
      *
-     * @param color
-     * @param vertices
+     * @param color polygon's color
+     * @param vertices list of polygon's points
      */
     public Polygon(Color color, Point3D... vertices) {
         this(color, new Material(0, 0, 0), vertices);
@@ -124,7 +124,7 @@ public class Polygon extends Geometry implements Volume{
     /**
      * Same Constructor without color and material
      *
-     * @param vertices
+     * @param vertices list of polygon's points
      */
     public Polygon(Point3D... vertices) {
         this(Color.BLACK, vertices);
