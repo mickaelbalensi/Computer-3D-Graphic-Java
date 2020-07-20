@@ -595,6 +595,7 @@ public class Render {
     /**
      * it's write the scen to image
      */
+
     public void writeToImage() {
         _imageWriter.writeToImage();
     }
