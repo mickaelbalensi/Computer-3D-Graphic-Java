@@ -1,11 +1,9 @@
 package image;
 
 import geometries.Geometries;
-import geometries.SeveralGeometries;
 import geometries.Triangle;
-import geometries.Volume;
 import primitives.*;
-import primitives.Util.*;
+
 import java.util.ArrayList;
 
 import static java.lang.Math.max;

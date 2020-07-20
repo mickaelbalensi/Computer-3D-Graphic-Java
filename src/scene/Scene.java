@@ -79,7 +79,7 @@ public class Scene {
     /**
      * Scene.Constructor receiving name of the scene
      *
-     * @param name
+     * @param name name of the scene
      */
     public Scene(String name) {
         this.name = name;
@@ -234,8 +234,7 @@ public class Scene {
 
     /**
      * add an many ArrayList of many geometries in the the group of geometries of the picture
-     *
-     * @param arrayGeo type ArrayList<Intersectable>...
+     * @param arrayGeo list with which we are going to add to our geometries
      */
     public void addGeometries(ArrayList<Intersectable>... arrayGeo) {
         for (int i = 0; i < arrayGeo.length; i++)
@@ -279,8 +278,7 @@ public class Scene {
 
     /**
      * add many lights in the group of lights of the scene
-     *
-     * @param lights
+     * @param lights light
      */
     public void addLights(LightSource... lights) {
         for (int i = 0; i < lights.length; i++)

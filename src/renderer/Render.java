@@ -154,6 +154,7 @@ public class Render {
 
     /**
      * This function create an image of shapes according to the ambient light
+     * @param improvementCheckIntersection check if there is an intersection
      */
     public void renderImage(boolean improvementCheckIntersection) {
         final Camera camera = _scene.getCamera();
@@ -579,6 +580,8 @@ public class Render {
 
     /**
      * Displays a grid with fixed squares size
+     * @param interval interval
+     * @param color color
      */
     public void printGrid(int interval, java.awt.Color color) {
         for (int h = 0; h < _imageWriter.getNy(); h++) {
