@@ -1,3 +1,3 @@
 # Computer-3D-Graphic-Java
 
-![preview](src/images/wolfTest.PNG)
+![preview](src/images/wolfTest.png)
