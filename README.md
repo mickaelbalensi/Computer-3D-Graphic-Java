@@ -5,7 +5,6 @@
 ![preview](src/images/catWithoutImprovement.png)
 ![preview](src/images/cat2Test.png)
 ![preview](src/images/ConstrucMyImage.png)
-![preview](src/images/color render test.png)
 ![preview](src/images/sphereMultipleSource.png)
 ![preview](src/images/sphereTriangleInitial.png)
 ![preview](src/images/sphereTriangleMove1.png)
